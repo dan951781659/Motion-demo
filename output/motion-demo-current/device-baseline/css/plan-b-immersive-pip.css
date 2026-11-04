@@ -1,0 +1,20 @@
+/* Only the former body-card area and the two media surfaces are affected. */
+.iw-demo-screen .iw-media-pane { position:absolute; inset:0; width:100%; height:100%; overflow:hidden; background:#000; pointer-events:none; }
+.iw-demo-screen .iw-media-pane img { display:block; width:100%; height:100%; object-fit:cover; object-position:center; }
+.iw-demo-screen { background:#000; }
+/* Keep both media surfaces below the controls, including the drawer. */
+.iw-demo-screen .iw-overlay { z-index:4; }
+.iw-demo-screen:not(.iw-camera-main) .iw-user-pane,
+.iw-demo-screen.iw-camera-main .iw-coach-pane { inset:auto; top:18%; left:15%; width:24%; height:auto; border-radius:12px; z-index:3; box-shadow:0 4px 18px #0006,0 0 0 1px #ffffff35; }
+.iw-demo-screen:not(.iw-camera-main) .iw-user-pane { aspect-ratio:1; }
+.iw-demo-screen.iw-camera-main .iw-coach-pane { aspect-ratio:9 / 16; }
+.iw-demo-screen.iw-camera-main .iw-user-pane { inset:auto; top:50%; left:0; width:100%; height:auto; aspect-ratio:1; transform:translateY(-50%); }
+body[data-plan-b-page="immersive"] .iw-demo-screen.iw-camera-main .iw-mask { background:none; }
+.iw-demo-screen .iw-pip-swap { position:absolute; top:18%; left:15%; width:24%; height:auto; aspect-ratio:1; z-index:4; pointer-events:auto; cursor:pointer; border:0; padding:0; background:transparent; border-radius:12px; }
+.iw-demo-screen.iw-camera-main .iw-pip-swap { aspect-ratio:9 / 16; }
+.iw-demo-screen .iw-pip-swap:focus-visible { outline:2px solid var(--cyan); outline-offset:3px; }
+.iw-demo-screen .iw-pip-swap:disabled { cursor:default; }
+.iw-demo-screen .iw-user-pane.is-unknown img { object-position:80% center; }
+.iw-demo-screen .iw-user-pane .iw-camera-status { display:none; position:absolute; bottom:0; left:0; right:0; padding:8px 5px; background:#07101dd9; color:var(--text); font-family:inherit; font-size:2.4cqw; font-weight:500; line-height:1.4; text-align:center; }
+.iw-demo-screen .iw-user-pane.is-unknown .iw-camera-status { display:block; }
+.iw-demo-screen.iw-camera-main .iw-user-pane .iw-camera-status { display:none; }

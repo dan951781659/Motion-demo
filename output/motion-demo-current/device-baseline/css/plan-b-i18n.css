@@ -1,0 +1,9 @@
+html:lang(zh-CN) body,
+html:lang(zh-CN) button,
+html:lang(zh-CN) input,
+html:lang(zh-CN) select,
+html:lang(zh-CN) textarea {
+  font-family: "Inter", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+}
+html:lang(zh-CN) :is(h1,h2,h3,.list-btn,.setting-label,.tab-btn) { letter-spacing: normal; }
+html:lang(zh-CN) .privacy-content { line-height: 1.8; overflow-wrap: anywhere; }

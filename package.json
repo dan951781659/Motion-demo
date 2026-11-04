@@ -1,0 +1,13 @@
+{
+  "name": "motion-demo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Motion device and app interactive product review demo",
+  "scripts": {
+    "verify:controls": "node output/motion-demo-current/verify-two-controls.cjs",
+    "verify:camera": "node output/motion-demo-current/verify-camera-music.cjs"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1"
+  }
+}

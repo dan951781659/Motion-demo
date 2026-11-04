@@ -1,0 +1,14 @@
+.iw-bed-controls { margin:16px 0; }
+.iw-bed-controls .dc-section { padding:0; overflow:hidden; }
+.iw-bed-controls summary { display:flex; align-items:center; gap:10px; padding:14px; cursor:pointer; list-style:none; }
+.iw-bed-controls summary::-webkit-details-marker { display:none; }
+.iw-bed-controls summary > span:first-child { flex:1; min-width:0; }
+.iw-bed-controls summary strong { display:block; font:600 17px 'Barlow Condensed',sans-serif; }
+.iw-bed-controls summary small { display:block; margin-top:5px; color:var(--muted); font-size:12px; line-height:1.5; }
+.iw-bed-controls summary::after { content:'⌄'; color:var(--muted); transition:transform .2s; }
+.iw-bed-controls details[open] summary::after { transform:rotate(180deg); }
+.iw-bed-controls details[open] summary { border-bottom:1px solid var(--line-soft); }
+.iw-bed-controls .dc-detail-body { padding:12px 14px 14px; }
+.iw-bed-controls [hidden] { display:none!important; }
+.iw-bed-controls summary:focus-visible { outline:2px solid var(--cyan); outline-offset:-3px; }
+#bedConfirmModal { z-index:130; }

@@ -1,0 +1,51 @@
+{
+  "results": [
+    {
+      "route": "prepare",
+      "theme": "light",
+      "ok": true
+    },
+    {
+      "route": "prepare",
+      "theme": "dark",
+      "ok": true
+    },
+    {
+      "route": "settings",
+      "theme": "light",
+      "ok": true
+    },
+    {
+      "route": "settings",
+      "theme": "dark",
+      "ok": true
+    },
+    {
+      "route": "help",
+      "theme": "light",
+      "ok": true
+    },
+    {
+      "route": "help",
+      "theme": "dark",
+      "ok": true
+    },
+    {
+      "route": "training",
+      "theme": "light",
+      "ok": true
+    },
+    {
+      "route": "training",
+      "theme": "dark",
+      "ok": true
+    }
+  ],
+  "retention": {
+    "sameFrame": true
+  },
+  "app": {
+    "theme": "",
+    "class": "frame app light"
+  }
+}

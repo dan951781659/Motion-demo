@@ -1,0 +1,326 @@
+{
+  "results": [
+    {
+      "file": "free-training-strength-temp.html",
+      "theme": "dark",
+      "actual": "dark",
+      "token": "#0b1422"
+    },
+    {
+      "file": "free-training-strength-temp.html",
+      "theme": "light",
+      "actual": "light",
+      "token": "#f4f6f8"
+    },
+    {
+      "file": "index-plan-b-home.html",
+      "theme": "dark",
+      "actual": "dark",
+      "token": "#0b1422",
+      "width": 1080
+    },
+    {
+      "file": "index-plan-b-home.html",
+      "theme": "light",
+      "actual": "light",
+      "token": "#f4f6f8",
+      "width": 1080
+    },
+    {
+      "file": "plan-b-account-settings.html",
+      "theme": "dark",
+      "actual": "dark",
+      "token": "#0b1422",
+      "width": 1080
+    },
+    {
+      "file": "plan-b-account-settings.html",
+      "theme": "light",
+      "actual": "light",
+      "token": "#f4f6f8",
+      "width": 1080
+    },
+    {
+      "file": "plan-b-all-training.html",
+      "theme": "dark",
+      "actual": "dark",
+      "token": "#0b1422",
+      "width": 1080
+    },
+    {
+      "file": "plan-b-all-training.html",
+      "theme": "light",
+      "actual": "light",
+      "token": "#f4f6f8",
+      "width": 1080
+    },
+    {
+      "file": "plan-b-ambient-light-settings.html",
+      "theme": "dark",
+      "actual": "dark",
+      "token": "#0b1422",
+      "width": 1080
+    },
+    {
+      "file": "plan-b-ambient-light-settings.html",
+      "theme": "light",
+      "actual": "light",
+      "token": "#f4f6f8",
+      "width": 1080
+    },
+    {
+      "file": "plan-b-device-settings.html",
+      "theme": "dark",
+      "actual": "dark",
+      "token": "#0b1422",
+      "width": 1080
+    },
+    {
+      "file": "plan-b-device-settings.html",
+      "theme": "light",
+      "actual": "light",
+      "token": "#f4f6f8",
+      "width": 1080
+    },
+    {
+      "file": "plan-b-forgot-password.html",
+      "theme": "dark",
+      "actual": "dark",
+      "token": "#0b1422",
+      "width": 1080
+    },
+    {
+      "file": "plan-b-forgot-password.html",
+      "theme": "light",
+      "actual": "light",
+      "token": "#f4f6f8",
+      "width": 1080
+    },
+    {
+      "file": "plan-b-free-training-pilates.html",
+      "theme": "dark",
+      "actual": "dark",
+      "token": "#0b1422"
+    },
+    {
+      "file": "plan-b-free-training-pilates.html",
+      "theme": "light",
+      "actual": "light",
+      "token": "#f4f6f8"
+    },
+    {
+      "file": "plan-b-help-detail.html",
+      "theme": "dark",
+      "actual": "dark",
+      "token": "#0b1422",
+      "width": 1080
+    },
+    {
+      "file": "plan-b-help-detail.html",
+      "theme": "light",
+      "actual": "light",
+      "token": "#f4f6f8",
+      "width": 1080
+    },
+    {
+      "file": "plan-b-help-feedback.html",
+      "theme": "dark",
+      "actual": "dark",
+      "token": "#0b1422",
+      "width": 1080
+    },
+    {
+      "file": "plan-b-help-feedback.html",
+      "theme": "light",
+      "actual": "light",
+      "token": "#f4f6f8",
+      "width": 1080
+    },
+    {
+      "file": "plan-b-immersive-workout.html",
+      "theme": "dark",
+      "actual": "dark",
+      "token": "#0b1422",
+      "width": 1080
+    },
+    {
+      "file": "plan-b-immersive-workout.html",
+      "theme": "light",
+      "actual": "light",
+      "token": "#f4f6f8",
+      "width": 1080
+    },
+    {
+      "file": "plan-b-login.html",
+      "theme": "dark",
+      "actual": "dark",
+      "token": "#0b1422",
+      "width": 1080
+    },
+    {
+      "file": "plan-b-login.html",
+      "theme": "light",
+      "actual": "light",
+      "token": "#f4f6f8",
+      "width": 1080
+    },
+    {
+      "file": "plan-b-move-detail.html",
+      "theme": "dark",
+      "actual": "dark",
+      "token": "#0b1422",
+      "width": 1080
+    },
+    {
+      "file": "plan-b-move-detail.html",
+      "theme": "light",
+      "actual": "light",
+      "token": "#f4f6f8",
+      "width": 1080
+    },
+    {
+      "file": "plan-b-my-training-plans.html",
+      "theme": "dark",
+      "actual": "dark",
+      "token": "#0b1422",
+      "width": 1080
+    },
+    {
+      "file": "plan-b-my-training-plans.html",
+      "theme": "light",
+      "actual": "light",
+      "token": "#f4f6f8",
+      "width": 1080
+    },
+    {
+      "file": "plan-b-personal-info.html",
+      "theme": "dark",
+      "actual": "dark",
+      "token": "#0b1422",
+      "width": 1080
+    },
+    {
+      "file": "plan-b-personal-info.html",
+      "theme": "light",
+      "actual": "light",
+      "token": "#f4f6f8",
+      "width": 1080
+    },
+    {
+      "file": "plan-b-plan-detail.html",
+      "theme": "dark",
+      "actual": "dark",
+      "token": "#0b1422",
+      "width": 1080
+    },
+    {
+      "file": "plan-b-plan-detail.html",
+      "theme": "light",
+      "actual": "light",
+      "token": "#f4f6f8",
+      "width": 1080
+    },
+    {
+      "file": "plan-b-plan-training.html",
+      "theme": "dark",
+      "actual": "dark",
+      "token": "#0b1422",
+      "width": 1080
+    },
+    {
+      "file": "plan-b-plan-training.html",
+      "theme": "light",
+      "actual": "light",
+      "token": "#f4f6f8",
+      "width": 1080
+    },
+    {
+      "file": "plan-b-profile-completion.html",
+      "theme": "dark",
+      "actual": "dark",
+      "token": "#0b1422",
+      "width": 1080
+    },
+    {
+      "file": "plan-b-profile-completion.html",
+      "theme": "light",
+      "actual": "light",
+      "token": "#f4f6f8",
+      "width": 1080
+    },
+    {
+      "file": "plan-b-profile.html",
+      "theme": "dark",
+      "actual": "dark",
+      "token": "#0b1422",
+      "width": 1080
+    },
+    {
+      "file": "plan-b-profile.html",
+      "theme": "light",
+      "actual": "light",
+      "token": "#f4f6f8",
+      "width": 1080
+    },
+    {
+      "file": "plan-b-register.html",
+      "theme": "dark",
+      "actual": "dark",
+      "token": "#0b1422",
+      "width": 1080
+    },
+    {
+      "file": "plan-b-register.html",
+      "theme": "light",
+      "actual": "light",
+      "token": "#f4f6f8",
+      "width": 1080
+    },
+    {
+      "file": "plan-b-reset-password.html",
+      "theme": "dark",
+      "actual": "dark",
+      "token": "#0b1422",
+      "width": 1080
+    },
+    {
+      "file": "plan-b-reset-password.html",
+      "theme": "light",
+      "actual": "light",
+      "token": "#f4f6f8",
+      "width": 1080
+    },
+    {
+      "file": "plan-b-training-records.html",
+      "theme": "dark",
+      "actual": "dark",
+      "token": "#0b1422",
+      "width": 1080
+    },
+    {
+      "file": "plan-b-training-records.html",
+      "theme": "light",
+      "actual": "light",
+      "token": "#f4f6f8",
+      "width": 1080
+    },
+    {
+      "file": "plan-b-training-report.html",
+      "theme": "dark",
+      "actual": "dark",
+      "token": "#0b1422",
+      "width": 1080
+    },
+    {
+      "file": "plan-b-training-report.html",
+      "theme": "light",
+      "actual": "light",
+      "token": "#f4f6f8",
+      "width": 1080
+    }
+  ],
+  "state": {
+    "same": true,
+    "theme": "frame device native-viewport light"
+  }
+}
