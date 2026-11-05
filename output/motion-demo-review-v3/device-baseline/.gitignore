@@ -1,0 +1,28 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editor / IDE (local only; do not commit machine-specific Cursor/VSCode state)
+.cursor/
+
+# Dependencies & build (if you add a toolchain later)
+node_modules/
+dist/
+build/
+.cache/
+
+# Environment & secrets
+.env
+.env.*
+!.env.example
+.dev-backup.env
+**/.dev-backup.env
+
+# Logs
+*.log
+npm-debug.log*
+
+# Optional: duplicate / draft filenames
+*_副本.*
+*~

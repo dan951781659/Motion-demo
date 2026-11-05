@@ -1,0 +1,171 @@
+/* Device-only semantic foundation. Values are 400-wide design units, scaled once to 1080. */
+@font-face{font-family:MotionDeviceUI;src:url('assets/AlibabaSans-Regular.otf')}@font-face{font-family:MotionDeviceNumbers;src:url('assets/BebasNeue-Regular.ttf')}
+html[data-motion-device],.frame.device{--d-font:MotionDeviceUI,"PingFang SC","Noto Sans CJK SC","Microsoft YaHei",sans-serif;--d-bg:#0b1422;--d-surface:#142238;--d-soft:#1b2c43;--d-text:#f1f5fb;--d-secondary:#b7c5d6;--d-muted:#91a4bc;--d-line:#ffffff20;--d-primary:#37a5ff;--d-success:#88d9a0;--d-warning:#f7b875;--d-shadow:0 3px 12px #00000024;--d-selected:#173c60;--d-onprimary:#fff}
+html[data-motion-device][data-motion-theme=light],.frame.device.light{--d-bg:#f3f6fa;--d-surface:#fff;--d-soft:#eaf0f7;--d-text:#17263b;--d-secondary:#52657d;--d-muted:#61748a;--d-line:#ced8e4;--d-primary:#0969ca;--d-success:#1b7548;--d-warning:#a34c0f;--d-shadow:0 2px 8px #20344b0b;--d-selected:#e2efff;--d-onprimary:#fff}
+html[data-motion-device]{--bg-0:var(--d-bg)!important;--bg-1:var(--d-surface)!important;--bg-2:var(--d-bg)!important;--bg-main:var(--d-bg);--panel:var(--d-surface)!important;--panel-strong:var(--d-surface)!important;--text:var(--d-text)!important;--text-primary:var(--d-text);--text-secondary:var(--d-secondary);--muted:var(--d-secondary)!important;--line:var(--d-line)!important;--line-soft:var(--d-line)!important;--blue:var(--d-primary)!important;--cyan:#1683af;--orange:var(--d-warning)!important;--glow-soft:var(--d-shadow)!important;--glow-blue:none!important;--glow-cyan:none!important;--glow-orange:none!important}
+html[data-motion-device] body,html[data-motion-device] button,html[data-motion-device] input,html[data-motion-device] select,html[data-motion-device] textarea,.frame.device{font-family:var(--d-font)!important;letter-spacing:normal;line-height:1.5}
+html[data-motion-device] body{font-size:14px;background:var(--d-bg)!important;color:var(--d-text)!important}
+html[data-motion-device] .device-shell{background:var(--d-bg)!important;box-shadow:none!important}
+html[data-motion-device] :is(h1,h2,h3,h4){font-family:var(--d-font)!important;font-style:normal;letter-spacing:0!important;color:var(--d-text);overflow-wrap:anywhere}
+html[data-motion-device] h1{font-size:20px!important;line-height:1.4!important;font-weight:700!important}
+html[data-motion-device] h2{font-size:18px!important;line-height:1.4!important;font-weight:700!important}
+html[data-motion-device] h3{font-size:16px!important;line-height:1.4!important;font-weight:600!important}
+html[data-motion-device] :is(.user-text h1,.user-details h1,.settings-title,.all-training-header h1){font-size:20px!important;line-height:1.4!important}
+html[data-motion-device] :is(.resume-card strong,.today-plan-title,.section-title,.library-header h2){font-family:var(--d-font)!important;font-size:18px!important;line-height:1.4!important}
+html[data-motion-device] :is(.record-title,.side-tab strong,.list-btn,.training-btn strong,.setting-label,.training-plan-title,.plan-title,.action-title){font-family:var(--d-font)!important;font-size:14px!important;line-height:1.5!important}
+html[data-motion-device] :is(.user-text p,.user-details p,.record-date,.record-duration,.resume-card p,.day-chip strong,.weekly-metric p,.weekly-metric label,.status-chip,.nav-label){font-size:12px!important;line-height:1.5!important}
+html[data-motion-device] :is(.weekly-metric .value,.stat-info strong,.total-days .value){font-family:MotionDeviceNumbers,var(--d-font)!important;font-size:28px!important;line-height:1.1!important;font-style:normal!important;letter-spacing:0!important}
+html[data-motion-device] :is(.weekly-metric .value small,.stat-info .unit){font-family:var(--d-font)!important;font-size:10px!important;font-weight:500;color:var(--d-secondary)!important}
+html[data-motion-device] .status-time{font-family:var(--d-font)!important;font-size:14px!important;line-height:1.4!important;color:var(--d-text)!important}
+html[data-motion-device] .status-time small{font-size:12px!important;color:var(--d-secondary)!important}
+html[data-motion-device] :is(.status-pill,.bottom-nav){background:var(--d-surface)!important;color:var(--d-text)!important;border-color:var(--d-line)!important;box-shadow:var(--d-shadow)!important}
+html[data-motion-device] :is(.status-chip,.day-chip){background:var(--d-soft)!important;color:var(--d-text)!important;border-color:var(--d-line)!important;box-shadow:none!important}
+html[data-motion-device] :is(.day-chip--active,.day-chip.active,.side-tab.active,.side-tab.is-active,.nav-item.active,.nav-item.active .nav-item-inner){background:var(--d-selected)!important;color:var(--d-primary)!important;box-shadow:none!important}
+html[data-motion-device] .day-chip span{font-size:10px!important;color:var(--d-secondary)!important}
+html[data-motion-device] .nav-item{color:var(--d-secondary)!important}
+html[data-motion-device] .nav-item.active{color:var(--d-primary)!important}
+html[data-motion-device] :is(.weekly-card,.resume-card,.explore-panel,.sidebar,.profile-screen .stat-card,.profile-screen .record-item,.profile-screen .action-btn,.profile-screen .list-btn,.all-training-header,.all-training-list-item,.all-training-card,.plan-card,.joined-plan-card,.settings-screen,.account-settings-screen){background:var(--d-surface)!important;color:var(--d-text)!important;border-color:var(--d-line)!important;box-shadow:var(--d-shadow)!important}
+html[data-motion-device] :is(.weekly-card::before,.content::before){display:none!important}
+html[data-motion-device] :is(.side-tab,.list-toggle,.view-toggle,.at-view-toggle,.search-input,.all-training-search,.all-training-tabs){background:var(--d-soft)!important;color:var(--d-secondary)!important;border-color:var(--d-line)!important}
+html[data-motion-device] .side-tab{min-width:0}
+html[data-motion-device] .side-tab span{font-size:10px!important;line-height:1.4!important;color:var(--d-secondary)!important}
+html[data-motion-device] .side-tab strong{font-size:14px!important}
+html[data-motion-device] :is(.weekly-metric label,.weekly-metric p,.profile-screen .stat-info small,.profile-screen .record-date,.profile-screen .record-duration,.total-days .label){color:var(--d-secondary)!important}
+html[data-motion-device] :is(.weekly-metric,.section-title::after){border-color:var(--d-line)!important}
+html[data-motion-device] .resume-card strong{color:var(--d-text)!important}
+html[data-motion-device] .resume-card p{color:var(--d-secondary)!important}
+html[data-motion-device] :is(.resume-btn,.training-start-btn,.primary-btn,.join-plan-btn){background:var(--d-primary)!important;color:white!important;border-color:transparent!important;box-shadow:none!important;text-shadow:none!important;font:600 14px/1.4 var(--d-font)!important}
+html[data-motion-device] .avatar{background:var(--d-soft)!important;color:var(--d-text)!important;border-color:var(--d-line)!important;box-shadow:none!important}
+html[data-motion-device] .dial{animation:none!important;box-shadow:none!important}
+html[data-motion-device] .dial::before{display:none!important}
+html[data-motion-device] .dial-center{inset:30px;background:var(--d-surface)!important;border-color:var(--d-line)!important;backdrop-filter:none!important}
+html[data-motion-device] .dial-center span{font:500 10px/1.3 var(--d-font)!important;color:var(--d-secondary)!important}
+html[data-motion-device] .dial-center strong{font:400 22px/1.1 MotionDeviceNumbers,var(--d-font)!important;color:var(--d-text)!important;margin:0!important}
+/* Media always retains a stable scrim and on-media foreground in both themes. */
+html[data-motion-device] :is(.banner-content,.banner-content h2,.banner-content h3,.banner-content p,.card-overlay,.card-overlay h3,.media-caption){color:#fff!important}
+html[data-motion-device] .banner-content h2{font-size:18px!important;line-height:1.4!important}
+html[data-motion-device] :is(.banner-tag,.media-tag){background:#071421b3!important;color:#fff!important;border-color:#ffffff5c!important}
+html[data-motion-device][data-motion-theme=light] :is(.vignette,.particle-layer){display:none!important}
+html[data-motion-device][data-motion-theme=light] :is(.dial,.dial-inner,.dial-inner::after){animation:none!important}
+html[data-motion-device][data-motion-theme=light] :is(.stat-icon.white,.stat-icon.blue){color:#0969ca!important;background:#e5effd!important}
+html[data-motion-device][data-motion-theme=light] :is(.stat-icon.orange,.record-icon-wrapper.orange){color:#a34c0f!important;background:#fff0e3!important}
+html[data-motion-device][data-motion-theme=light] :is(.stat-icon.cyan,.record-icon-wrapper.cyan){color:#08738c!important;background:#dff3f8!important}
+html[data-motion-device][data-motion-theme=light] :is(.record-icon-wrapper.blue,.stat-icon.blue){color:#0969ca!important;background:#e5effd!important}
+html[data-motion-device][data-motion-theme=light] :is(.profile-screen .record-title,.profile-screen .section-title,.profile-screen .stat-info strong,.library-header h2){color:var(--d-text)!important}
+html[data-motion-device][data-motion-theme=light] :is(.profile-screen .record-metric,.profile-screen .stat-info strong){color:var(--d-primary)!important}
+html[data-motion-device][data-motion-theme=light] :is(.modal-panel,.auth-confirm-panel,.wifi-panel,.dc-panel,.help-panel,.setting-panel){background:var(--d-surface)!important;color:var(--d-text)!important;box-shadow:0 8px 24px #243c5a22!important;border-color:var(--d-line)!important}
+html[data-motion-device][data-motion-theme=light] :is(.modal-panel p,.auth-confirm-panel p,.wifi-panel p,.dc-panel p){color:var(--d-secondary)!important}
+/* Training media foreground stays light; only configuration surfaces switch theme. */
+html[data-motion-device] :is(.iw-demo-metrics label,.iw-demo-metrics strong,.iw-demo-metrics small,.iw-demo-course){color:#f1f6ff!important}
+html[data-motion-device] .iw-demo-metric strong{font-size:24px!important;line-height:1.15!important;font-family:MotionDeviceNumbers,var(--d-font)!important;font-style:normal!important}
+html[data-motion-device] :is(.iw-demo-number b,#iwDemo-score){font-family:MotionDeviceNumbers,var(--d-font)!important;font-style:normal!important}
+html[data-motion-device] :is(.iw-demo-result-row,.iw-demo-result-bubble){font-family:var(--d-font)!important;letter-spacing:0!important;line-height:1.5!important}
+html[data-motion-device][data-motion-theme=light] #iwDrawer{background:#f8fbfff2!important;color:var(--d-text)!important;border:1px solid var(--d-line)!important;box-shadow:0 -4px 20px #20344b14!important}
+html[data-motion-device][data-motion-theme=light] #iwDrawer :is(.iw-section-title,.iw-step-note,.iw-param-tip,.iw-chart-legend){color:var(--d-secondary)!important}
+html[data-motion-device][data-motion-theme=light] #iwDrawer :is(.iw-mode-group,.iw-chart-card,.iw-param-panel){background:var(--d-soft)!important;border-color:var(--d-line)!important;color:var(--d-text)!important}
+html[data-motion-device][data-motion-theme=light] #iwDrawer .iw-mode-btn{color:var(--d-secondary)!important}
+html[data-motion-device][data-motion-theme=light] #iwDrawer .iw-mode-btn.active{background:var(--d-selected)!important;color:var(--d-primary)!important;border-color:#9ac9ef!important}
+html[data-motion-device][data-motion-theme=light] #iwDrawer .iw-step-btn{background:white!important;color:var(--d-primary)!important;border-color:var(--d-line)!important;box-shadow:none!important}
+html[data-motion-device][data-motion-theme=light] #iwDrawer .iw-toolbar-icon:not(#iwEndBtn):not(#iwPlayBtn){background:var(--d-soft)!important;color:var(--d-text)!important;border-color:var(--d-line)!important}
+html[data-motion-device][data-motion-theme=light] #iwDrawer :is(.iw-dial-value,.iw-dial-unit){color:var(--d-text)!important;text-shadow:none!important}
+html[data-motion-device][data-motion-theme=light] #iwDrawer .iw-dial-content{background:var(--d-surface)!important;box-shadow:none!important;border-color:var(--d-line)!important}
+/* Parent-rendered device pages share exactly these roles, not the APP palette. */
+.frame.device{--bg:var(--d-bg)!important;--surface:var(--d-surface)!important;--soft:var(--d-soft)!important;--fg:var(--d-text)!important;--muted:var(--d-secondary)!important;--line:var(--d-line)!important;--accent:var(--d-primary)!important;font-size:14px!important}
+.frame.device :is(h1,h2,h3,p,button,input,textarea,select){font-family:var(--d-font)!important;font-style:normal!important;letter-spacing:0}
+.frame.device .pagebar h2{font-size:20px!important;line-height:1.4!important}
+.frame.device :is(.title,h3){font-size:16px!important;line-height:1.5!important}
+.frame.device :is(.menu,.primary,.secondary){font-size:14px!important;line-height:1.5!important}
+.frame.device :is(.small,.notice,.muted.small){font-size:12px!important;line-height:1.5!important}
+.frame.device .metrics strong{font:400 28px/1.15 MotionDeviceNumbers,var(--d-font)!important}
+.frame.device .card{box-shadow:var(--d-shadow)!important}
+.frame.device .dialog{color:var(--d-text);background:var(--d-surface);border:1px solid var(--d-line);box-shadow:0 8px 24px #0002}
+.frame.device .dialog h2{font-size:18px!important;line-height:1.4!important}
+.frame.device .dialog p{font-size:14px!important;line-height:1.6!important}
+.frame.device .qc-reference{--qc-bg:var(--d-surface);background:linear-gradient(145deg,#183650ed,#0d243bee);color:var(--d-text)}
+.frame.device.light .qc-reference{background:#f5f9fff2!important;color:var(--d-text)!important;border-color:var(--d-line)!important;box-shadow:0 -4px 20px #20344b14!important}
+.frame.device.light .qc-reference :is(.gc-tiles button,.gc-sliders,.gc-card){background:#fff!important;border-color:var(--d-line)!important;box-shadow:none!important}
+.frame.device.light .qc-reference :is(h3,span,b,small){color:var(--d-text)}
+.frame.device.light .qc-reference :is(.gc-tiles svg,.qc-slider svg){color:var(--d-primary)!important}
+.frame.device.light .qc-reference .qc-vertical{background:#dce7f1;border-color:#9bb7cf}
+.frame.device.light .qc-reference .qc-mode button{background:var(--d-soft);color:var(--d-text)!important;border-color:var(--d-line)}
+.frame.device.light .qc-reference .qc-mode button.selected{background:var(--d-primary);color:white!important}
+.frame.device.light .qc-reference :is(.qc-music-options button,.qc-transport button){background:var(--d-soft);color:var(--d-primary);border-color:var(--d-line)}
+.frame.device.light .qc-reference .qc-transport .qc-play{background:var(--d-primary);color:#fff}
+.frame.device.light .qc-reference .primary{color:#fff}
+/* Explicitly cover nested surfaces from the reference's report/profile library. */
+html[data-motion-device] :is(.pr-user-details h1,.my-plans-header h1){font:700 20px/1.4 var(--d-font)!important;color:var(--d-text)!important}
+html[data-motion-device] :is(.pr-section-title,.all-training-results-head h2){font:600 16px/1.5 var(--d-font)!important;color:var(--d-text)!important}
+html[data-motion-device] :is(.pr-stat-info strong,.pr-total-days .value){font:400 28px/1.1 MotionDeviceNumbers,var(--d-font)!important;color:var(--d-primary)!important}
+html[data-motion-device] :is(.pr-stat-info small,.pr-stat-info .unit,.pr-user-details p,.pr-total-days .label){font:500 12px/1.5 var(--d-font)!important;color:var(--d-secondary)!important}
+html[data-motion-device] .pr-avatar{font:600 24px/1 var(--d-font)!important;color:var(--d-text)!important;background:var(--d-soft)!important;border-color:var(--d-line)!important;box-shadow:none!important}
+html[data-motion-device] :is(.pr-header,.pr-stat-card,.pr-total-days,.all-training-app,.all-training-tools,.all-training-results,.library-panel,.my-plans-header,.my-plans-panel){background:var(--d-surface)!important;color:var(--d-text)!important;border-color:var(--d-line)!important;box-shadow:var(--d-shadow)!important}
+html[data-motion-device] .pr-header::before{display:none!important}
+html[data-motion-device] :is(.all-training-subtitle,.all-training-item-desc,.all-training-description,.all-training-count){color:var(--d-secondary)!important;font:400 12px/1.5 var(--d-font)!important}
+html[data-motion-device] :is(.all-training-filter-toggle,.all-training-filter-chip){background:var(--d-soft)!important;color:var(--d-secondary)!important;border:1px solid var(--d-line)!important;box-shadow:none!important}
+html[data-motion-device] :is(.all-training-search input,.all-training-search input:focus){background:var(--d-soft)!important;color:var(--d-text)!important;border:1px solid var(--d-line)!important;outline-color:var(--d-primary)!important;box-shadow:none!important}
+html[data-motion-device] .all-training-search input::placeholder{color:var(--d-secondary)!important}
+html[data-motion-device] .all-training-tab{font:600 12px/1.4 var(--d-font)!important;color:var(--d-secondary)!important}
+html[data-motion-device] :is(.all-training-tab.is-active,.at-view-btn.is-active){background:var(--d-selected)!important;color:var(--d-primary)!important;box-shadow:none!important}
+html[data-motion-device] .nav-item.active{background:transparent!important}
+html[data-motion-device] .nav-item.active .nav-item-inner{border-radius:24px!important;background:var(--d-selected)!important;color:var(--d-primary)!important;padding:8px!important}
+html[data-motion-device][data-motion-theme=light] :is(.content,.profile-screen,.my-plans-screen,.all-training-screen,.training-records-screen,.report-screen){background:var(--d-bg)!important;filter:none!important}
+html[data-motion-device][data-motion-theme=light] :is(.device-shell,.content)::before,html[data-motion-device][data-motion-theme=light] :is(.device-shell,.content)::after{display:none!important}
+html[data-motion-device][data-motion-theme=light] :is(.pr-stat-icon.white,.pr-stat-icon.blue){color:#0969ca!important;background:#e5effd!important}
+html[data-motion-device][data-motion-theme=light] .pr-stat-icon.orange{color:#a34c0f!important;background:#fff0e3!important}
+html[data-motion-device][data-motion-theme=light] .pr-stat-icon.cyan{color:#08738c!important;background:#dff3f8!important}
+html[data-motion-device][data-motion-theme=light] .all-training-tag{color:#35536f!important;background:#edf3f9!important;border-color:#acbdd0!important}
+html[data-motion-device][data-motion-theme=light] .all-training-tag.cat-ai{color:#a34c0f!important;background:#fff0e3!important;border-color:#e2bc99!important}
+html[data-motion-device] :is(.iw-recog-title,.iw-recog-hint,.iw-recog-status){font-family:var(--d-font)!important}
+html[data-motion-device] .iw-recog-title{font-size:18px!important;color:#f1f6ff!important}
+html[data-motion-device] .iw-recog-hint{font-size:14px!important;line-height:1.5!important;color:#c1cfdf!important}
+html[data-motion-device][data-motion-theme=light] .iw-ai-ready-panel{background:var(--d-surface)!important;border:1px solid var(--d-line)!important;box-shadow:0 6px 20px #1835501a!important}
+html[data-motion-device][data-motion-theme=light] :is(.iw-recog-zone,.iw-recog-zone-frame){background:var(--d-soft)!important;border-color:#94bedb!important}
+html[data-motion-device][data-motion-theme=light] .iw-recog-title{color:var(--d-text)!important}
+html[data-motion-device][data-motion-theme=light] .iw-recog-hint{color:var(--d-secondary)!important}
+html[data-motion-device][data-motion-theme=light] .iw-recog-status{color:var(--d-primary)!important}
+html[data-motion-device][data-motion-theme=light] .iw-recog-figure{color:var(--d-primary)!important;stroke:var(--d-primary)!important}
+html[data-motion-device] .soft-training :is(.iw-demo-metric label,.iw-demo-metric small){font:500 10px/1.4 var(--d-font)!important}
+html[data-motion-device] .soft-score-label{font:500 12px/1.5 var(--d-font)!important;color:var(--d-secondary)!important}
+html[data-motion-device] .soft-training :is(.iw-demo-feedback,.iw-demo-result-row,.iw-demo-result-bubble){background:var(--d-surface)!important;color:var(--d-text)!important;border:1px solid var(--d-line)!important;box-shadow:var(--d-shadow)!important}
+html[data-motion-device] .soft-training #iwPipSwap{font:500 10px/1.4 var(--d-font)!important;background:var(--d-selected)!important;color:var(--d-primary)!important}
+html[data-motion-device] .soft-training :is(.iw-demo-result-row strong,#iwDemo-bubble-title){font:500 14px/1.5 var(--d-font)!important;color:var(--d-text)!important}
+html[data-motion-device][data-motion-theme=light] .soft-training .iw-demo-gauge i:not(.lit){background:#d8e2ed!important}
+html[data-motion-device] :is(.explore-section,.explore-main,.my-plans-app,.tr-app,.tr-header,.tr-card,.tr-ring-card,.tr-chart-wrap,.tr-body-map,.tr-shell,.tr-hero,.tr-stat,.tr-block,.tr-top,.plan-card){background:var(--d-surface)!important;color:var(--d-text)!important;border-color:var(--d-line)!important;box-shadow:var(--d-shadow)!important}
+html[data-motion-device] :is(.my-plans-tabs,.tr-range-switch,.plan-progress-track,.explore-view-toggle){background:var(--d-soft)!important;border-color:var(--d-line)!important;box-shadow:none!important}
+html[data-motion-device] :is(.my-plans-tab,.tr-range-btn,.explore-view-btn){font:600 12px/1.5 var(--d-font)!important;color:var(--d-secondary)!important}
+html[data-motion-device] :is(.my-plans-tab.is-active,.tr-range-btn.is-active,.explore-view-btn.active){color:var(--d-primary)!important;background:var(--d-selected)!important;box-shadow:none!important}
+html[data-motion-device] :is(.plan-duration,.plan-date,.plan-progress-info,.tr-card-head p,.tr-stat-period,.tr-kicker,.tr-note,.tr-metrics-footnote,.all-training-title-wrap p){font:400 12px/1.5 var(--d-font)!important;color:var(--d-secondary)!important}
+html[data-motion-device] :is(.plan-title,.tr-card-head h2,.tr-header h1,.tr-title-row h3){color:var(--d-text)!important}
+html[data-motion-device] :is(.tr-period-nav-btn,.plan-action-btn){color:var(--d-primary)!important;background:var(--d-soft)!important;border-color:var(--d-line)!important;box-shadow:none!important}
+html[data-motion-device] .plan-personalized-tag{color:var(--d-primary)!important;background:var(--d-selected)!important;border-color:var(--d-line)!important}
+html[data-motion-device][data-motion-theme=light] .all-training-level{color:#6a4b0c!important;background:#fff3d6!important;border-color:#d3b87e!important}
+html[data-motion-device] .nav-item.active,html[data-motion-device] .nav-item.active .nav-item-inner{background:transparent!important;box-shadow:none!important}
+html[data-motion-device] .nav-item.active .nav-item-inner{border-radius:24px!important;color:var(--d-primary)!important}
+html[data-motion-device][data-motion-theme=light] .tr-chart{background:transparent!important}
+html[data-motion-device],.frame.device{--d-action:#0969ca}
+html[data-motion-device] :is(.resume-btn,.training-start-btn,.primary-btn,.join-plan-btn),.frame.device .primary{background:var(--d-action)!important;color:#fff!important}
+.frame.device .qc-mode button.selected{background:var(--d-action)!important;color:#fff!important}
+/* Compact device navigation: selection is foreground color only. */
+html[data-motion-device] .device-shell .bottom-nav{height:48px!important;min-height:48px!important;padding:4px 8px!important;border-radius:16px!important;gap:4px!important;bottom:14px!important;box-sizing:border-box!important;box-shadow:none!important}
+html[data-motion-device] .device-shell .bottom-nav .nav-item{height:40px!important;min-height:0!important;padding:0!important;gap:2px!important;background:transparent!important;border:0!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;color:var(--d-secondary)!important}
+html[data-motion-device] .device-shell .bottom-nav .nav-item .nav-item-inner{padding:0 8px!important;gap:2px!important;background:transparent!important;box-shadow:none!important;border:0!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+html[data-motion-device] .device-shell .bottom-nav .nav-item.active,html[data-motion-device] .device-shell .bottom-nav .nav-item.active .nav-item-inner{background:transparent!important;box-shadow:none!important;border:0!important;color:var(--d-primary)!important}
+html[data-motion-device] .device-shell .bottom-nav .nav-item::before,html[data-motion-device] .device-shell .bottom-nav .nav-item::after,html[data-motion-device] .device-shell .bottom-nav .nav-item-inner::before,html[data-motion-device] .device-shell .bottom-nav .nav-item-inner::after{display:none!important}
+html[data-motion-device] .device-shell .bottom-nav .nav-icon{width:20px!important;height:20px!important;opacity:1!important}
+html[data-motion-device] .device-shell .bottom-nav .nav-label{font:500 12px/18px var(--d-font)!important;color:inherit!important}
+.frame.device #bottomnav{height:48px!important;min-height:48px!important;padding:4px 8px!important;box-sizing:border-box}
+.frame.device #bottomnav button{background:transparent!important;border:0!important;box-shadow:none!important;min-height:0!important;padding:0!important;line-height:18px!important;color:var(--d-secondary)!important}
+.frame.device #bottomnav button.on{color:var(--d-primary)!important;background:transparent!important}
+.frame.device #bottomnav svg{width:20px;height:20px;margin:0 auto 2px}
+/* Docked device tabs reserve their own space; content cannot scroll underneath. */
+html[data-motion-device] .device-shell > .bottom-nav{position:absolute!important;left:0!important;right:0!important;bottom:0!important;width:100%!important;height:48px!important;min-height:48px!important;margin:0!important;border-radius:0!important;border:0!important;border-top:1px solid var(--d-line)!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:var(--d-surface)!important;z-index:10!important}
+html[data-motion-device] .device-shell:has(> .bottom-nav) > :is(.content,.profile-screen){height:calc(100% - 48px)!important;max-height:calc(100% - 48px)!important;bottom:48px!important;padding-bottom:16px!important;overflow-y:auto!important;overflow-x:hidden!important;box-sizing:border-box!important}
+.frame.device #bottomnav{position:relative!important;flex-shrink:0!important;width:100%!important;left:auto!important;right:auto!important;bottom:auto!important;margin:0!important;border-radius:0!important;border:0!important;border-top:1px solid var(--d-line)!important;background:var(--d-surface)!important;box-shadow:none!important}
+html[data-motion-device] .device-shell:has(> .bottom-nav) > :is(.content,.profile-screen){position:absolute!important;top:0!important;left:0!important;right:0!important;bottom:48px!important;width:100%!important;height:calc(100% - 48px)!important;max-height:calc(100% - 48px)!important;transform:none!important}
+/* One bottom stack: content | 8-unit gesture lane | 48-unit docked tabs. */
+html[data-motion-device] .device-shell #controlCenterHandle,html[data-motion-device] .device-shell .cc-bottom-handle{display:none!important;pointer-events:none!important}
+html[data-motion-device] .device-shell:has(> .bottom-nav) > :is(.content,.profile-screen){height:calc(100% - 56px)!important;max-height:calc(100% - 56px)!important;bottom:56px!important}
+.frame.device .global-swipe{bottom:0;left:calc(50% - 36px);width:72px;height:8px;min-height:0;padding:0;line-height:0;font-size:0;background:transparent;border:0;z-index:20;touch-action:none}
+.frame.device[data-docked-tabs=true] .global-swipe{bottom:48px}
+.frame.device .global-swipe::before{content:'';position:absolute;left:20px;top:2px;width:32px;height:3px;background:var(--d-muted);border-radius:3px;pointer-events:none}
+.frame.device[data-docked-tabs=true]:not(.native-viewport) #page{margin-bottom:8px}

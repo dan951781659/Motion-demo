@@ -1,0 +1,365 @@
+{
+  "results": [
+    {
+      "language": "zh",
+      "theme": "light",
+      "route": "home",
+      "metrics": {
+        "theme": "light",
+        "lang": "zh-CN",
+        "titleSize": "20px",
+        "statusBg": "rgb(255, 255, 255)"
+      }
+    },
+    {
+      "language": "zh",
+      "theme": "light",
+      "route": "profile",
+      "metrics": {
+        "theme": "light",
+        "lang": "zh-CN",
+        "titleSize": "20px",
+        "statusBg": null
+      }
+    },
+    {
+      "language": "zh",
+      "theme": "light",
+      "route": "library",
+      "metrics": {
+        "theme": "light",
+        "lang": "zh-CN",
+        "titleSize": "20px",
+        "statusBg": null
+      }
+    },
+    {
+      "language": "zh",
+      "theme": "light",
+      "route": "plans",
+      "metrics": {
+        "theme": "light",
+        "lang": "zh-CN",
+        "titleSize": "20px",
+        "statusBg": null
+      }
+    },
+    {
+      "language": "zh",
+      "theme": "light",
+      "route": "training",
+      "metrics": {
+        "theme": "light",
+        "lang": "zh-CN",
+        "titleSize": null,
+        "statusBg": null
+      }
+    },
+    {
+      "language": "zh",
+      "theme": "light",
+      "route": "settings",
+      "metrics": {
+        "theme": "frame device light"
+      }
+    },
+    {
+      "language": "zh",
+      "theme": "light",
+      "route": "help",
+      "metrics": {
+        "theme": "frame device light"
+      }
+    },
+    {
+      "language": "zh",
+      "theme": "light",
+      "route": "prepare",
+      "metrics": {
+        "theme": "frame device light"
+      }
+    },
+    {
+      "language": "zh",
+      "theme": "light",
+      "route": "records",
+      "metrics": {
+        "theme": "light",
+        "lang": "zh-CN",
+        "titleSize": "20px",
+        "statusBg": null
+      }
+    },
+    {
+      "language": "zh",
+      "theme": "dark",
+      "route": "home",
+      "metrics": {
+        "theme": "dark",
+        "lang": "zh-CN",
+        "titleSize": "20px",
+        "statusBg": "rgb(20, 34, 56)"
+      }
+    },
+    {
+      "language": "zh",
+      "theme": "dark",
+      "route": "profile",
+      "metrics": {
+        "theme": "dark",
+        "lang": "zh-CN",
+        "titleSize": "20px",
+        "statusBg": null
+      }
+    },
+    {
+      "language": "zh",
+      "theme": "dark",
+      "route": "library",
+      "metrics": {
+        "theme": "dark",
+        "lang": "zh-CN",
+        "titleSize": "20px",
+        "statusBg": null
+      }
+    },
+    {
+      "language": "zh",
+      "theme": "dark",
+      "route": "plans",
+      "metrics": {
+        "theme": "dark",
+        "lang": "zh-CN",
+        "titleSize": "20px",
+        "statusBg": null
+      }
+    },
+    {
+      "language": "zh",
+      "theme": "dark",
+      "route": "training",
+      "metrics": {
+        "theme": "dark",
+        "lang": "zh-CN",
+        "titleSize": null,
+        "statusBg": null
+      }
+    },
+    {
+      "language": "zh",
+      "theme": "dark",
+      "route": "settings",
+      "metrics": {
+        "theme": "frame device dark"
+      }
+    },
+    {
+      "language": "zh",
+      "theme": "dark",
+      "route": "help",
+      "metrics": {
+        "theme": "frame device dark"
+      }
+    },
+    {
+      "language": "zh",
+      "theme": "dark",
+      "route": "prepare",
+      "metrics": {
+        "theme": "frame device dark"
+      }
+    },
+    {
+      "language": "zh",
+      "theme": "dark",
+      "route": "records",
+      "metrics": {
+        "theme": "dark",
+        "lang": "zh-CN",
+        "titleSize": "20px",
+        "statusBg": null
+      }
+    },
+    {
+      "language": "en",
+      "theme": "light",
+      "route": "home",
+      "metrics": {
+        "theme": "light",
+        "lang": "en",
+        "titleSize": "20px",
+        "statusBg": "rgb(255, 255, 255)"
+      }
+    },
+    {
+      "language": "en",
+      "theme": "light",
+      "route": "profile",
+      "metrics": {
+        "theme": "light",
+        "lang": "en",
+        "titleSize": "20px",
+        "statusBg": null
+      }
+    },
+    {
+      "language": "en",
+      "theme": "light",
+      "route": "library",
+      "metrics": {
+        "theme": "light",
+        "lang": "en",
+        "titleSize": "20px",
+        "statusBg": null
+      }
+    },
+    {
+      "language": "en",
+      "theme": "light",
+      "route": "plans",
+      "metrics": {
+        "theme": "light",
+        "lang": "en",
+        "titleSize": "20px",
+        "statusBg": null
+      }
+    },
+    {
+      "language": "en",
+      "theme": "light",
+      "route": "training",
+      "metrics": {
+        "theme": "light",
+        "lang": "en",
+        "titleSize": null,
+        "statusBg": null
+      }
+    },
+    {
+      "language": "en",
+      "theme": "light",
+      "route": "settings",
+      "metrics": {
+        "theme": "frame device light"
+      }
+    },
+    {
+      "language": "en",
+      "theme": "light",
+      "route": "help",
+      "metrics": {
+        "theme": "frame device light"
+      }
+    },
+    {
+      "language": "en",
+      "theme": "light",
+      "route": "prepare",
+      "metrics": {
+        "theme": "frame device light"
+      }
+    },
+    {
+      "language": "en",
+      "theme": "light",
+      "route": "records",
+      "metrics": {
+        "theme": "light",
+        "lang": "en",
+        "titleSize": "20px",
+        "statusBg": null
+      }
+    },
+    {
+      "language": "en",
+      "theme": "dark",
+      "route": "home",
+      "metrics": {
+        "theme": "dark",
+        "lang": "en",
+        "titleSize": "20px",
+        "statusBg": "rgb(20, 34, 56)"
+      }
+    },
+    {
+      "language": "en",
+      "theme": "dark",
+      "route": "profile",
+      "metrics": {
+        "theme": "dark",
+        "lang": "en",
+        "titleSize": "20px",
+        "statusBg": null
+      }
+    },
+    {
+      "language": "en",
+      "theme": "dark",
+      "route": "library",
+      "metrics": {
+        "theme": "dark",
+        "lang": "en",
+        "titleSize": "20px",
+        "statusBg": null
+      }
+    },
+    {
+      "language": "en",
+      "theme": "dark",
+      "route": "plans",
+      "metrics": {
+        "theme": "dark",
+        "lang": "en",
+        "titleSize": "20px",
+        "statusBg": null
+      }
+    },
+    {
+      "language": "en",
+      "theme": "dark",
+      "route": "training",
+      "metrics": {
+        "theme": "dark",
+        "lang": "en",
+        "titleSize": null,
+        "statusBg": null
+      }
+    },
+    {
+      "language": "en",
+      "theme": "dark",
+      "route": "settings",
+      "metrics": {
+        "theme": "frame device dark"
+      }
+    },
+    {
+      "language": "en",
+      "theme": "dark",
+      "route": "help",
+      "metrics": {
+        "theme": "frame device dark"
+      }
+    },
+    {
+      "language": "en",
+      "theme": "dark",
+      "route": "prepare",
+      "metrics": {
+        "theme": "frame device dark"
+      }
+    },
+    {
+      "language": "en",
+      "theme": "dark",
+      "route": "records",
+      "metrics": {
+        "theme": "dark",
+        "lang": "en",
+        "titleSize": "20px",
+        "statusBg": null
+      }
+    }
+  ],
+  "errors": []
+}

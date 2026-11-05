@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Plan B · Close Account</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/plan-b-base.css" />
+  <link rel="stylesheet" href="css/plan-b-profile.css" />
+  <link rel="stylesheet" href="css/plan-b-auth.css" />
+  <link rel="stylesheet" href="css/plan-b-delete-account.css" />
+  <link rel="stylesheet" href="css/plan-b-i18n.css">
+  <script src="js/plan-b-i18n-data.js"></script>
+  <script src="js/plan-b-i18n.js"></script>
+</head>
+<body>
+<main class="device-shell" aria-label="Close account">
+  <div class="particle-layer" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+  <section class="auth-screen" id="deleteScreen">
+    <header class="da-header"><button class="auth-back-btn" id="backBtn" aria-label="Back" type="button">←</button><span>ACCOUNT &amp; PRIVACY</span><span class="da-step" id="stepLabel">1 OF 2</span></header>
+    <section id="reviewStep" class="da-step-content">
+      <div class="da-heading"><div class="da-symbol" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 6h18M9 6V3h6v3M5 6l1 15h12l1-15M10 10v7m4-7v7"/></svg></div><h1 tabindex="-1">Close account</h1><p>Before you go, please review what happens to your Visbody account.</p></div>
+      <div class="auth-card da-account"><span class="da-avatar" data-user-avatar>A</span><div><strong data-user-name>Alyona</strong><small>Visbody account</small></div></div>
+      <div class="auth-card da-consequences">
+        <h2>What you’ll lose</h2>
+        <div><span>01</span><p><strong>Your profile and personal data</strong><small>Your saved profile, body measurements and preferences will be removed.</small></p></div>
+        <div><span>02</span><p><strong>Your training history</strong><small>Workouts, progress reports and saved training plans will no longer be available.</small></p></div>
+        <div><span>03</span><p><strong>Access on connected devices</strong><small>You’ll be signed out and your account will be unlinked from MotionStation devices.</small></p></div>
+      </div>
+      <div class="da-notice"><strong>This action is permanent.</strong><p>You won’t be able to restore this account or its data. If you have a paid subscription, cancel it with your billing provider separately. Account closure does not request a refund.</p></div>
+      <label class="da-check"><input id="acknowledge" type="checkbox" /><span>I understand that my account will be permanently closed and its associated data removed.</span></label>
+      <div class="da-actions"><button id="continueBtn" class="da-btn da-danger" disabled>Continue</button><button class="da-btn da-secondary" data-keep>Keep my account</button></div>
+    </section>
+    <section id="verifyStep" class="da-step-content" hidden>
+      <div class="da-heading"><div class="da-symbol da-blue" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="10" width="14" height="11" rx="3"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3"/></svg></div><h1 tabindex="-1">Verify it’s you</h1><p>Confirm your identity before closing your account.</p></div>
+      <form id="verifyForm" class="auth-card" novalidate>
+        <div><h2>Verification code</h2><p class="da-muted">Use the 6-digit code for your linked mobile number.</p></div>
+        <div class="da-recipient"><span>Registered mobile</span><strong>••• ••• 4826</strong></div>
+        <label for="verificationCode">Enter verification code</label>
+        <input id="verificationCode" class="da-code" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="000000" aria-describedby="codeError" />
+        <p id="codeError" class="da-error" role="alert"></p>
+        <button id="sendCodeBtn" class="da-send" type="button">Send code</button>
+        <p id="codeStatus" class="da-muted" role="status" aria-live="polite"></p>
+        <button class="da-btn da-primary" type="submit">Verify &amp; continue</button>
+      </form>
+      <button class="da-btn da-secondary" data-keep>Keep my account</button>
+    </section>
+    <section id="doneStep" class="da-step-content da-done" hidden>
+      <div class="da-symbol da-blue" aria-hidden="true">✓</div><h1 tabindex="-1">Account closed</h1><p>Your account has been closed.<br>You can now return to the sign-in screen.</p>
+      <a class="da-btn da-primary" href="plan-b-login.html">Back to sign in</a>
+    </section>
+  </section>
+  <div id="finalModal" class="auth-confirm-modal" hidden>
+    <div class="auth-confirm-panel da-final" role="dialog" aria-modal="true" aria-labelledby="finalTitle" aria-describedby="finalDescription" tabindex="-1">
+      <div class="da-symbol" aria-hidden="true">!</div><h2 id="finalTitle">Permanently close account?</h2><p id="finalDescription">Your account will be permanently closed. Your profile, training history and saved plans will be removed. This cannot be undone.</p>
+      <div class="da-actions"><button id="cancelDeleteBtn" class="da-btn da-primary">Keep my account</button><button id="confirmDeleteBtn" class="da-btn da-danger">Close account</button></div>
+      <p id="deleteStatus" class="da-muted" role="status"></p>
+    </div>
+  </div>
+</main>
+<script src="js/plan-b-user-store.js"></script>
+<script src="js/plan-b-delete-account.js"></script>
+<script src="../device-patch.js"></script><script src="../device-theme.js"></script></body>
+</html>
