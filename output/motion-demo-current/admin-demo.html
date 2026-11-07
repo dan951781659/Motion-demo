@@ -418,6 +418,7 @@ function actFiltered(){
     if(f.ai&&((f.ai==='支持')!==(a.ai!=null)))return false;
     if(f.coach&&(a.coach||'无')!==f.coach)return false;
     if(f.name&&!a.name.includes(f.name))return false;
+    if(f.tpl){const t=db.templates.find(x=>!x.del&&x.name===f.tpl);if(!t||!t.members.includes(a.id))return false}
     return true;
   });
 }
@@ -456,6 +457,7 @@ function pageActions(){
    ${sel('scene','适用场景',OPT.scene)}${sel('diff','难度',OPT.diff)}${sel('equip','器械',EQUIP.map(e=>e[1]))}${sel('part','训练部位',OPT.part)}
    ${ui.fopen?`${sel('type','动作类型',OPT.type)}${sel('status','状态',OPT.status)}${sel('ai','AI支持',['支持','不支持'])}${sel('coach','教练',['无',...OPT.coach])}
    <div class="fi2"><span>动作名称</span><input type="text" data-ff="name" placeholder="请输入动作名称" value="${esc(f.name||'')}"></div>
+   <div class="fi2"><span>安装方案${MK('new')}</span><select data-ff="tpl"><option value="">请选择安装方案模板</option>${db.templates.filter(t=>!t.del).map(t=>`<option ${f.tpl===t.name?'selected':''}>${esc(t.name)}</option>`).join('')}</select></div>
    `:''}
    <div class="acts"><button class="btn" id="fr">重置</button><button class="btn p" id="fq">查询</button><a class="lk" id="ft">${ui.fopen?'收起 ⌃':'展开 ⌄'}</a></div>
   </div></div></div>
@@ -814,7 +816,6 @@ function pageTemplates(){
   const showOrph=f===''||f==='orphan';
   const trs=shown.map((t,i)=>{
     const st=tplState(t),pend=t.on&&!t.del?pendingOf(t):[],open=ui.texp[t.id],lopen=ui.tlang[t.id],n=t.langs.length;
-    const mem=t.members.map(id=>db.actions.find(a=>a.id===id)).filter(Boolean);
     const langRows=lopen?t.langs.map((c,k)=>{const v=t.i18n[c]||{};
       return `<tr class="child"><td>${i+1}-${k+1}</td><td class="l">${esc(v.name||t.name)}</td><td>${esc(langName(c))}</td>
        <td class="l muted small">同中文</td><td class="l" style="white-space:normal">${esc((v.cards||[]).map(x=>x.title).filter(Boolean).join(' / ')||'—')}</td>
@@ -823,13 +824,11 @@ function pageTemplates(){
        <td class="act">${langOpsHTML(v.status,`data-tid="${t.id}" data-lc="${c}"`)}</td></tr>`}).join(''):'';
     let h=`<tr class="${t.del?'dimrow':''}"><td>${n?`<a class="lk" data-tl="${t.id}" style="margin:0 4px 0 0">${lopen?'⌄':'›'}</a>`:''}${i+1}${n?` (${n})`:''}</td><td class="l"><b>${esc(t.name)}</b></td><td>简体中文</td>
      <td class="l">${condCell(t)}</td><td class="l" style="white-space:normal;min-width:200px">${cardSum(t)}</td>
-     <td><a class="lk" data-tx="${t.id}" style="margin:0"><b>${t.members.length}</b> 个 ${open?'⌃':'⌄'}</a></td><td>${pend.length?`<a class="lk" data-tx="${t.id}" style="margin:0"><i class="tg y">${pend.length} 个</i></a>`:'<span class="muted">—</span>'}</td>
+     <td>${t.members.length?`<a class="lk" data-tm="${esc(t.name)}" style="margin:0" title="在动作库中查看"><b>${t.members.length}</b> 个</a>`:'<span class="muted">0 个</span>'}</td><td>${pend.length?`<a class="lk" data-tx="${t.id}" style="margin:0"><i class="tg y">${pend.length} 个</i></a>`:'<span class="muted">—</span>'}</td>
      <td><i class="tg ${STC[st]}">${st}</i></td><td><span class="sw2 ${t.on?'on':''}" data-on="${t.id}"></span></td><td class="small">${t.by}<br><span class="muted">${t.at}</span></td>
      <td class="act">${t.del?`<a data-un="${t.id}">撤销删除</a>`:`<a data-pv="${t.id}">预览</a><a data-te="${t.id}">编辑</a>${st!=='已发布'?`<a class="g" data-pb="${t.id}">发布</a>`:''}<a data-tr="${t.id}">翻译</a><a class="r" data-td="${t.id}">删除</a>`}</td></tr>`+langRows;
-    if(open)h+=`<tr class="child"><td colspan="11" style="white-space:normal;text-align:left;padding:12px 18px">
-      <div class="small muted" style="margin-bottom:6px"><b style="color:var(--t3)">已加入的动作 · ${mem.length}</b>　设备端：这些动作进入训练前显示本模板；动作上架且模板已发布后才出现</div>
-      ${mem.length?`<table class="dense"><thead><tr>${ACT_HEAD}<th>操作</th></tr></thead><tbody>${mem.map(a=>actRow(a,`<td class="act"><a class="r" data-rm="${t.id}:${a.id}">移出</a></td>`)).join('')}</tbody></table>`:'<div class="muted small">还没有加入动作。编辑模板，按条件筛出候选并勾选。</div>'}
-      ${pend.length?`<div class="small" style="margin:12px 0 6px;color:var(--yt)"><b>待确认 · ${pend.length}</b>　符合本模板条件、还没归属任何模板，不会自动生效</div><table class="dense"><thead><tr>${ACT_HEAD}<th>操作</th></tr></thead><tbody>${pend.map(a=>actRow(a,`<td class="act"><a data-add="${t.id}:${a.id}">加入本模板</a></td>`)).join('')}</tbody></table>`:''}
+    if(open&&pend.length)h+=`<tr class="child"><td colspan="11" style="white-space:normal;text-align:left;padding:12px 18px">
+      <div class="small" style="margin:0 0 6px;color:var(--yt)"><b>待确认 · ${pend.length}</b>　符合本模板条件、还没归属任何模板，不会自动生效</div><table class="dense"><thead><tr>${ACT_HEAD}<th>操作</th></tr></thead><tbody>${pend.map(a=>actRow(a,`<td class="act"><a data-add="${t.id}:${a.id}">加入本模板</a></td>`)).join('')}</tbody></table>
       </td></tr>`;
     return h;
   }).join('');
@@ -852,6 +851,7 @@ function pageTemplates(){
   $('#tlog').onclick=logDlg;
   $$('[data-tx]').forEach(e=>e.onclick=()=>{ui.texp[e.dataset.tx]=!ui.texp[e.dataset.tx];pageTemplates()});
   $$('[data-tl]').forEach(e=>e.onclick=()=>{ui.tlang[e.dataset.tl]=!ui.tlang[e.dataset.tl];pageTemplates()});
+  $$('[data-tm]').forEach(e=>e.onclick=()=>{ui.f={tpl:e.dataset.tm};ui.model='全部型号';ui.fopen=true;ui.pg.actions=1;nav('actions')});
   const ox=$('[data-ox]');if(ox)ox.onclick=()=>{ui.texp.orph=!ui.texp.orph;pageTemplates()};
   $$('[data-te]').forEach(e=>e.onclick=()=>{ui.edit={kind:'tpl',id:e.dataset.te};pageTemplates()});
   $$('[data-pv]').forEach(e=>e.onclick=()=>{ui.preview=e.dataset.pv;pageTemplates()});
@@ -1242,7 +1242,8 @@ function findReplace(){
 function pageChanges(){
   /* 列：页面 | 功能 / 字段 | 类型 | 在哪里配置 | 作用与影响（端 · 页面 · 时机） | 数据流 | 未配置 / 异常时 */
   const R=[
-   ['动作库管理','整页','old','动作库管理 → 列表 / 添加 / 编辑','与线上完全一致，本期没有任何改动（推荐配重保持线上单值字段）。动作的「适用场景 / 动作属性 / 训练部位 / 器械」继续是原有字段，只是被模板拿来筛候选。','—','—'],
+   ['动作库管理','筛选「安装方案」','new','动作库管理 → 展开筛选；或模板列表点「已加入动作」数量跳转','按模板名称筛出该模板的全部成员动作，便于逐条核对。','只在后台读取模板成员关系，不下发。','不选＝不按模板筛选。'],
+   ['动作库管理','其余整页','old','动作库管理 → 列表 / 添加 / 编辑','与线上完全一致（推荐配重保持线上单值字段）。动作的「适用场景 / 动作属性 / 训练部位 / 器械」继续是原有字段，只是被模板拿来筛候选。','—','—'],
    ['安装方案模板','模板（整页新增）','new','安装方案模板 → 新建 / 编辑','一条模板 = 训练准备内容（可选视频 + 1～5 张卡片）+ 匹配条件 + 成员动作。决定设备端「训练准备」页对某个动作显示什么。','后台保存为草稿 → 发布 → 服务端已发布版本 → 设备端同步并缓存。','未归属任何模板的动作，设备端直接进入动作详情。'],
    ['安装方案模板','匹配条件：适用场景 / 动作属性 / 训练部位 / 配件','new','模板编辑页 → 匹配条件','只用来筛出候选动作，并在新建或修改动作后给模板提示「待确认」。不决定设备端展示，也不自动加入成员。','只存在后台，不下发设备端。','不设条件：候选区为空，只能「显示全部动作」手动勾选。'],
    ['安装方案模板','成员动作（勾选结果）','new','模板编辑页 → 选择动作；列表展开 → 移出 / 加入；未归属行 → 加入建议模板','设备端按「动作 → 模板」读取：进入训练前，该动作是否出现准备页、出现哪一套内容。一个动作只归一个模板。','发布后，服务端生成「动作 ID → 模板」映射随已发布版本下发；设备端同步动作时一并取得，本地缓存。','动作不在任何模板里：不显示准备页。草稿 / 下架动作在上架前设备端看不到。'],

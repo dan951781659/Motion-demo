@@ -161,7 +161,7 @@
     document.body.classList.add('v6-admin');
     b.classList.add('selected');paintTheme();
     document.querySelectorAll('[data-end]').forEach(x=>x.classList.remove('selected'));
-    if(!fr.getAttribute('src'))fr.src='admin-demo.html?v=18&embed=1';
+    if(!fr.getAttribute('src'))fr.src='admin-demo.html?v=19&embed=1';
     else tell(adminPage);
     tell(adminPage);
   }
