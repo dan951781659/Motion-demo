@@ -1,1 +1,20 @@
-<!doctype html><html lang="zh-CN"><meta charset="utf-8"><title>Motion 完整功能规则</title><link rel="stylesheet" href="review-layout.css"><style>body{display:block;background:#f5f7fa;padding:28px;max-width:1100px;margin:auto}.complete-rule-section{background:#fff;padding:20px;margin:16px 0;border-radius:10px}p{line-height:1.9}h1{font-size:26px}h2{font-size:20px}h3{font-size:16px}pre{white-space:pre-wrap}nav{display:flex;flex-wrap:wrap;gap:10px}nav a{color:#2866ae}</style><h1>Motion 最终功能规则与修改总览</h1><p>本总览与页面右侧读取同一份模块规则，HTML 可独立评审，无需另行阅读 PRD。</p><nav id="toc"></nav><div id="content"></div><script src="rulebook-data.js"></script><script src="rule-editor.js"></script><script>const entries=Object.entries(MotionRulebook);document.getElementById('toc').innerHTML=entries.map(([k],i)=>'<a href="#rule-'+i+'">'+k+'</a>').join('');document.getElementById('content').innerHTML=entries.map(([k,v],i)=>'<section class="complete-rule-section" id="rule-'+i+'"><h2>'+k+'</h2>'+ruleEditorHTML(k)+'</section>').join('');</script></html>
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><title>Motion 完整功能规则 · V3</title><link rel="stylesheet" href="review-layout.css"><style>body{display:block;background:#f5f7fa;padding:28px;max-width:1100px;margin:auto}.complete-rule-section{background:#fff;padding:20px;margin:16px 0;border-radius:10px}p{line-height:1.9}h1{font-size:26px}h2{font-size:20px}h3{font-size:16px}pre{white-space:pre-wrap}nav{display:flex;flex-wrap:wrap;gap:10px}nav a{color:#2866ae}</style><style id="v3-marks">
+.rv{color:#1656d6 !important}
+.fr-id{display:inline-block;margin-left:8px;padding:0 5px;border:1px solid #cfdbe9;border-radius:4px;font:600 10px/1.7 ui-monospace,SFMono-Regular,Menlo,monospace;color:#7b8a9d !important;vertical-align:2px}
+.rule-list{margin:8px 0;padding-left:20px}
+.rule-list li{margin:5px 0;line-height:1.85}
+.rule-table table{width:100%;border-collapse:collapse;margin:10px 0;font-size:13px}
+.rule-table td,.rule-table th{border:1px solid #dce5f0;padding:7px 8px;vertical-align:top;line-height:1.7}
+.rule-table th{background:#f0f5fb;text-align:left;white-space:nowrap;font-size:12px;color:#33465f}
+.v3-legend{padding:12px 14px;background:#f2f7ff;border:1px solid #d7e4f7;border-radius:8px;font-size:13px;color:#43566f;line-height:1.8}
+.v3-meta{font-size:12px;color:#7b8a9d}
+.v3-quick{margin:10px 0 0;padding:10px 0;border-bottom:1px solid #e3eaf3}
+.v3-quick a{font-weight:600}
+</style><h1>Motion 完整功能规则</h1><p>本页与 Demo 右侧读取同一份模块规则，可独立评审。</p><p class="v3-meta">会议修订 V5 · 2026-11-07 · 待确认项见「发布前待确认事项」</p><p class="v3-legend"><b>标记：</b><span class="rv">蓝色＝本版新增或修正的规则</span>　FR 编号＝小节锚点（地址栏 #fr-bed-02 可直达）　“（HW-01）”类括注＝待确认编号，见《发布前待确认事项》。</p><nav class="v3-quick" id="quick"></nav><nav id="toc"></nav><div id="content"></div><script src="rulebook-data.js"></script><script src="rulebook-v3-data.js"></script><script src="rulebook-v3-appendix.js"></script><script src="rule-editor.js"></script><script>
+const entries=Object.entries(MotionRulebook);
+const idx=Object.fromEntries(entries.map(([k],i)=>[k,i]));
+const quickKeys=['版本与范围','主要操作流程','发布前待确认事项','验收口径','需求编号索引','UI 文案表'];
+document.getElementById('quick').innerHTML='<a>全局章节：</a>'+quickKeys.filter(k=>k in idx).map(k=>'<a href="#rule-'+idx[k]+'">'+k+'</a>').join('');
+document.getElementById('toc').innerHTML=entries.map(([k],i)=>'<a href="#rule-'+i+'">'+k+'</a>').join('');
+document.getElementById('content').innerHTML=entries.map(([k,v],i)=>'<section class="complete-rule-section" id="rule-'+i+'"><h2>'+k+'</h2>'+ruleEditorHTML(k)+'</section>').join('');
+</script></html>

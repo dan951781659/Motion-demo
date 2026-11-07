@@ -1,0 +1,1073 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Motion 管理后台 · 演示（以线上动作库为底，标注新增 / 修改）</title>
+<style>:root{--bg:#111214;--bg2:#141517;--panel:#1a1b1e;--panel2:#212328;--line:#2d3036;--ink:#e7e9ee;--mute:#8d939e;--blue:#4a7dff;--blue-bg:#1c2a4d;--red:#f56c6c;--amber:#e6a23c;--green:#47c98a;--purple:#8b6cf0;
+--t2:#b5bac4;--t3:#c3c8d1;--t4:#a9afba;--head:#1d1f23;--hover:#1e2025;--child:#171a24;--btn2:#23252a;--inp:#17181b;--bd2:#363a42;--bd3:#3a3e46;--bd4:#454a54;--pill:#24262c;--dlg:#1b1c20;--tgbg:#2a2d34;
+--hintbg:#171b27;--hintbd:#28324d;--hintink:#aab6d3;--hintb:#d6defa;--hitbg:#151a2b;--hitbd:#2a3860;--bluet:#7da2ff;--bluet2:#9db8ff;--bluebd:#3b5bb0;--redbd:#6a3a3d;--uphas:#1b2440;
+--gbg:#16382b;--gt:#47c98a;--ybg:#3d2f12;--yt:#e6a23c;--rbg:#3d1b1d;--rt:#f56c6c;--pbg:#2e2552;--pt:#b3a0ff;--noteY:#d9b36a;--noteB:#86a6ff;--swoff:#3a3e46;--shadow:#000a;color-scheme:dark}
+body.light{--bg:#f2f4f8;--bg2:#ffffff;--panel:#ffffff;--panel2:#f5f7fa;--line:#e1e6ee;--ink:#1d2b3a;--mute:#6b7888;--blue:#1f5fe0;--blue-bg:#e8f1fc;--red:#d92d3a;--amber:#d98a00;--green:#22a06b;--purple:#6a4fd1;
+--t2:#4a5666;--t3:#3a4656;--t4:#566577;--head:#f7f9fc;--hover:#f6f9fe;--child:#f1f6ff;--btn2:#eef1f6;--inp:#ffffff;--bd2:#cdd6e2;--bd3:#c9d1de;--bd4:#b9c2d0;--pill:#f0f3f8;--dlg:#ffffff;--tgbg:#eef2f6;
+--hintbg:#f3f8ff;--hintbd:#cfe0f6;--hintink:#34506e;--hintb:#1c3f6e;--hitbg:#eef4ff;--hitbd:#bcd3f5;--bluet:#1264c6;--bluet2:#1f5fe0;--bluebd:#9bbbe6;--redbd:#f1b0b6;--uphas:#eaf1ff;
+--gbg:#dff5ea;--gt:#15764a;--ybg:#fff2d9;--yt:#9a6200;--rbg:#fde6e8;--rt:#d92d3a;--pbg:#ece6ff;--pt:#6a4fd1;--noteY:#9a6200;--noteB:#3a62b0;--swoff:#c5ccd8;--shadow:#0b162440;color-scheme:light}
+body.light .mk.use,body.light .mk.new{color:#fff}
+body.light .side a:hover{background:#00000008}body.light .toast{background:#1d2b3a}
+body.light .dl{box-shadow:0 20px 60px var(--shadow)}
+.tgl{display:inline-flex;border:1px solid var(--bd2);border-radius:99px;overflow:hidden}.tgl button{border:0;background:transparent;color:var(--t3);padding:2px 12px;cursor:pointer;font:inherit;font-size:12px}.tgl button.on{background:var(--blue);color:#fff}
+*{box-sizing:border-box}html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.6 system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;display:flex}
+.side{width:200px;background:var(--bg2);border-right:1px solid var(--line);flex:none;display:flex;flex-direction:column;overflow:auto}
+.side .brand{padding:16px 18px;font-size:16px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:8px}
+.side .brand small{display:block;font-weight:400;font-size:11px;color:var(--mute)}
+.side .logo{width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,#4a7dff,#27c3ff);flex:none}
+.side a{display:flex;align-items:center;gap:8px;margin:2px 10px;padding:9px 12px;border-radius:8px;color:var(--t2);cursor:pointer;font-size:13.5px}
+.side a:hover{background:#ffffff0c}.side a.on{background:var(--blue-bg);color:var(--bluet)}
+.side a .ic{width:16px;text-align:center;opacity:.8}.side a .mk{margin-left:auto}
+.side a.dim{opacity:.62}
+@media(max-width:860px){.side{width:150px}.side a{margin:2px 6px;padding:8px 8px;font-size:13px}.side a .mk,.side .foot,.side .brand small{display:none}.side .brand{padding:14px 12px;font-size:14px}}
+.side .gp{padding:14px 22px 4px;font-size:11px;color:var(--mute)}
+.side .foot{margin-top:auto;padding:12px 16px;font-size:11px;color:var(--mute)}
+.main{flex:1;min-width:0;display:flex;flex-direction:column;height:100%}
+.top{height:48px;background:var(--bg2);border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 22px;gap:14px;font-size:13px;color:var(--mute);flex:none}
+.top b{color:var(--ink)}.top .sp{flex:1}
+.top label{display:flex;align-items:center;gap:6px;cursor:pointer;color:var(--t3)}
+.content{flex:1;overflow:auto;padding:16px 22px 40px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;margin-bottom:14px}
+.card .hd{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.card .hd h2{margin:0;font-size:15px}.card .hd .sp{flex:1}
+.card .bd{padding:14px 16px}
+.tabs{display:flex;gap:28px;padding:0 6px;border-bottom:1px solid var(--line);margin-bottom:14px}
+.tabs a{padding:12px 4px;cursor:pointer;color:var(--mute);border-bottom:2px solid transparent}
+.tabs a.on{color:var(--blue);border-bottom-color:var(--blue)}
+.fbar{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px 22px;align-items:center}
+.fbar .fi2{display:flex;align-items:center;gap:10px}.fbar .fi2>span{width:64px;text-align:right;color:var(--t3);font-size:13px;flex:none}
+.fbar .fi2>select,.fbar .fi2>input{flex:1;min-width:0}
+.fbar .acts{grid-column:-2/-1;display:flex;gap:10px;justify-content:flex-end;align-items:center}
+.tools{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.tools .sp{flex:1}
+.ib{width:30px;height:30px;border:1px solid var(--line);border-radius:6px;background:var(--btn2);color:var(--t3);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:14px}
+.ib:hover{border-color:var(--blue);color:var(--blue)}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%}
+th,td{padding:10px 10px;text-align:center;border-bottom:1px solid var(--line);font-size:13px;vertical-align:middle}
+th{background:var(--head);color:var(--t4);font-weight:600;white-space:nowrap}
+td.l,th.l{text-align:left}
+td{white-space:nowrap}
+.dense td{padding:5px 10px}
+tr:hover td{background:var(--hover)}
+tr.child td{background:var(--child)}
+td.act a,.lk{color:var(--blue);cursor:pointer;margin:0 6px;white-space:nowrap}
+td.act a.g{color:var(--green)}td.act a.o{color:var(--amber)}td.act a.r{color:var(--red)}
+.btn{display:inline-block;padding:5px 16px;border:1px solid var(--blue);border-radius:6px;background:transparent;color:var(--blue);cursor:pointer;font:inherit;font-size:13px}
+.btn:hover{background:#4a7dff1c}
+.btn.p{background:var(--blue);color:#fff}.btn.p:hover{background:#3f6fe8}
+.btn.g{border-color:var(--bd3);color:var(--t3)}.btn.g:hover{border-color:var(--blue);color:var(--blue);background:transparent}
+.btn.d{border-color:var(--redbd);color:var(--red)}
+.btn.sm{padding:2px 10px;font-size:12px}
+input[type=text],input[type=number],select,textarea{font:inherit;font-size:13px;border:1px solid var(--bd2);border-radius:6px;padding:5px 10px;background:var(--inp);color:var(--ink);max-width:100%;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--blue)}
+input:disabled,select:disabled,textarea:disabled{opacity:.7;cursor:not-allowed}
+select option{background:var(--panel)}
+textarea{width:100%;resize:vertical}
+input[type=checkbox]{accent-color:var(--blue)}
+.tg{display:inline-block;font-size:12px;padding:0 8px;border-radius:99px;line-height:20px;background:var(--tgbg);color:var(--t2);white-space:nowrap;font-style:normal}
+.tg.ai{background:var(--blue-bg);color:var(--bluet)}.tg.g{background:var(--gbg);color:var(--gt)}.tg.y{background:var(--ybg);color:var(--yt)}.tg.r{background:var(--rbg);color:var(--rt)}.tg.p{background:var(--pbg);color:var(--pt)}
+.mk{display:inline-block;font-size:11px;line-height:17px;padding:0 6px;border-radius:4px;margin-left:6px;font-weight:600;vertical-align:middle;font-style:normal;white-space:nowrap}
+.mk.new{background:var(--blue);color:#fff}.mk.mod{background:var(--amber);color:#201500}.mk.old{border:1px solid var(--bd3);color:var(--mute);font-weight:400}.mk.use{background:var(--purple);color:#fff}
+.modnote{font-size:12px;color:var(--noteY);margin-top:4px;line-height:1.55}
+.modnote.n{color:var(--noteB)}
+body.nomk .mk,body.nomk .modnote,body.nomk .legend{display:none!important}
+.hlnew{box-shadow:inset 3px 0 0 var(--blue)}.hlmod{box-shadow:inset 3px 0 0 var(--amber)}
+body.nomk .hlnew,body.nomk .hlmod{box-shadow:none}
+.legend{line-height:2;background:var(--hintbg);border:1px solid var(--hintbd);border-radius:8px;padding:8px 14px;font-size:12.5px;color:var(--hintink);margin-bottom:14px}
+.muted{color:var(--mute)}.small{font-size:12px}
+.hint{background:var(--hintbg);border:1px solid var(--hintbd);border-radius:8px;padding:10px 14px;font-size:12.5px;color:var(--hintink);margin-bottom:12px;line-height:1.75}
+.hint b{color:var(--hintb)}
+.hint ol{margin:4px 0 0;padding-left:20px}
+.stat{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.stat div{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 16px;min-width:120px}
+.stat b{font-size:20px;display:block;line-height:1.3}.stat span{font-size:12px;color:var(--mute)}
+.stat div.click{cursor:pointer}.stat div.click:hover{border-color:var(--blue)}
+.pg{display:flex;gap:8px;align-items:center;justify-content:center;padding:14px 0 4px;font-size:13px;color:var(--t2)}
+.pg button{min-width:30px;height:30px;border:1px solid transparent;background:var(--btn2);color:var(--t3);border-radius:6px;cursor:pointer}
+.pg button.on{background:var(--blue);color:#fff}
+.pg button:disabled{opacity:.4;cursor:default}
+.ov{position:fixed;inset:0;background:#000000b0;z-index:50;display:flex;align-items:flex-start;justify-content:center;overflow:auto;padding:5vh 0}
+.ov.l2{z-index:60}
+.dl{background:var(--dlg);border:1px solid var(--line);border-radius:12px;max-width:96vw;display:flex;flex-direction:column;box-shadow:0 20px 60px #000a}
+.dlh{display:flex;align-items:center;padding:14px 20px;border-bottom:1px solid var(--line);font-size:15px}
+.dlh b{flex:1}.dlh .x{cursor:pointer;color:var(--mute);font-size:20px;line-height:1}
+.dlb{padding:16px 20px;overflow:auto;max-height:72vh}
+.dlf{padding:12px 20px;border-top:1px solid var(--line);display:flex;gap:10px;justify-content:flex-end;align-items:center}
+.fgrid2{display:grid;grid-template-columns:1fr 1fr;gap:16px 26px}
+.fi{display:flex;gap:10px;align-items:flex-start}.fi.w{grid-column:1/-1}
+.fi>label{width:84px;flex:none;text-align:right;color:var(--t3);font-size:13px;padding-top:5px}
+.fi>.fc{flex:1;min-width:0}
+.rq{color:var(--red);margin-right:3px}
+.fc select,.fc input[type=text]{width:100%}
+.pills{display:flex;gap:6px;flex-wrap:wrap}
+.pill{padding:2px 12px;border-radius:6px;background:var(--pill);border:1px solid var(--bd2);color:var(--t2);cursor:pointer;font-size:12.5px;user-select:none}
+.pill.on{background:var(--blue-bg);border-color:var(--bluebd);color:var(--bluet2)}
+.ro .pill{cursor:default}
+.ta{position:relative}.ta .cn{position:absolute;right:10px;bottom:6px;font-size:12px;color:var(--mute)}
+.pk{display:flex;gap:0}.pk input{border-radius:6px 0 0 6px;flex:1}.pk .btn{border-radius:0 6px 6px 0}
+.wt{display:flex;gap:10px;flex-wrap:wrap}
+.wt label{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--t2)}
+.wt input{width:78px}
+.up{width:150px;height:90px;border:1px dashed var(--bd4);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-direction:column;color:var(--mute);cursor:pointer;font-size:12px;gap:2px;background:var(--inp)}
+.up.has{border-style:solid;border-color:var(--bluebd);color:var(--bluet2);background:var(--uphas)}
+.up:hover{border-color:var(--blue)}
+.hitrow{background:var(--hitbg);border:1px solid var(--hitbd);border-radius:8px;padding:8px 12px;font-size:13px}
+.sep{font-size:12.5px;color:var(--t4);padding:6px 0 0;grid-column:1/-1;border-top:1px dashed var(--line);margin-top:2px}
+.toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%);background:#2b2f39;color:#fff;padding:8px 18px;border-radius:99px;font-size:13px;z-index:90;display:none;border:1px solid #3b4252}
+.split{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:18px}
+.dev{position:sticky;top:12px;width:260px;height:462px;border-radius:16px;background:#08111d;color:#e8eef6;overflow:hidden;box-shadow:0 8px 24px #0006;border:3px solid #2a3a52;font-size:10px;line-height:1.5;display:flex;flex-direction:column;margin:0 auto}
+.dev .sb{height:16px;display:flex;justify-content:space-between;align-items:center;padding:0 10px;font-size:8px;color:#9fb0c4}
+.dev .hd2{padding:4px 10px 6px;font-size:13px;font-weight:700}
+.dev .pad{padding:6px 10px;flex:1;min-height:0;display:flex;flex-direction:column;gap:8px;overflow:auto}
+.dev .tags{display:flex;gap:4px;flex-wrap:wrap}.dev .tags span{font-size:8px;padding:1px 7px;border-radius:9px;background:#16273d;color:#9fb0c4}
+.dev .card2{background:#10243a;border-radius:10px;padding:8px;display:flex;gap:8px;align-items:center}
+.dev .ico{width:52px;height:40px;border-radius:8px;background:#1d3047;flex:none}
+.dev .btns{padding:0 10px 10px}.dev .btn2{background:#1264c6;color:#fff;border-radius:8px;text-align:center;padding:8px;font-size:10px;font-weight:700}
+.dev .none{margin:auto;text-align:center;color:#8da0b6;padding:20px 14px}
+.pv{display:inline-block;background:#0b1624;color:#fff;border-radius:10px;padding:8px 14px;font-weight:700;font-size:15px;line-height:1.35;max-width:360px;border:1px solid #2a3a52}
+.cnt{font-size:12px;color:var(--mute)}.cnt.bad{color:var(--red);font-weight:700}
+.mod{background:var(--panel);border:1px solid var(--line);border-radius:10px;margin-bottom:14px;overflow:hidden}
+.mod .mh{display:flex;align-items:center;gap:8px;padding:10px 16px;background:var(--head);border-bottom:1px solid var(--line);flex-wrap:wrap}
+.mod .mh h3{margin:0;font-size:14px}
+.mod .mb{padding:14px 16px}
+.mod.newish{border-color:var(--bluebd)}
+.radio{display:flex;gap:16px;flex-wrap:wrap;padding:4px 0}
+.radio label{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--ink);cursor:pointer}
+.f{display:flex;flex-direction:column;gap:4px}.f.w{grid-column:1/-1}
+.f>label{font-size:12px;color:var(--mute)}.f>label .req{color:var(--red)}
+.fgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 18px}
+.typebox{border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:12px;background:var(--panel)}
+.typebox .th{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.line{border:1px dashed var(--bd3);border-radius:8px;padding:10px;margin:8px 0;background:var(--inp)}
+.voice{display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:var(--head);border-radius:8px;padding:8px 10px;margin-top:6px}
+.voice b{font-size:12px;color:var(--mute);font-weight:600}
+.pagefoot{display:flex;gap:10px;justify-content:flex-end;padding:16px 0 28px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{background:var(--blue-bg);color:var(--bluet2);border-radius:99px;padding:2px 10px;font-size:12px;display:inline-flex;align-items:center;gap:6px}
+.chip button{border:0;background:transparent;cursor:pointer;color:var(--bluet2);font-size:14px;line-height:1}
+.cond{display:flex;flex-direction:column;gap:2px;font-size:12px;text-align:left;white-space:normal;min-width:190px}
+.cond b{color:var(--t4);font-weight:400;margin-right:4px}
+.lang-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.lang-grid label{display:flex;gap:8px;align-items:flex-start;border:1px solid var(--bluebd);border-radius:6px;padding:6px 10px;cursor:pointer;color:var(--bluet2);font-size:13px}
+.lang-grid label small{display:block;color:var(--mute);font-size:11px}
+.lang-grid label.off{border-color:var(--bd2);color:var(--t2)}
+.sw2{position:relative;display:inline-block;width:38px;height:20px;border-radius:99px;background:var(--swoff);cursor:pointer;vertical-align:middle}
+.sw2::after{content:"";position:absolute;left:2px;top:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:.15s}
+.sw2.on{background:var(--blue)}.sw2.on::after{left:20px}
+.chg td{white-space:normal;text-align:left;vertical-align:top}
+tr.dimrow td{opacity:.5}tr.orph td{background:var(--head);border-top:2px solid var(--line)}
+.pubitem{border:1px solid var(--line);border-radius:8px;padding:8px 12px;margin-bottom:8px}.pubitem ul{margin:6px 0 0;padding-left:18px;font-size:12.5px;color:var(--t2);line-height:1.8}
+.cardrow{display:flex;gap:10px;align-items:center;border:1px solid var(--line);border-radius:10px;padding:8px 10px;margin-bottom:8px;background:var(--inp)}
+.cardrow .cnn{width:22px;height:22px;border-radius:50%;background:var(--blue-bg);color:var(--bluet2);display:grid;place-items:center;font-size:12px;flex:none}
+.cimg{width:84px;height:62px;border:1px dashed var(--bd4);border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:12px;color:var(--mute);cursor:pointer;flex:none}.cimg small{font-size:10px}.cimg.has{border-style:solid;border-color:var(--bluebd);color:var(--bluet2);background:var(--uphas)}
+.cardrow .cf{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}.cardrow .cf input{width:100%}
+.cardrow .cb{display:flex;flex-direction:column;gap:2px;align-items:center;flex:none}
+.vrow{display:flex;gap:14px;align-items:flex-start}.vthumb{width:200px;flex:none}.vinfo{display:flex;flex-direction:column;gap:6px;font-size:13px}
+.vid{position:relative;aspect-ratio:16/9;background:#0d1e33;border-radius:10px;overflow:hidden;border:1px solid #2a3a52}
+.vid .vsvg{width:100%;height:100%;display:block}.vid .vplay{position:absolute;right:6px;bottom:4px;font-size:10px;color:#fff;opacity:.8}
+.vid em{position:absolute;left:6px;top:4px;font-size:8px;font-style:normal;color:#9fb0c4}
+.vclip{animation:vclip 4s ease-in-out infinite}.vh{animation:vh 4s ease-in-out infinite}
+@keyframes vclip{0%,15%{transform:translateY(0)}45%,60%{transform:translateY(-26px)}85%,100%{transform:translateY(0)}}
+@keyframes vh{0%,50%{fill:#e8eef6}70%,100%{fill:#3b82c4}}
+.dev .vid{flex:none}.dev .num{width:22px;height:22px;border-radius:50%;background:#1d3047;color:#9fb0c4;display:grid;place-items:center;font-size:10px;flex:none}
+.flow{display:flex;align-items:stretch;gap:6px;flex-wrap:wrap}.flow i{align-self:center;font-style:normal;font-size:11px;color:var(--mute);white-space:nowrap}
+.flow .fb{border:1px solid var(--bd2);border-radius:10px;padding:10px 14px;background:var(--panel2);min-width:150px;flex:1}.flow .fb b{display:block;margin-bottom:4px}.flow .fb span{font-size:12px;color:var(--t2);line-height:1.7}
+.flow .fb.hi{border-color:var(--bluebd);background:var(--blue-bg)}
+</style>
+<body>
+<nav class="side" id="side"></nav>
+<div class="main">
+ <div class="top"><span id="crumb"></span><span class="sp"></span>
+  <span class="tgl" id="thm"><button data-t="light">浅色</button><button data-t="dark">深色</button></span>
+  <label><input type="checkbox" id="marks" checked> 显示 新增 / 修改 标注</label>
+  <button class="btn g sm" id="reset">重置演示数据</button>
+  <span>管理员 · 演示账号</span></div>
+ <div class="content" id="content"></div>
+</div>
+<div id="layers"></div>
+<div class="toast" id="toast"></div>
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const KEY='motionAdminDemo.v5',PUBKEY='motionAdminDemo.pub.v5';
+const MKT={new:'新增',mod:'修改',old:'现有',use:'匹配字段'};
+const MK=(k,t)=>`<i class="mk ${k}">${t||MKT[k]}</i>`;
+const note=(t,n)=>`<div class="modnote ${n?'n':''}">${t}</div>`;
+
+/* ========== 线上动作库的真实选项（读取自 motionstation.visbodyfit.com/#/action） ========== */
+const OPT={
+  model:['MS','T5X','MS-CN'],
+  scene:['力量训练','普拉提','有氧减脂','拉伸康复','评估筛查'],
+  diff:['初级','中级','高级'],
+  type:['视频动作','非视频动作','片头','片尾'],
+  attr:['按次数计算','按时长计算','按角度计算','按长度计算','按评估数值','其他'],
+  part:['全身','腹部','腰部','背部','胸部','手臂','肩部','臀部','大腿','小腿'],
+  muscle:['胸大肌','三角肌前束','三角肌中束','三角肌后束','背阔肌','斜方肌','竖脊肌','臀大肌','腘绳肌','小腿三头肌','大腿内收肌','肱二头肌','肱三头肌','前臂肌群','腹肌'],
+  side:['单边','双边'],
+  coach:['Terry','拍啦','帕梅拉','在','11'],
+  status:['草稿','上架','下架']
+};
+/* 器械管理里的真实条目；kind 是 Demo 为了做模板提示加的假定分类（待确认） */
+const EQUIP=[[281,'手柄','acc'],[280,'平板凳','bench'],[279,'杠铃杆','acc'],[118,'哑铃凳','bench'],[117,'徒手','other'],[116,'握把','acc'],[114,'杠铃','other'],[72,'双头绳','acc'],[49,'哑铃','other'],[46,'瑜伽垫','other']];
+const eqKind=n=>(EQUIP.find(e=>e[1]===n)||[])[2]||'other';
+const ACC=EQUIP.filter(e=>e[2]==='acc').map(e=>e[1]),BENCH=EQUIP.filter(e=>e[2]==='bench').map(e=>e[1]);
+/* 线上「选择翻译语言」共 32 种，这里列出已确认的 20 种 */
+const LANG_ALL=[['zh-TW','繁体中文（台湾）'],['zh-HK','繁体中文（香港）'],['en-US','英语'],['ru-RU','俄语'],['es-ES','西班牙语'],['fr-FR','法语'],['de-DE','德语'],['it-IT','意大利语'],['pt-PT','葡萄牙语'],['nl-NL','荷兰语'],['tr-TR','土耳其语'],['id-ID','印尼语'],['ja-JP','日语'],['th-TH','泰语'],['el-GR','希腊语'],['ar','阿拉伯语'],['hu-HU','匈牙利语'],['sv-SE','瑞典语'],['fi-FI','芬兰语'],['cs-CZ','捷克语']];
+/* so 库：前 10 条是线上真实条目，240 起是 Demo 为演示补的条目 */
+const AI_LIST=[[-1,'原地踏步'],[0,'开合跳'],[1,'锤式弯举'],[2,'跪姿俯卧撑'],[3,'哑铃侧平举'],[4,'换手触地蹲起'],[5,'摆臂触地深蹲'],[6,'交替膝击'],[7,'提膝击掌'],[8,'星星开合跳'],[240,'杠铃划船'],[241,'坐姿高位下拉'],[242,'坐姿开肘划船'],[243,'站立绳索胸推'],[244,'跪姿杠铃高位下拉'],[245,'哑铃深蹲']];
+const aiName=id=>{const r=AI_LIST.find(x=>x[0]==id);return r?id+'_'+r[1]:String(id)};
+
+const SO_TYPES=[['rom','幅度'],['symmetry','左右对称'],['stability','稳定性'],['tempo','节奏']];
+const LANGS=[['zh','简体中文'],['en','English'],['ja','日本語'],['ko','한국어'],['es','Español'],['de','Deutsch'],['fr','Français'],['ar','العربية']];
+const FALLBACK='请查看动作示范并调整姿势';
+const nid=()=>'n'+Math.random().toString(36).slice(2,8);
+const line=(text,voice)=>({id:nid(),text,voice:voice||null});
+const pack=types=>types.map(t=>({key:t.key,name:t.name,fromSo:!!t.fromSo,lines:t.lines.map(l=>({id:l.id||nid(),text:l.text,voice:l.voice||null}))}));
+const defaultTypes=()=>SO_TYPES.map(([key,name])=>({key,name,fromSo:true,lines:[line('')]}));
+
+/* ========== 种子数据 ========== */
+const AC=o=>Object.assign({models:['MS'],type:'非视频动作',scene:'力量训练',diff:'中级',equip:[],coach:'',parts:[],muscles:[],attr:'按次数计算',motor:true,side:'双边',w:null,ai:null,status:'上架',op:'superadmin',intro:'',points:'',breath:'',mistakes:'',install:'',note:'',cover:true,pm:false,im:false,langs:[]},o);
+const CD=(title,sub)=>({id:nid(),title,sub,img:false});
+const T=o=>Object.assign({on:true,f:{scene:[],attr:[],part:[],acc:[]},members:[],tags:[],video:null,cards:[],langs:[],by:'superadmin',at:'2026-11-05 10:20',pub:null,pubAt:'',del:false,seedPub:true},o);
+const seed=()=>({log:[{t:'2026-11-05 10:20',who:'superadmin',obj:'示例模板',act:'发布',desc:'初始化 7 个示例模板并发布'}],
+ so:62,
+ templates:[
+  T({id:'T-bar',name:'杠铃杆 · 便于取放',tags:['杠铃杆'],f:{scene:[],attr:[],part:[],acc:['杠铃杆']},members:[1,7],cards:[CD('更换杠铃杆','请把配件更换为杠铃杆。'),CD('调整卡扣','请把卡扣调到便于取放的位置。')]}),
+  T({id:'T-bh',name:'平板凳 · 手柄 · 最高一档',tags:['平板凳','手柄','最高一档'],f:{scene:[],attr:[],part:[],acc:['平板凳']},members:[2],video:{name:'平板凳+手柄安装.mp4',dur:'12 秒',size:'3.2 MB',poster:true},langs:['en-US','ja-JP'],cards:[CD('放置平板凳','请在器械前放置平板凳。'),CD('更换手柄','请把配件更换为手柄。'),CD('调整卡扣','请把卡扣调到最高一档。')]}),
+  T({id:'T-bm',name:'平板凳 · 手柄 · 中间一档',tags:['平板凳','手柄','中间一档'],f:{scene:['力量训练'],attr:['按次数计算'],part:['背部'],acc:['手柄','平板凳']},members:[3],cards:[CD('放置平板凳','请在器械前放置平板凳。'),CD('更换手柄','请把配件更换为手柄。'),CD('调整卡扣','请把卡扣调到中间一档。')]}),
+  T({id:'T-chest',name:'手柄 · 与肩同高',tags:['手柄','与肩同高'],f:{scene:['力量训练'],attr:['按次数计算'],part:['胸部'],acc:['手柄']},members:[4],cards:[CD('更换手柄','请把配件更换为手柄。'),CD('调整卡扣','请把卡扣调到与肩同高的位置。')]}),
+  T({id:'T-rope',name:'双头绳 · 与肩同高',tags:['双头绳','与肩同高'],f:{scene:[],attr:[],part:['手臂','肩部'],acc:['双头绳']},members:[5,6],cards:[CD('更换双头绳','请把配件更换为双头绳。'),CD('调整卡扣','请把卡扣调到与肩同高的位置。')]}),
+  T({id:'T-clip',name:'仅调卡扣 · 最低一档',tags:[],f:{scene:['力量训练'],attr:['按次数计算'],part:['肩部'],acc:['手柄']},members:[15],cards:[CD('调整卡扣','请把卡扣调到最低一档，无需更换配件。')]}),
+  T({id:'T-pbox',name:'普拉提 · 放置箱体',tags:['箱体'],f:{scene:['普拉提'],attr:[],part:[],acc:['瑜伽垫']},members:[8],video:{name:'普拉提放置箱体.mp4',dur:'9 秒',size:'2.1 MB',poster:true},cards:[CD('放置箱体','请把箱体放到普拉提床上。'),CD('确认箱体固定','请确认箱体卡稳后再开始。')]})
+ ],
+ actions:[
+  AC({id:1,name:'站立位杠铃划船',equip:['杠铃杆'],parts:['背部'],muscles:['背阔肌','斜方肌','肱二头肌'],w:12,ai:240,langs:['en-US','ja-JP'],intro:'站立位杠铃划船属于力量训练基础动作，保持核心收紧与躯干稳定。',points:'双脚与肩同宽站立，膝盖微屈，核心收紧，按轨迹拉回再控制还原。',breath:'发力时呼气，还原时吸气。',mistakes:'动作幅度过大或过小；身体代偿；借力甩动。',install:'将杠铃杆调节至便于安全取放的高度即可。'}),
+  AC({id:2,name:'坐姿双手绳索高位下拉',equip:['平板凳','手柄'],parts:['背部'],muscles:['背阔肌','肱二头肌'],w:10,ai:241,intro:'坐姿双手绳索高位下拉，主要刺激背阔肌。',points:'坐稳，手柄从头顶上方下拉至上胸，肘部打开。',breath:'下拉呼气，还原吸气。',mistakes:'含胸、借身体后仰。',install:'放置平板凳，手柄调至高位。'}),
+  AC({id:3,name:'坐姿双手绳索开肘划船',equip:['平板凳','手柄'],parts:['背部'],muscles:['斜方肌','三角肌后束'],w:14,ai:242,intro:'开肘划船，强调肩胛后收。',points:'坐稳，开肘将手柄拉向胸侧。',breath:'拉回呼气，还原吸气。',mistakes:'耸肩、肘部过度后摆。',install:'放置平板凳，手柄调至中位。'}),
+  AC({id:4,name:'站立位双手绳索胸推',diff:'初级',equip:['手柄'],parts:['胸部'],muscles:['胸大肌','肱三头肌'],w:10,ai:243,intro:'站立位双手绳索胸推。',points:'核心收紧，双手向前推至接近伸直。',breath:'推出呼气，还原吸气。',mistakes:'耸肩、腰部代偿。',install:'手柄调至与肩同齐。'}),
+  AC({id:5,name:'站姿高位绳索弯举',diff:'初级',equip:['双头绳'],parts:['手臂'],muscles:['肱二头肌'],w:8,intro:'高位绳索弯举。',points:'上臂保持稳定，只屈肘。',breath:'屈肘呼气。',mistakes:'甩动上臂。',install:'双头绳，卡扣与肩同齐。'}),
+  AC({id:6,name:'站姿双头绳面拉',diff:'初级',equip:['双头绳'],parts:['肩部'],muscles:['三角肌后束','斜方肌'],w:6,intro:'双头绳面拉，强化肩后侧。',points:'拉向面部，肘部外展。',breath:'拉回呼气。',mistakes:'耸肩。',install:'双头绳与肩同齐。'}),
+  AC({id:7,name:'跪姿位杠铃高位下拉',equip:['杠铃杆'],parts:['背部'],muscles:['背阔肌'],w:12,ai:244,intro:'跪姿杠铃高位下拉。',points:'跪稳，将杠铃拉向锁骨。',breath:'下拉呼气。',mistakes:'后仰借力。',install:'杠铃杆调至便于取放的高度。'}),
+  AC({id:8,name:'弹簧阻力卷腹',type:'视频动作',scene:'普拉提',diff:'初级',models:['MS','MS-CN'],equip:['瑜伽垫'],parts:['腹部'],muscles:['腹肌'],motor:false,intro:'普拉提卷腹。',points:'骨盆稳定，用腹部带动上身卷起。',breath:'卷起呼气。',mistakes:'用颈部发力。',install:'无需更换龙门架配件。'}),
+  AC({id:9,name:'平板支撑',type:'视频动作',scene:'普拉提',attr:'按时长计算',equip:['徒手'],parts:['腹部','全身'],muscles:['腹肌'],motor:false,intro:'核心稳定训练。',points:'身体成一条直线。',breath:'平稳呼吸。',mistakes:'塌腰。',install:''}),
+  AC({id:10,name:'哑铃深蹲',diff:'高级',equip:['哑铃'],parts:['大腿'],muscles:['臀大肌','腘绳肌'],w:16,ai:245,intro:'哑铃深蹲。幅度过浅与过深需分开提示。',points:'髋后坐，膝盖与脚尖同向。',breath:'下蹲吸气，站起呼气。',mistakes:'膝盖内扣、下蹲过浅或过深。',install:''}),
+  AC({id:11,name:'上斜双手绳索低位划船',status:'草稿',equip:['哑铃凳','手柄'],parts:['背部'],muscles:['背阔肌'],w:12,intro:'哑铃凳上斜划船。',points:'胸贴凳面，手柄从低位拉向髋侧。',breath:'拉回呼气。',mistakes:'塌腰。',install:'放置哑铃凳，手柄低位。'}),
+  AC({id:12,name:'坐姿窄握下拉',status:'草稿',w:6,equip:['握把'],parts:['背部'],muscles:['背阔肌'],intro:'握把窄握下拉。',points:'窄握下拉至上胸。',breath:'下拉呼气。',mistakes:'含胸。',install:'使用握把。',cover:false}),
+  AC({id:13,name:'肩部拉伸',type:'视频动作',scene:'拉伸康复',diff:'初级',attr:'按时长计算',equip:['徒手'],parts:['肩部'],muscles:['三角肌后束'],motor:false,intro:'肩部拉伸。',points:'保持呼吸，缓慢拉伸。',breath:'平稳呼吸。',mistakes:'耸肩。',install:''}),
+  AC({id:14,name:'Motion 训练片头',type:'片头',attr:'其他',equip:['徒手'],parts:['全身'],muscles:['腹肌'],motor:false,models:['MS','T5X','MS-CN'],intro:'品牌片头。'}),
+  AC({id:15,name:'站姿绳索侧平举',diff:'初级',equip:['手柄'],parts:['肩部'],muscles:['三角肌中束'],w:4,intro:'侧平举。',points:'手臂抬至与肩同高。',breath:'抬起呼气。',mistakes:'耸肩。',install:'手柄低位。'}),
+  AC({id:16,name:'跪姿绳索卷腹',status:'草稿',equip:['双头绳'],parts:['腹部'],muscles:['腹肌'],w:10,intro:'双头绳跪姿卷腹。',points:'用腹部发力卷曲。',breath:'卷起呼气。',mistakes:'用手臂拉。',install:'双头绳高位。'})
+ ],
+ copy:{
+  '240|zh':pack([
+    {key:'rom',name:'幅度',fromSo:true,lines:[line('再拉近胸口一点，双肘大方打开',{name:'240-幅度-zh.wav',dur:'2.4s'})]},
+    {key:'symmetry',name:'左右对称',fromSo:true,lines:[line('左右手齐头并进，同步拉回',{name:'240-对称-zh.wav',dur:'2.1s'})]},
+    {key:'stability',name:'稳定性',fromSo:true,lines:[line('收紧核心站稳，别晃动',{name:'240-稳定-zh.wav',dur:'1.8s'})]},
+    {key:'tempo',name:'节奏',fromSo:true,lines:[line('保持连贯节奏，不要停顿过久',{name:'240-节奏-zh.wav',dur:'2.0s'})]}
+  ]),
+  '240|en':pack([
+    {key:'rom',name:'ROM',fromSo:true,lines:[line('Pull closer to your chest and open your elbows.',{name:'240-rom-en.wav',dur:'2.6s'})]},
+    {key:'symmetry',name:'Symmetry',fromSo:true,lines:[line('Pull both arms evenly.')]},
+    {key:'stability',name:'Stability',fromSo:true,lines:[line('Brace your core and stand still.')]},
+    {key:'tempo',name:'Tempo',fromSo:true,lines:[line('Keep a crisp, steady rhythm.')]}
+  ]),
+  '241|zh':pack([
+    {key:'rom',name:'幅度',fromSo:true,lines:[line('再下拉一点，让手柄贴近上胸',{name:'241-幅度-zh.wav',dur:'2.2s'})]},
+    {key:'symmetry',name:'左右对称',fromSo:true,lines:[line('左右手一起下拉，同步发力')]},
+    {key:'stability',name:'稳定性',fromSo:true,lines:[line('坐稳，收紧核心别晃动')]},
+    {key:'tempo',name:'节奏',fromSo:true,lines:[line('保持连贯节奏，不要停顿过久')]}
+  ]),
+  '243|zh':pack([
+    {key:'rom',name:'幅度',fromSo:true,lines:[line('再向前推充分一点，让双臂接近伸直')]},
+    {key:'symmetry',name:'左右对称',fromSo:true,lines:[line('左右手一起发力，同步推出')]},
+    {key:'stability',name:'稳定性',fromSo:true,lines:[line('稳住上身，核心收紧')]},
+    {key:'tempo',name:'节奏',fromSo:true,lines:[line('保持连贯节奏，不要停顿过久')]}
+  ]),
+  '245|zh':pack([
+    {key:'rom',name:'幅度',fromSo:true,lines:[line('臀部再向下坐一点',{name:'245-幅度-过浅-zh.wav',dur:'1.6s'}),line('臀部稍微抬高一点',{name:'245-幅度-过深-zh.wav',dur:'1.5s'})]},
+    {key:'symmetry',name:'左右对称',fromSo:true,lines:[line('左右膝盖方向保持一致，不要内扣')]},
+    {key:'stability',name:'稳定性',fromSo:true,lines:[line('脚掌踩实，上身不要前倾')]},
+    {key:'tempo',name:'节奏',fromSo:true,lines:[line('下蹲和站起都保持匀速')]},
+    {key:'knee',name:'膝关节',fromSo:false,lines:[line('膝盖跟着脚尖方向走，不要内扣',{name:'245-膝关节-zh.wav',dur:'2.0s'})]}
+  ])
+ }
+});
+let db;try{db=JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){}
+if(!db||!db.templates||!db.actions||!db.log)db=seed();
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(db))}catch(e){}};
+
+/* ========== 候选引擎：匹配条件只用来筛候选动作、提醒「待确认」，不决定设备端展示 ========== */
+const hasCond=t=>!!(t.f.scene.length||t.f.attr.length||t.f.part.length||t.f.acc.length);
+const eligible=a=>a.type==='视频动作'||a.type==='非视频动作';
+function condMatch(t,a){
+  if(!hasCond(t)||!eligible(a))return false;
+  if(t.f.scene.length&&!t.f.scene.includes(a.scene))return false;
+  if(t.f.attr.length&&!t.f.attr.includes(a.attr))return false;
+  if(t.f.part.length&&!a.parts.some(p=>t.f.part.includes(p)))return false;
+  if(t.f.acc.length&&!a.equip.some(e=>t.f.acc.includes(e)))return false;
+  return true;
+}
+const ownerOf=a=>db.templates.find(t=>!t.del&&t.members.includes(a.id));
+const pendingOf=t=>db.actions.filter(a=>eligible(a)&&!ownerOf(a)&&condMatch(t,a));
+const condText=f=>{
+  const p=[];
+  if(f.scene.length)p.push('适用场景 ∈ {'+f.scene.join('、')+'}');
+  if(f.attr.length)p.push('动作属性 ∈ {'+f.attr.join('、')+'}');
+  if(f.part.length)p.push('训练部位 与 {'+f.part.join('、')+'} 有交集');
+  if(f.acc.length)p.push('器械含 {'+f.acc.join('、')+'} 之一');
+  return p.length?p.join(' 且 '):'未设置条件：筛不出候选，只能手动选择动作';
+};
+
+/* ========== 通用 ========== */
+function toast(t){const e=$('#toast');e.textContent=t;e.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>e.style.display='none',2400)}
+function dlg(title,body,foot,opt){
+  opt=opt||{};
+  const o=document.createElement('div');o.className='ov'+(opt.l2?' l2':'');
+  o.innerHTML=`<div class="dl" style="width:${opt.w||560}px"><div class="dlh"><b>${title}</b><span class="x">×</span></div><div class="dlb">${body}</div>${foot?`<div class="dlf">${foot}</div>`:''}</div>`;
+  $('#layers').appendChild(o);o.close=()=>o.remove();o.querySelector('.x').onclick=o.close;return o;
+}
+function confirmDlg(title,msg,okText,fn){
+  const o=dlg(title,`<p style="margin:0">${msg}</p>`,`<button class="btn g" data-c>取消</button><button class="btn p" data-ok>${okText||'确认'}</button>`,{w:420,l2:true});
+  o.querySelector('[data-c]').onclick=o.close;o.querySelector('[data-ok]').onclick=()=>{o.close();fn()};
+}
+const equiv=s=>[...s].reduce((n,c)=>n+(c.charCodeAt(0)<128?.5:1),0);
+const check=s=>!s||equiv(s)<=32;
+function pager(id,total){
+  const size=ui.ps[id],pages=Math.max(1,Math.ceil(total/size)),p=Math.min(ui.pg[id],pages);ui.pg[id]=p;
+  return `<div class="pg"><span>共 ${total} 条</span><button data-pg="${id}:${p-1}" ${p<=1?'disabled':''}>‹</button>${[...Array(pages)].map((_,i)=>`<button class="${i+1===p?'on':''}" data-pg="${id}:${i+1}">${i+1}</button>`).join('')}<button data-pg="${id}:${p+1}" ${p>=pages?'disabled':''}>›</button>
+  <select data-ps="${id}">${[5,10,12,20].map(n=>`<option value="${n}" ${n===size?'selected':''}>${n}条/页</option>`).join('')}</select></div>`;
+}
+function bindPager(redraw){
+  $$('[data-pg]').forEach(b=>b.onclick=()=>{const [id,p]=b.dataset.pg.split(':');ui.pg[id]=+p;redraw()});
+  $$('[data-ps]').forEach(s=>s.onchange=()=>{ui.ps[s.dataset.ps]=+s.value;ui.pg[s.dataset.ps]=1;redraw()});
+}
+const slice=(id,arr)=>{const s=ui.ps[id],p=Math.min(ui.pg[id],Math.max(1,Math.ceil(arr.length/s)));return arr.slice((p-1)*s,p*s)};
+
+const ui={page:'actions',model:'全部型号',f:{},fopen:true,dense:false,cols:{},expand:{},pg:{actions:1,ai:1},ps:{actions:12,ai:10},edit:null,preview:null,tf:'',texp:{},aiQ:{id:'',name:''},aiF:{id:'',name:''},aeq:{}};
+const MENU=[['actions','动作库管理','◎','old'],['templates','安装方案模板','▤','new'],['coach','教练管理','◉','old'],['equip','器械管理','⋮','old'],['ai','AI动作列表','◈','mod'],['music','音乐管理','♪','old'],['sys','系统管理','⚙','old'],['agent','Agent 素材运营','☗','old']];
+const CRUMB={actions:'动作库管理',templates:'安装方案模板',ai:'AI动作列表',changes:'本期变更清单'};
+function paintSide(){
+  $('#side').innerHTML=`<div class="brand"><span class="logo"></span><div>Motion 管理后台<small>以线上动作库为底</small></div></div>`+
+   MENU.map(([k,l,ic,mk])=>`<a data-nav="${k}" class="${ui.page===k?'on':''} ${'actions templates ai'.includes(k)?'':'dim'}"><span class="ic">${ic}</span>${l}${MK(mk)}</a>`).join('')+
+   `<div class="gp">评审</div><a data-nav="changes" class="${ui.page==='changes'?'on':''}"><span class="ic">☰</span>本期变更清单</a>`+
+   `<div class="foot">so 库版本：<b>${db.so}</b><br>灰色菜单为线上已有、本期不改，Demo 不展开。</div>`;
+  $$('[data-nav]').forEach(a=>a.onclick=()=>{const k=a.dataset.nav;if(!CRUMB[k])return toast('「'+a.textContent.replace(/现有|修改|新增/g,'').trim()+'」线上已有，本期不改，Demo 不展开');nav(k)});
+}
+function nav(p,opt){
+  ui.page=p;if(!opt||!opt.keep){ui.edit=null;ui.preview=null}
+  paintSide();$('#crumb').innerHTML='<b>'+CRUMB[p]+'</b>';
+  ({actions:pageActions,templates:pageTemplates,ai:pageAI,changes:pageChanges})[p]();
+}
+const TKEY='motion-theme-admin';
+function setTheme(t,from){document.body.classList.toggle('light',t==='light');$$('#thm button').forEach(b=>b.classList.toggle('on',b.dataset.t===t));if(from!=='sync'){try{localStorage.setItem(TKEY,t)}catch(e){}if(window.embed&&parent!==window)parent.postMessage({type:'admin-theme',theme:t},location.protocol==='file:'?'*':location.origin)}}
+$$('#thm button').forEach(b=>b.onclick=()=>setTheme(b.dataset.t));
+window.addEventListener('storage',e=>{if(e.key===TKEY&&e.newValue)setTheme(e.newValue,'sync')});
+setTheme((()=>{try{return localStorage.getItem(TKEY)}catch(e){return null}})()||'dark','sync');
+$('#marks').onchange=e=>{document.body.classList.toggle('nomk',!e.target.checked)};
+$('#reset').onclick=()=>{localStorage.removeItem(KEY);db=seed();ui.edit=null;ui.preview=null;ui.expand={};ui.f={};nav(ui.page);toast('已重置演示数据')};
+
+const LEGEND=`<div class="legend"><b>标注说明</b>${MK('new')}本期新增的功能或字段　${MK('mod')}线上已有，本期修改　${MK('old')}线上已有，不改。其余未标注内容均与线上一致。</div>`;
+</script>
+<script>
+/* ========== 页面一：动作库管理（线上已有，本期局部修改） ========== */
+const COLS=[['no','序号'],['models','适用型号'],['name','动作名称'],['type','动作类型'],['scene','适用场景'],['diff','难度'],['equip','器械'],['coach','教练'],['parts','训练部位'],['lang','语言'],['status','状态'],['ai','AI支持'],['op','操作人']];
+const DIFFC={初级:'g',中级:'y',高级:'r'};
+function actFiltered(){
+  const f=ui.f;
+  return db.actions.filter(a=>{
+    if(ui.model!=='全部型号'&&!a.models.includes(ui.model))return false;
+    if(f.scene&&a.scene!==f.scene)return false;if(f.diff&&a.diff!==f.diff)return false;
+    if(f.equip&&!a.equip.includes(f.equip))return false;if(f.part&&!a.parts.includes(f.part))return false;
+    if(f.type&&a.type!==f.type)return false;if(f.status&&a.status!==f.status)return false;
+    if(f.ai&&((f.ai==='支持')!==(a.ai!=null)))return false;
+    if(f.coach&&(a.coach||'无')!==f.coach)return false;
+    if(f.name&&!a.name.includes(f.name))return false;
+    return true;
+  });
+}
+function pageActions(){
+  const f=ui.f;const all=actFiltered();
+  const sel=(k,label,opts,ph)=>`<div class="fi2"><span>${label}</span><select data-ff="${k}"><option value="">${ph||'请选择'+label}</option>${opts.map(o=>`<option ${f[k]===o?'selected':''}>${o}</option>`).join('')}</select></div>`;
+  const rows=slice('actions',all);
+  const vis=COLS.filter(c=>ui.cols[c[0]]!==false);
+  const cell=(a,k,child)=>{
+    switch(k){
+      case 'no':return child||a.langs.length?'':'';
+      case 'models':return a.models.join(' ');
+      case 'name':return `<span class="l">${esc(child?child.name:a.name)}</span>`;
+      case 'type':return a.type;case 'scene':return a.scene;
+      case 'diff':return `<i class="tg ${DIFFC[a.diff]}">${a.diff}</i>`;
+      case 'equip':return a.equip.length?esc(a.equip.join(' ')):'无';
+      case 'coach':return a.coach||'无';case 'parts':return esc(a.parts.join('、'));
+      case 'lang':return child?child.lang:'简体中文';
+      case 'status':return `<span style="color:${a.status==='上架'?'var(--green)':a.status==='下架'?'var(--red)':'var(--mute)'}">${a.status}</span>`;
+      case 'ai':return a.ai!=null?'支持':'不支持';case 'op':return a.op;
+    }
+  };
+  const trs=rows.map(a=>{
+    const open=ui.expand[a.id];const n=a.langs.length;
+    const noCell=`<td>${n?`<a class="lk" data-ex="${a.id}" style="margin:0 4px 0 0">${open?'⌄':'›'}</a>`:''}${a.id}${n?` (${n})`:''}</td>`;
+    const ops=a.status==='上架'?`<a class="o" data-op="down" data-id="${a.id}">下架</a><a data-op="view" data-id="${a.id}">查看</a><a data-op="tr" data-id="${a.id}">翻译</a>`
+      :`<a class="g" data-op="up" data-id="${a.id}">上架</a><a data-op="view" data-id="${a.id}">查看</a><a data-op="tr" data-id="${a.id}">翻译</a><a data-op="edit" data-id="${a.id}">编辑</a><a class="r" data-op="del" data-id="${a.id}">删除</a>`;
+    let h=`<tr>${vis.map(c=>c[0]==='no'?noCell:`<td ${c[0]==='name'?'class="l"':''}>${cell(a,c[0])}</td>`).join('')}<td class="act">${ops}</td></tr>`;
+    if(open)h+=a.langs.map((lc,i)=>{const L=LANG_ALL.find(x=>x[0]===lc)||[lc,lc];const nm=lc==='en-US'&&a.id===1?'Standing Barbell Row':a.name+'（'+L[1]+'）';
+      return `<tr class="child">${vis.map(c=>c[0]==='no'?`<td>${a.id}-${i+1}</td>`:`<td ${c[0]==='name'?'class="l"':''}>${cell(a,c[0],{name:nm,lang:L[1]})}</td>`).join('')}<td class="act"><a class="g" data-op="child">上架</a><a data-op="child">查看</a><a data-op="child">编辑</a><a class="r" data-op="child">删除</a></td></tr>`}).join('');
+    return h;
+  }).join('');
+  $('#content').innerHTML=`${LEGEND}
+  <div class="card" style="margin-bottom:12px"><div class="bd" style="padding:0 16px 0"><div class="tabs">${['全部型号',...OPT.model].map(m=>`<a data-m="${m}" class="${ui.model===m?'on':''}">${m}</a>`).join('')}</div></div></div>
+  <div class="card"><div class="bd"><div class="fbar">
+   ${sel('scene','适用场景',OPT.scene)}${sel('diff','难度',OPT.diff)}${sel('equip','器械',EQUIP.map(e=>e[1]))}${sel('part','训练部位',OPT.part)}
+   ${ui.fopen?`${sel('type','动作类型',OPT.type)}${sel('status','状态',OPT.status)}${sel('ai','AI支持',['支持','不支持'])}${sel('coach','教练',['无',...OPT.coach])}
+   <div class="fi2"><span>动作名称</span><input type="text" data-ff="name" placeholder="请输入动作名称" value="${esc(f.name||'')}"></div>
+   `:''}
+   <div class="acts"><button class="btn" id="fr">重置</button><button class="btn p" id="fq">查询</button><a class="lk" id="ft">${ui.fopen?'收起 ⌃':'展开 ⌄'}</a></div>
+  </div></div></div>
+  <div class="card"><div class="bd">
+   <div class="tools"><button class="btn" id="anew">添加动作</button>
+    <span class="sp"></span>
+    <button class="ib" id="ib1" title="刷新">⟳</button><button class="ib" id="ib2" title="密度">☰</button><button class="ib" id="ib3" title="列设置">⚙</button></div>
+   <div class="tw"><table class="${ui.dense?'dense':''}"><thead><tr>${vis.map(c=>`<th>${c[1]}${c[2]?MK(c[2]):''}</th>`).join('')}<th>操作</th></tr></thead><tbody>${trs||`<tr><td colspan="${vis.length+1}" class="muted">暂无数据</td></tr>`}</tbody></table></div>
+   ${pager('actions',all.length)}
+   <div class="small muted" style="text-align:center">Demo 共 ${db.actions.length} 条演示动作；线上现有 266 条。序号列带「(n)」的是已翻译，点 › 展开语言子行。</div>
+  </div></div>`;
+  bindPager(pageActions);
+  $$('[data-m]').forEach(e=>e.onclick=()=>{ui.model=e.dataset.m;ui.pg.actions=1;pageActions()});
+  $$('[data-ff]').forEach(e=>e.onchange=()=>{f[e.dataset.ff]=e.value;});
+  $('#fq').onclick=()=>{ui.pg.actions=1;pageActions()};
+  $('#fr').onclick=()=>{ui.f={};ui.pg.actions=1;pageActions()};
+  $('#ft').onclick=()=>{ui.fopen=!ui.fopen;pageActions()};
+  $$('[data-ex]').forEach(e=>e.onclick=()=>{ui.expand[e.dataset.ex]=!ui.expand[e.dataset.ex];pageActions()});
+  $('#anew').onclick=()=>openAction(0,'new');
+  $('#ib1').onclick=()=>{ui.f={};pageActions();toast('已刷新')};$('#ib2').onclick=()=>{ui.dense=!ui.dense;pageActions()};
+  $('#ib3').onclick=()=>{
+    const o=dlg('列设置',`<div class="lang-grid" style="grid-template-columns:repeat(3,1fr)">${COLS.map(c=>`<label class="${ui.cols[c[0]]===false?'off':''}"><input type="checkbox" data-col="${c[0]}" ${ui.cols[c[0]]===false?'':'checked'}>${c[1]}</label>`).join('')}</div>`,`<button class="btn p" data-ok>确定</button>`,{w:520});
+    o.querySelector('[data-ok]').onclick=()=>{o.querySelectorAll('[data-col]').forEach(x=>{ui.cols[x.dataset.col]=x.checked});o.close();pageActions()};
+  };
+  $$('[data-op]').forEach(e=>e.onclick=()=>{
+    const op=e.dataset.op,a=db.actions.find(x=>x.id===+e.dataset.id);
+    if(op==='child')return toast('译文行的操作与主行一致，Demo 不展开');
+    if(op==='view')return openAction(a.id,'view');
+    if(op==='edit')return openAction(a.id,'edit');
+    if(op==='tr')return translateDlg(a);
+    if(op==='up')return confirmDlg('上架','确定上架「'+esc(a.name)+'」？上架后设备端与 APP 可见。','上架',()=>{a.status='上架';save();pageActions();toast('已上架')});
+    if(op==='down')return confirmDlg('下架','确定下架「'+esc(a.name)+'」？','下架',()=>{a.status='下架';save();pageActions();toast('已下架')});
+    if(op==='del')return confirmDlg('删除','确定删除「'+esc(a.name)+'」？不可恢复。','删除',()=>{db.actions=db.actions.filter(x=>x.id!==a.id);db.templates.forEach(t=>{t.members=t.members.filter(i=>i!==a.id)});save();pageActions();toast('已删除')});
+  });
+}
+function translateDlg(a){
+  const sel=new Set(LANG_ALL.map(x=>x[0]));
+  const body=()=>`<div style="display:flex;justify-content:space-between;margin-bottom:10px"><b>${esc(a.name)}</b><span class="muted small">源语言：简体中文 (zh-CN)</span></div>
+   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><button class="btn sm" data-all>${sel.size===LANG_ALL.length?'取消全选':'全选'}</button><span class="small muted">已选 ${sel.size} / 32（Demo 列出 20 种）</span></div>
+   <div class="lang-grid">${LANG_ALL.map(([c,n])=>`<label class="${sel.has(c)?'':'off'}"><input type="checkbox" data-lc="${c}" ${sel.has(c)?'checked':''}><span>${n}<small>${c}</small></span></label>`).join('')}</div>
+   <p class="small muted" style="margin:12px 0 0">所选已有译文将重新翻译，未选语言的译文予以保留。</p>`;
+  const o=dlg('选择翻译语言',body(),`<button class="btn g" data-c>取消</button><button class="btn p" data-ok>开始翻译</button>`,{w:760,l2:true});
+  const redraw=()=>{o.querySelector('.dlb').innerHTML=body();bind()};
+  const bind=()=>{
+    o.querySelector('[data-all]').onclick=()=>{if(sel.size===LANG_ALL.length)sel.clear();else LANG_ALL.forEach(x=>sel.add(x[0]));redraw()};
+    o.querySelectorAll('[data-lc]').forEach(c=>c.onchange=()=>{c.checked?sel.add(c.dataset.lc):sel.delete(c.dataset.lc);redraw()});
+  };bind();
+  o.querySelector('[data-c]').onclick=o.close;
+  o.querySelector('[data-ok]').onclick=()=>{if(!sel.size)return toast('请至少选择一种语言');a.langs=[...new Set([...a.langs,...sel])];ui.expand[a.id]=true;save();o.close();pageActions();toast('已生成 '+sel.size+' 种语言译文（演示，不调用真实翻译）')};
+}
+
+/* ---------- 添加 / 编辑 / 查看 动作（线上完整表单 + 标注） ---------- */
+function openAction(id,mode){
+  const src=id?db.actions.find(x=>x.id===id):null;
+  const d=src?JSON.parse(JSON.stringify(src)):AC({id:0,models:[],scene:'',diff:'',type:'',attr:'',parts:[],muscles:[],equip:[],status:'草稿',cover:false});
+  const ro=mode==='view',dis=ro?' disabled':'';
+  const title=mode==='new'?'添加动作':mode==='view'?'查看动作':'编辑动作';
+  const sel=(f,opts,ph)=>`<select data-f="${f}"${dis}><option value="">${ph||'请选择'}</option>${opts.map(o=>`<option ${d[f]===o?'selected':''}>${o}</option>`).join('')}</select>`;
+  const pills=(f,opts)=>`<div class="pills ${ro?'ro':''}" data-pf="${f}">${opts.map(o=>`<span class="pill ${d[f].includes(o)?'on':''}" data-v="${o}">${o}</span>`).join('')}</div>`;
+  const fi=(label,req,inner,extra,cls)=>`<div class="fi ${cls||''}"><label>${req?'<b class="rq">*</b>':''}${label}</label><div class="fc">${inner}${extra||''}</div></div>`;
+  const ta=(f,ph,rows)=>`<div class="ta"><textarea data-f="${f}" rows="${rows||3}" maxlength="1000" placeholder="${ph}"${dis}>${esc(d[f])}</textarea><span class="cn">${(d[f]||'').length} / 1000</span></div>`;
+  const up=(f,txt)=>`<div class="up ${d[f]?'has':''}" data-up="${f}"><span style="font-size:20px">${d[f]?'✓':'+'}</span><span>${d[f]?'已上传（点击移除）':'点击上传'}</span><span style="font-size:11px">${txt}</span></div>`;
+  const body=`<div class="fgrid2">
+   ${fi('动作名称',1,`<div class="ta"><input type="text" data-f="name" maxlength="1000" placeholder="请输入动作名称" value="${esc(d.name)}"${dis}><span class="cn" style="bottom:7px">${d.name.length} / 1000</span></div>`,'','w')}
+   ${fi('适用型号',1,pills('models',OPT.model))}
+   ${fi('难度',1,sel('diff',OPT.diff))}
+   ${fi('适用场景',1,sel('scene',OPT.scene))}
+   <div class="fi"><label>使用电机</label><div class="fc"><span class="small muted">不使用</span> <span class="sw2 ${d.motor?'on':''}" data-motor></span> <span class="small" style="color:var(--blue)">使用</span></div></div>
+   ${fi('单边/双边',0,sel('side',OPT.side,'请选择'))}
+   ${fi('动作类型',1,sel('type',OPT.type))}
+   ${fi('推荐配重',1,`<div class="wt"><label><input type="number" step="0.1" min="0" data-wv value="${d.w==null?'':d.w}"${dis} placeholder="6.0">kg</label></div>`,'','w')}
+   ${fi('动作属性',1,sel('attr',OPT.attr))}
+   ${fi('器械',1,`<div class="pk"><input type="text" readonly data-eqv value="${esc(d.equip.join('、'))}" placeholder="请选择器械"><button class="btn p" data-pick="equip"${dis}>选择</button></div>`)}
+   ${fi('关联AI动作',0,`<div class="pk"><input type="text" readonly data-aiv value="${d.ai!=null?esc(aiName(d.ai)):''}" placeholder="请选择关联AI动作"><button class="btn p" data-pick="ai"${dis}>选择</button></div>`,d.ai!=null?`<div class="small muted" style="margin-top:4px">纠错文案与语音在「AI动作列表」里维护。</div>`:'')}
+   ${fi('选择教练',0,sel('coach',OPT.coach,'请选择教练'))}
+   ${fi('训练部位',1,pills('parts',OPT.part),'','w')}
+   ${fi('训练肌群',1,pills('muscles',OPT.muscle),'','w')}
+   ${fi('动作介绍',1,ta('intro','请输入动作介绍',4),'','w')}
+   ${fi('动作封面',1,up('cover','建议 1920*1080，10MB 内 JPG/PNG/JPEG'),'','w')}
+   ${fi('动作要点',0,ta('points','请输入动作要点',3))}
+   ${fi('呼吸建议',0,ta('breath','请输入呼吸建议',3))}
+   ${fi('要点图片/视频',0,up('pm','图片 10MB 内 / MP4 2GB 内'),'','w')}
+   ${fi('错误要点',0,ta('mistakes','请输入错误要点',3))}
+   ${fi('安装示意',0,ta('install','请输入安装示意',3),MK('old','现有 · 不改')+note('只给动作详情页用。训练准备页读取「安装方案模板」，两处不互相覆盖。','n'))}
+   ${fi('备注',0,ta('note','请输入备注',3))}
+   ${fi('安装示意图片/视频',0,up('im','图片 10MB 内 / MP4 2GB 内'),'','w')}
+  </div>`;
+  const foot=ro?`<button class="btn g" data-c>关闭</button>`:`<button class="btn g" data-c>取消</button><button class="btn p" data-ok>保存为草稿</button>`;
+  const o=dlg(title,body,foot,{w:980});
+  const refreshHit=()=>{};
+  const $o=s=>o.querySelector(s);
+  $o('[data-c]').onclick=o.close;
+  if(ro)return;
+  o.querySelectorAll('[data-f]').forEach(el=>el.oninput=el.onchange=()=>{d[el.dataset.f]=el.value;
+    const cn=el.parentElement.querySelector('.cn');if(cn)cn.textContent=el.value.length+' / 1000';
+  });
+  o.querySelectorAll('[data-wv]').forEach(el=>el.oninput=()=>{d.w=el.value});
+  o.querySelectorAll('.pills').forEach(p=>p.onclick=e=>{const pl=e.target.closest('.pill');if(!pl)return;const f=p.dataset.pf,v=pl.dataset.v,i=d[f].indexOf(v);i<0?d[f].push(v):d[f].splice(i,1);pl.classList.toggle('on')});
+  $o('[data-motor]').onclick=e=>{d.motor=!d.motor;e.target.classList.toggle('on',d.motor)};
+  o.querySelectorAll('[data-up]').forEach(u=>u.onclick=()=>{const f=u.dataset.up;d[f]=!d[f];u.className='up '+(d[f]?'has':'');u.children[0].textContent=d[f]?'✓':'+';u.children[1].textContent=d[f]?'已上传（点击移除）':'点击上传'});
+  o.querySelectorAll('[data-pick]').forEach(b=>b.onclick=()=>b.dataset.pick==='equip'?pickEquip(d,o,refreshHit):pickAI(d,o));
+  $o('[data-ok]').onclick=()=>{
+    if(!d.name.trim())return toast('请输入动作名称');
+    if(!d.models.length)return toast('请选择适用型号');
+    if(!d.diff||!d.scene||!d.type||!d.attr)return toast('请补全难度、适用场景、动作类型、动作属性');
+    if(!d.equip.length)return toast('请选择器械');
+    if(!d.parts.length)return toast('请选择训练部位');
+    if(!d.muscles.length)return toast('请选择训练肌群');
+    if(!d.intro.trim())return toast('请输入动作介绍');
+    if(d.w===''||d.w==null)return toast('请输入推荐配重');d.w=+d.w;
+    if(src)Object.assign(src,d);else{d.id=Math.max(0,...db.actions.map(x=>x.id))+1;d.status='草稿';db.actions.unshift(d)}
+    save();o.close();pageActions();toast('已保存为草稿');
+  };
+}
+function pickEquip(d,host,after){
+  const sel=new Set(d.equip);let q={id:'',name:''};
+  const body=()=>`<div class="tools"><span>器械ID</span><input type="text" data-q="id" value="${esc(q.id)}" style="width:120px"><span>器械名称</span><input type="text" data-q="name" value="${esc(q.name)}" style="width:120px"><button class="btn p sm" data-s>搜索</button><button class="btn sm" data-r>清空</button></div>
+   <table><thead><tr><th></th><th>序号</th><th>器械ID</th><th>器械名称</th></tr></thead><tbody>${EQUIP.filter(e=>(!q.id||String(e[0]).includes(q.id))&&(!q.name||e[1].includes(q.name))).map((e,i)=>`<tr><td><input type="checkbox" data-e="${e[1]}" ${sel.has(e[1])?'checked':''}></td><td>${i+1}</td><td>${e[0]}</td><td>${e[1]}</td></tr>`).join('')}</tbody></table><div class="small muted" style="margin-top:8px">共 ${EQUIP.length} 条（线上真实器械）。</div>`;
+  const o=dlg('器械列表',body(),`<button class="btn g" data-c>取消</button><button class="btn p" data-ok>确认</button>`,{w:560,l2:true});
+  const bind=()=>{
+    o.querySelectorAll('[data-e]').forEach(c=>c.onchange=()=>{c.checked?sel.add(c.dataset.e):sel.delete(c.dataset.e)});
+    o.querySelectorAll('[data-q]').forEach(i=>i.oninput=()=>{q[i.dataset.q]=i.value});
+    o.querySelector('[data-s]').onclick=()=>{o.querySelector('.dlb').innerHTML=body();bind()};
+    o.querySelector('[data-r]').onclick=()=>{q={id:'',name:''};o.querySelector('.dlb').innerHTML=body();bind()};
+  };bind();
+  o.querySelector('[data-c]').onclick=o.close;
+  o.querySelector('[data-ok]').onclick=()=>{d.equip=EQUIP.map(e=>e[1]).filter(n=>sel.has(n));host.querySelector('[data-eqv]').value=d.equip.join('、');o.close();after()};
+}
+function pickAI(d,host){
+  let q={id:'',name:''},pg=1,cur=d.ai;
+  const body=()=>{const rows=AI_LIST.filter(r=>(!q.id||String(r[0]).includes(q.id))&&(!q.name||r[1].includes(q.name)));const pages=Math.max(1,Math.ceil(rows.length/10));pg=Math.min(pg,pages);
+   return `<div class="tools"><span>ID</span><input type="text" data-q="id" value="${esc(q.id)}" style="width:100px"><span>动作名称</span><input type="text" data-q="name" value="${esc(q.name)}" style="width:140px"><button class="btn p sm" data-s>搜索</button><button class="btn sm" data-r>清空</button></div>
+   <table><thead><tr><th></th><th>序号</th><th>ID</th><th>动作名称</th></tr></thead><tbody>${rows.slice((pg-1)*10,pg*10).map((r,i)=>`<tr><td><input type="radio" name="ai" data-a="${r[0]}" ${cur===r[0]?'checked':''}></td><td>${(pg-1)*10+i+1}</td><td>${r[0]}</td><td>${r[0]}_${r[1]}</td></tr>`).join('')}</tbody></table>
+   <div class="pg"><span>共 264 条（Demo 列出 ${AI_LIST.length} 条）</span>${[...Array(pages)].map((_,i)=>`<button class="${i+1===pg?'on':''}" data-p="${i+1}">${i+1}</button>`).join('')}</div>`};
+  const o=dlg('AI动作列表',body(),`<button class="btn sm g" data-clear style="margin-right:auto">清除关联</button><button class="btn g" data-c>取消</button><button class="btn p" data-ok>确认</button>`,{w:620,l2:true});
+  const bind=()=>{
+    o.querySelectorAll('[data-a]').forEach(c=>c.onchange=()=>{cur=+c.dataset.a});
+    o.querySelectorAll('[data-q]').forEach(i=>i.oninput=()=>{q[i.dataset.q]=i.value});
+    o.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>{pg=+b.dataset.p;o.querySelector('.dlb').innerHTML=body();bind()});
+    o.querySelector('[data-s]').onclick=()=>{pg=1;o.querySelector('.dlb').innerHTML=body();bind()};
+    o.querySelector('[data-r]').onclick=()=>{q={id:'',name:''};pg=1;o.querySelector('.dlb').innerHTML=body();bind()};
+  };bind();
+  o.querySelector('[data-c]').onclick=o.close;
+  o.querySelector('[data-clear]').onclick=()=>{cur=null;o.querySelectorAll('[data-a]').forEach(c=>c.checked=false)};
+  o.querySelector('[data-ok]').onclick=()=>{d.ai=cur;host.querySelector('[data-aiv]').value=cur!=null?aiName(cur):'';o.close()};
+}
+</script>
+<script>
+/* ========== 页面二：安装方案模板（新增页面） ========== */
+const MAXC=5;
+const PRESETS=[['空白卡片','',''],['更换配件','更换配件','请把配件更换为……'],['放置凳子','放置凳子','请在器械前放置凳子。'],['放置箱体','放置箱体','请把箱体放到普拉提床上。'],['移除箱体','移除箱体','请把箱体从普拉提床上取下。'],['调整卡扣','调整卡扣','请把卡扣调到与肩同高的位置。']];
+const mkCard=(title,sub,img)=>({id:nid(),title:title||'',sub:sub||'',img:!!img});
+const actName=id=>(db.actions.find(a=>a.id===id)||{}).name||('#'+id);
+const vidArt=()=>`<svg viewBox="0 0 160 90" class="vsvg" aria-hidden="true"><rect x="18" y="8" width="10" height="74" rx="3" fill="#2a3b52"/><rect x="132" y="8" width="10" height="74" rx="3" fill="#2a3b52"/><path d="M32 47h96" stroke="#3b82c4" stroke-width="2" stroke-dasharray="4 3"/><g class="vclip"><rect x="13" y="44" width="20" height="7" rx="2" fill="#f5a524"/></g><circle class="vh" cx="132" cy="47" r="7" fill="#e8eef6" stroke="#8aa0b8" stroke-width="2"/></svg><span class="vplay">▶</span>`;
+const snapOf=t=>({name:t.name,on:!!t.on,members:[...t.members].sort((a,b)=>a-b),tags:[...t.tags],video:t.video?{name:t.video.name,dur:t.video.dur,poster:!!t.video.poster}:null,cards:t.cards.map(c=>({title:c.title,sub:c.sub,img:!!c.img})),langs:[...t.langs].sort()});
+const isDirty=t=>!t.pub||JSON.stringify(snapOf(t))!==JSON.stringify(t.pub);
+const tplState=t=>t.del?'待删除':!t.pub?'未发布':isDirty(t)?'有未发布修改':'已发布';
+const STC={'已发布':'g','有未发布修改':'y','未发布':'y','待删除':'r'};
+function changeSummary(a,b){
+  const o=[];
+  if(!a){o.push('首次发布：'+b.cards.length+' 张卡片'+(b.video?'、含引导视频':'')+'，'+b.members.length+' 个动作');return o}
+  if(a.name!==b.name)o.push('名称：'+a.name+' → '+b.name);
+  if(a.on!==b.on)o.push(b.on?'启用':'停用（设备端该模板下的动作直接进入动作详情）');
+  const av=a.video?a.video.name:'',bv=b.video?b.video.name:'';
+  if(av!==bv)o.push(!av?'新增引导视频':!bv?'删除引导视频':'替换引导视频');
+  if(JSON.stringify(a.cards)!==JSON.stringify(b.cards))o.push('卡片：'+(a.cards.length===b.cards.length?a.cards.length+' 张，内容有修改':a.cards.length+' → '+b.cards.length+' 张'));
+  if(JSON.stringify(a.tags)!==JSON.stringify(b.tags))o.push('标签有修改');
+  const add=b.members.filter(x=>!a.members.includes(x)),rm=a.members.filter(x=>!b.members.includes(x));
+  if(add.length)o.push('加入 '+add.length+' 个动作：'+add.map(actName).join('、'));
+  if(rm.length)o.push('移出 '+rm.length+' 个动作：'+rm.map(actName).join('、'));
+  if(JSON.stringify(a.langs)!==JSON.stringify(b.langs))o.push('翻译语言：'+a.langs.length+' → '+b.langs.length+' 种');
+  return o;
+}
+const nowStr=()=>{const d=new Date(),p=n=>String(n).padStart(2,'0');return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes())};
+const WHO='superadmin';
+const logOp=(obj,act,desc)=>{db.log.unshift({t:nowStr(),who:WHO,obj,act,desc});db.log=db.log.slice(0,200)};
+function syncPub(){
+  try{localStorage.setItem(PUBKEY,JSON.stringify({at:nowStr(),tpls:db.templates.filter(t=>t.pub).map(t=>Object.assign({id:t.id},t.pub)),acts:Object.fromEntries(db.actions.map(a=>[a.id,a.name]))}))}catch(e){}
+}
+const pickFile=(accept,cb)=>{const i=document.createElement('input');i.type='file';i.accept=accept;i.onchange=()=>{if(i.files&&i.files[0])cb(i.files[0])};i.click()};
+const IMG_OK=f=>/^image\/(png|jpe?g|webp)$/.test(f.type)&&f.size<=2*1024*1024;
+
+function devHTML(a,t){
+  const head=`<div class="dev"><div class="sb"><span>IP: 192.168.1.100</span><span>15:43</span></div><div class="hd2">训练准备</div>`;
+  if(!t)return head+`<div class="pad"><div class="none">${a&&a.name?'未归属任何模板<br>设备端直接进入动作详情':'这里显示训练准备页'}</div></div><div class="btns"><div class="btn2">开始动作</div></div></div>`;
+  return head+`<div class="pad"><b style="font-size:12px">${esc(a?.name||t.name)}</b>
+   ${t.tags.length?`<div class="tags">${t.tags.map(x=>`<span>${esc(x)}</span>`).join('')}</div>`:''}
+   ${t.video?`<div class="vid">${vidArt()}<em>${esc(t.video.name)}</em></div>`:''}
+   ${t.cards.map((c,i)=>`<div class="card2">${c.img?'<div class="ico"></div>':`<div class="num">${i+1}</div>`}<div><b>${esc(c.title||'（主标题）')}</b><p class="muted" style="margin:0;font-size:9px">${esc(c.sub||'')}</p></div></div>`).join('')}
+   </div><div class="btns"><div class="btn2">已完成，开始动作</div></div></div>`;
+}
+const RULES_HTML=`<div class="hint"><b>怎么用（本期新增）</b>
+ <ol><li>新建模板：填<b>训练准备内容</b>（可选引导视频 + 1～5 张自定义卡片），再填<b>匹配条件</b>：适用场景、动作属性、训练部位、配件。</li>
+ <li>系统按条件把动作筛成<b>候选</b>，由人工<b>勾选</b>要加入的动作。勾选结果才是模板成员，设备端只认成员关系。</li>
+ <li>一个动作只归一个模板；勾选已在别的模板里的动作，会从原模板移过来。没有任何模板的动作，设备端直接进入动作详情。</li>
+ <li>条件只用来筛候选和提醒：新建或改了动作后，符合条件但没加入的会在模板上显示「待确认」，不会自动生效。</li>
+ <li><b>保存是草稿，发布后设备端才生效</b>（包括停用、删除、成员增减）。所有变更记在操作日志里。</li></ol></div>`;
+
+function condCell(t){
+  const row=(k,arr)=>`<span><b>${k}</b>${arr.length?esc(arr.join('、')):'<span class="muted">不限</span>'}</span>`;
+  return `<div class="cond">${row('场景',t.f.scene)}${row('属性',t.f.attr)}${row('部位',t.f.part)}${row('配件',t.f.acc)}</div>`;
+}
+const cardSum=t=>`${t.video?'<i class="tg ai">视频</i> ':''}<b>${t.cards.length}</b> 张：<span class="muted">${esc(t.cards.map(c=>c.title).join(' / '))}</span>`;
+function orphanList(){
+  const l=db.actions.filter(a=>eligible(a)&&!ownerOf(a));
+  const withAcc=a=>a.equip.some(e=>eqKind(e)!=='other');
+  return l.map(a=>({a,sug:db.templates.find(t=>t.on&&!t.del&&condMatch(t,a)),acc:withAcc(a)})).sort((x,y)=>(y.acc-x.acc)||(!!y.sug-!!x.sug));
+}
+const actRow=(a,extra)=>`<tr><td class="l"><b>${esc(a.name)}</b> ${a.status!=='上架'?`<i class="tg">${a.status}</i>`:''}</td><td>${a.models.join(' ')}</td><td>${a.scene}</td><td>${a.attr}</td><td>${esc(a.parts.join('、'))}</td><td>${esc(a.equip.join('、'))}</td>${extra||''}</tr>`;
+const ACT_HEAD='<th class="l">动作名称</th><th>适用型号</th><th>适用场景</th><th>动作属性</th><th>训练部位</th><th>器械</th>';
+
+function pageTemplates(){
+  if(ui.preview)return previewTpl(ui.preview);
+  if(ui.edit&&ui.edit.kind==='tpl')return editTplPage(ui.edit.id);
+  const f=ui.tf||'';
+  const ts=db.templates;
+  const orph=orphanList();
+  const pendIds=new Set();ts.forEach(t=>{if(t.on&&!t.del)pendingOf(t).forEach(a=>pendIds.add(a.id))});
+  const nDirty=ts.filter(t=>tplState(t)!=='已发布').length;
+  const shown=ts.filter(t=>f==='pending'?(t.on&&!t.del&&pendingOf(t).length):f==='dirty'?tplState(t)!=='已发布':f==='orphan'?false:true);
+  const showOrph=f===''||f==='orphan';
+  const trs=shown.map((t,i)=>{
+    const st=tplState(t),pend=t.on&&!t.del?pendingOf(t):[],open=ui.texp[t.id];
+    const mem=t.members.map(id=>db.actions.find(a=>a.id===id)).filter(Boolean);
+    let h=`<tr class="${t.del?'dimrow':''}"><td><a class="lk" data-tx="${t.id}" style="margin:0 4px 0 0">${open?'⌄':'›'}</a>${i+1}</td><td class="l"><b>${esc(t.name)}</b>${t.langs.length?` <i class="tg">${t.langs.length} 种语言</i>`:''}</td>
+     <td class="l">${condCell(t)}</td><td class="l" style="white-space:normal;min-width:200px">${cardSum(t)}</td>
+     <td><b>${t.members.length}</b> 个</td><td>${pend.length?`<a class="lk" data-tx="${t.id}" style="margin:0"><i class="tg y">${pend.length} 个</i></a>`:'<span class="muted">—</span>'}</td>
+     <td><i class="tg ${STC[st]}">${st}</i></td><td><span class="sw2 ${t.on?'on':''}" data-on="${t.id}"></span></td><td class="small">${t.by}<br><span class="muted">${t.at}</span></td>
+     <td class="act">${t.del?`<a data-un="${t.id}">撤销删除</a>`:`<a data-pv="${t.id}">预览</a><a data-te="${t.id}">编辑</a>${st!=='已发布'?`<a class="g" data-pb="${t.id}">发布</a>`:''}<a data-tr="${t.id}">翻译</a><a class="r" data-td="${t.id}">删除</a>`}</td></tr>`;
+    if(open)h+=`<tr class="child"><td colspan="10" style="white-space:normal;text-align:left;padding:12px 18px">
+      <div class="small muted" style="margin-bottom:6px"><b style="color:var(--t3)">已加入的动作 · ${mem.length}</b>　设备端：这些动作进入训练前显示本模板；动作上架且模板已发布后才出现</div>
+      ${mem.length?`<table class="dense"><thead><tr>${ACT_HEAD}<th>操作</th></tr></thead><tbody>${mem.map(a=>actRow(a,`<td class="act"><a class="r" data-rm="${t.id}:${a.id}">移出</a></td>`)).join('')}</tbody></table>`:'<div class="muted small">还没有加入动作。编辑模板，按条件筛出候选并勾选。</div>'}
+      ${pend.length?`<div class="small" style="margin:12px 0 6px;color:var(--yt)"><b>待确认 · ${pend.length}</b>　符合本模板条件、还没归属任何模板，不会自动生效</div><table class="dense"><thead><tr>${ACT_HEAD}<th>操作</th></tr></thead><tbody>${pend.map(a=>actRow(a,`<td class="act"><a data-add="${t.id}:${a.id}">加入本模板</a></td>`)).join('')}</tbody></table>`:''}
+      <div class="small muted" style="margin-top:12px"><b style="color:var(--t3)">语言版本</b>　${t.langs.length?t.langs.map(c=>`<i class="tg ai">${esc((LANG_ALL.find(x=>x[0]===c)||[c,c])[1])}</i>`).join(' '):'未翻译。设备端按当前语言取译文，缺译文时回退中文。'}</div></td></tr>`;
+    return h;
+  }).join('');
+  const orphOpen=ui.texp.orph||f==='orphan';
+  const orphRow=!showOrph?'':`<tr class="orph"><td><a class="lk" data-ox style="margin:0 4px 0 0">${orphOpen?'⌄':'›'}</a>—</td><td class="l" colspan="3"><b>未归属动作</b> <span class="muted small">不在任何模板里的动作；设备端直接进入动作详情</span></td><td><b>${orph.length}</b> 个</td><td colspan="5" class="small muted" style="text-align:left">含配件 / 凳的排在前面，建议先处理</td></tr>`
+   +(orphOpen?`<tr class="child"><td colspan="10" style="white-space:normal;text-align:left;padding:12px 18px">${orph.length?`<table class="dense"><thead><tr>${ACT_HEAD}<th>提示</th><th>操作</th></tr></thead><tbody>${orph.map(o=>actRow(o.a,`<td>${o.acc?'<i class="tg y">含配件 / 凳</i> ':''}${o.sug?`<span class="small">建议：${esc(o.sug.name)}</span>`:'<span class="muted small">无符合条件的模板</span>'}</td><td class="act">${o.sug?`<a data-oadd="${o.a.id}:${o.sug.id}">加入建议模板</a>`:''}</td>`)).join('')}</tbody></table>`:'<span class="muted small">所有动作都已归属模板。</span>'}</td></tr>`:'');
+  const chip=(k,l,n)=>`<a class="tg ${f===k?'ai':''} lk" data-fl="${k}" style="margin:0;cursor:pointer">${l}${n!=null?' '+n:''}</a>`;
+  $('#content').innerHTML=`${LEGEND}${RULES_HTML}
+  <div class="stat"><div><b>${ts.length}</b><span>模板</span></div><div><b style="color:var(--green)">${ts.length-nDirty}</b><span>已发布</span></div>
+   <div class="click" data-fl="dirty"><b style="color:var(--amber)">${nDirty}</b><span>待发布</span></div>
+   <div><b>${ts.reduce((s,t)=>s+t.members.length,0)}</b><span>已加入动作</span></div>
+   <div class="click" data-fl="pending"><b style="color:var(--amber)">${pendIds.size}</b><span>待确认动作</span></div>
+   <div class="click" data-fl="orphan"><b>${orph.length}</b><span>未归属动作</span></div></div>
+  <div class="card"><div class="hd"><h2>安装方案模板</h2>${MK('new','新增页面')}<span class="sp"></span>
+   <button class="btn g" id="tlog">操作日志</button><button class="btn" id="pall" ${nDirty?'':'disabled'}>发布全部修改${nDirty?'（'+nDirty+'）':''}</button><button class="btn p" id="tnew">新建模板</button></div>
+   <div class="bd" style="padding:10px 16px 0"><div class="tools" style="margin-bottom:8px"><span class="small muted">筛选：</span>${chip('','全部')}${chip('pending','有待确认')}${chip('dirty','有未发布修改')}${chip('orphan','未归属动作')}</div></div>
+  <div class="bd tw" style="padding:0"><table><thead><tr><th>序号</th><th class="l">模板名称</th><th class="l">匹配条件（筛候选用）</th><th class="l">训练准备内容</th><th>已加入动作</th><th>待确认</th><th>发布状态</th><th>启用</th><th>修改人 / 时间</th><th>操作</th></tr></thead><tbody>${trs}${orphRow}${!trs&&!showOrph?'<tr><td colspan="10" class="muted">没有符合筛选的模板</td></tr>':''}</tbody></table></div></div>`;
+  $$('[data-fl]').forEach(e=>e.onclick=()=>{ui.tf=ui.tf===e.dataset.fl?'':e.dataset.fl;pageTemplates()});
+  $('#tnew').onclick=()=>{ui.edit={kind:'tpl',id:null};pageTemplates()};
+  $('#tlog').onclick=logDlg;
+  $('#pall').onclick=()=>publishDlg(db.templates.filter(t=>tplState(t)!=='已发布'));
+  $$('[data-tx]').forEach(e=>e.onclick=()=>{ui.texp[e.dataset.tx]=!ui.texp[e.dataset.tx];pageTemplates()});
+  const ox=$('[data-ox]');if(ox)ox.onclick=()=>{ui.texp.orph=!ui.texp.orph;pageTemplates()};
+  $$('[data-te]').forEach(e=>e.onclick=()=>{ui.edit={kind:'tpl',id:e.dataset.te};pageTemplates()});
+  $$('[data-pv]').forEach(e=>e.onclick=()=>{ui.preview=e.dataset.pv;pageTemplates()});
+  $$('[data-pb]').forEach(e=>e.onclick=()=>publishDlg([db.templates.find(t=>t.id===e.dataset.pb)]));
+  $$('[data-tr]').forEach(e=>e.onclick=()=>translateTplDlg(db.templates.find(t=>t.id===e.dataset.tr)));
+  $$('[data-on]').forEach(e=>e.onclick=()=>{const t=db.templates.find(x=>x.id===e.dataset.on);t.on=!t.on;t.by=WHO;t.at=nowStr();logOp(t.name,t.on?'启用':'停用',(t.on?'启用':'停用')+'（发布后设备端生效）');save();pageTemplates();toast((t.on?'已启用':'已停用')+'，发布后设备端生效')});
+  $$('[data-td]').forEach(e=>e.onclick=()=>{const t=db.templates.find(x=>x.id===e.dataset.td);
+    confirmDlg('删除模板','确定删除「'+esc(t.name)+'」？它的 '+t.members.length+' 个动作会变为未归属。'+(t.pub?'已发布过的模板会先标「待删除」，发布后设备端才生效。':'该模板还没发布过，直接删除。'),'删除',()=>{
+      if(t.pub){t.del=true;logOp(t.name,'删除','标记删除，待发布生效')}else{db.templates=db.templates.filter(x=>x!==t);logOp(t.name,'删除','删除未发布的模板')}
+      save();pageTemplates();toast(t.pub?'已标记删除，发布后生效':'已删除')})});
+  $$('[data-un]').forEach(e=>e.onclick=()=>{const t=db.templates.find(x=>x.id===e.dataset.un);t.del=false;logOp(t.name,'撤销删除','撤销待删除');save();pageTemplates()});
+  $$('[data-rm]').forEach(e=>e.onclick=()=>{const [tid,aid]=e.dataset.rm.split(':');const t=db.templates.find(x=>x.id===tid);t.members=t.members.filter(i=>i!==+aid);t.by=WHO;t.at=nowStr();logOp(t.name,'成员变更','移出：'+actName(+aid));save();pageTemplates()});
+  $$('[data-add]').forEach(e=>e.onclick=()=>{const [tid,aid]=e.dataset.add.split(':');const t=db.templates.find(x=>x.id===tid);if(!t.members.includes(+aid))t.members.push(+aid);t.by=WHO;t.at=nowStr();logOp(t.name,'成员变更','加入：'+actName(+aid));save();pageTemplates()});
+  $$('[data-oadd]').forEach(e=>e.onclick=()=>{const [aid,tid]=e.dataset.oadd.split(':');const t=db.templates.find(x=>x.id===tid);if(!t.members.includes(+aid))t.members.push(+aid);t.by=WHO;t.at=nowStr();logOp(t.name,'成员变更','加入（来自未归属）：'+actName(+aid));save();pageTemplates();toast('已加入「'+t.name+'」，发布后设备端生效')});
+}
+
+function logDlg(){
+  dlg('操作日志（'+db.log.length+'）',`<div class="tw"><table class="dense"><thead><tr><th>时间</th><th>操作人</th><th class="l">对象</th><th>操作</th><th class="l">内容</th></tr></thead><tbody>${db.log.map(r=>`<tr><td>${r.t}</td><td>${r.who}</td><td class="l">${esc(r.obj)}</td><td><i class="tg ${r.act==='发布'?'g':r.act==='删除'?'r':''}">${r.act}</i></td><td class="l" style="white-space:normal">${esc(r.desc)}</td></tr>`).join('')||'<tr><td colspan="5" class="muted">暂无记录</td></tr>'}</tbody></table></div><p class="small muted" style="margin:10px 0 0">记录模板的新建、修改、成员增减、启停、翻译、删除和发布；风格同动作库的「操作人」列。</p>`,`<button class="btn p" data-c>关闭</button>`,{w:860}).querySelector('[data-c]').onclick=function(){this.closest('.ov').remove()};
+}
+function publishDlg(list,after){
+  list=list.filter(Boolean);if(!list.length)return;
+  const body=list.map(t=>{const s=t.del?['删除该模板：它的成员动作回到「未归属」，设备端直接进入动作详情']:changeSummary(t.pub,snapOf(t));
+    return `<div class="pubitem"><b>${esc(t.name)}</b> <i class="tg ${STC[tplState(t)]}">${tplState(t)}</i><ul>${(s.length?s:['没有可发布的内容变化']).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>`}).join('');
+  const o=dlg('发布',`<p class="small muted" style="margin-top:0">发布后，设备端在下次同步时拿到新版本；未发布的修改设备端看不到。草稿 / 下架的动作加入模板后，要等动作上架才会在设备端出现。</p>${body}`,`<button class="btn g" data-c>取消</button><button class="btn p" data-ok>确认发布</button>`,{w:600,l2:true});
+  o.querySelector('[data-c]').onclick=o.close;
+  o.querySelector('[data-ok]').onclick=()=>{
+    list.forEach(t=>{if(t.del){db.templates=db.templates.filter(x=>x!==t);logOp(t.name,'发布','删除已生效')}else{const s=changeSummary(t.pub,snapOf(t));t.pub=snapOf(t);t.pubAt=nowStr();logOp(t.name,'发布',s.join('；')||'发布')}});
+    syncPub();save();o.close();(after||pageTemplates)();toast('已发布 '+list.length+' 个模板，设备端同步后生效');
+  };
+}
+function translateTplDlg(t){
+  const sel=new Set(t.langs.length?t.langs:LANG_ALL.map(x=>x[0]));
+  const body=()=>`<div style="display:flex;justify-content:space-between;margin-bottom:10px"><b>${esc(t.name)}</b><span class="muted small">源语言：简体中文 (zh-CN)</span></div>
+   <div class="hint" style="margin-bottom:10px">待翻译内容：每张卡片的主标题和副标题、顶部标签。引导视频不含文字，所有语言共用；图片建议不放文字。修改中文后需要重新翻译，缺译文时设备端回退中文。</div>
+   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><button class="btn sm" data-all>${sel.size===LANG_ALL.length?'取消全选':'全选'}</button><span class="small muted">已选 ${sel.size} / 32（Demo 列出 20 种）</span></div>
+   <div class="lang-grid">${LANG_ALL.map(([c,n])=>`<label class="${sel.has(c)?'':'off'}"><input type="checkbox" data-lc="${c}" ${sel.has(c)?'checked':''}><span>${n}<small>${c}</small></span></label>`).join('')}</div>`;
+  const o=dlg('选择翻译语言',body(),`<button class="btn g" data-c>取消</button><button class="btn p" data-ok>开始翻译</button>`,{w:760,l2:true});
+  const bind=()=>{
+    o.querySelector('[data-all]').onclick=()=>{if(sel.size===LANG_ALL.length)sel.clear();else LANG_ALL.forEach(x=>sel.add(x[0]));o.querySelector('.dlb').innerHTML=body();bind()};
+    o.querySelectorAll('[data-lc]').forEach(c=>c.onchange=()=>{c.checked?sel.add(c.dataset.lc):sel.delete(c.dataset.lc);o.querySelector('.dlb').innerHTML=body();bind()});
+  };bind();
+  o.querySelector('[data-c]').onclick=o.close;
+  o.querySelector('[data-ok]').onclick=()=>{if(!sel.size)return toast('请至少选择一种语言');t.langs=LANG_ALL.map(x=>x[0]).filter(c=>sel.has(c));t.by=WHO;t.at=nowStr();logOp(t.name,'翻译','生成 '+t.langs.length+' 种语言译文');ui.texp[t.id]=true;save();o.close();pageTemplates();toast('已生成 '+t.langs.length+' 种语言译文（演示，不调用真实翻译），发布后设备端生效')};
+}
+
+function editTplPage(id){
+  const src=id?db.templates.find(x=>x.id===id):null;
+  const t=src?JSON.parse(JSON.stringify(src)):{id:'T-'+(Date.now()%100000),name:'',on:true,f:{scene:[],attr:[],part:[],acc:[]},members:[],tags:[],video:null,cards:[mkCard('调整卡扣','请把卡扣调到与肩同高的位置。')],langs:[],by:WHO,at:nowStr(),pub:null,del:false};
+  let showAll=false,q='';
+  $('#crumb').innerHTML=`<a class="lk" data-back style="margin:0">安装方案模板</a> / <b>${id?'编辑模板':'新建模板'}</b>`;
+  const previewAct=()=>t.members.length?db.actions.find(a=>a.id===t.members[0]):{name:t.name||'模板预览'};
+  const live=()=>{const l=$('#live');if(l)l.innerHTML=devHTML(previewAct(),t)};
+  const cands=()=>db.actions.filter(a=>eligible(a)&&(!q||a.name.includes(q))).map(a=>({a,match:condMatch(t,a),mem:t.members.includes(a.id),own:db.templates.find(x=>x.id!==t.id&&!x.del&&x.members.includes(a.id))})).filter(r=>showAll||r.match||r.mem);
+  const paintCand=()=>{
+    const rows=cands(),nm=rows.filter(r=>r.match).length;
+    $('#candBox').innerHTML=`<table><thead><tr><th style="width:34px"></th>${ACT_HEAD}<th class="l">归属 / 提示</th></tr></thead><tbody>${rows.map(r=>{const a=r.a;
+      const tip=r.mem?`<i class="tg g">已加入</i>${r.match?'':' <i class="tg y">不满足条件</i>'}`:r.own?`<i class="tg y">已在「${esc(r.own.name)}」</i> <span class="small muted">勾选后移到本模板</span>`:'<span class="muted small">候选</span>';
+      return `<tr><td><input type="checkbox" data-mem="${a.id}" ${r.mem?'checked':''}></td>${actRow(a).replace(/^<tr>|<\/tr>$/g,'')}<td class="l" style="white-space:normal">${tip}</td></tr>`}).join('')||`<tr><td colspan="8" class="muted" style="padding:16px">${hasCond(t)?'当前条件没有筛出动作。可放宽条件，或打开「显示全部动作」手动选择。':'还没有设置匹配条件。先在上面选条件，或打开「显示全部动作」手动选择。'}</td></tr>`}</tbody></table>`;
+    $('#candCnt').textContent='筛出 '+nm+' 个候选 · 已勾选 '+t.members.length+' 个';
+    $$('#candBox [data-mem]').forEach(c=>c.onchange=()=>{const i=+c.dataset.mem;if(c.checked){if(!t.members.includes(i))t.members.push(i)}else t.members=t.members.filter(x=>x!==i);paintCand();live()});
+  };
+  const draw=()=>{
+    const pills=(f,opts)=>`<div class="pills" data-pf="${f}">${opts.map(o=>`<span class="pill ${t.f[f].includes(o)?'on':''}" data-v="${o}">${o}</span>`).join('')}</div>`;
+    const v=t.video;
+    $('#content').innerHTML=`${LEGEND}
+    <div class="split"><div>
+     <div class="mod"><div class="mh"><h3>模板信息</h3>${MK('new')}</div><div class="mb"><div class="fgrid">
+       <div class="f w"><label><span class="req">*</span> 模板名称</label><input type="text" id="t1" value="${esc(t.name)}" placeholder="如：平板凳 · 手柄 · 高位"></div>
+       <div class="f w"><label><input type="checkbox" id="ton" ${t.on?'checked':''}> 启用（停用并发布后，该模板下的动作在设备端直接进入动作详情）</label></div></div></div></div>
+
+     <div class="mod newish"><div class="mh"><h3>引导视频（可选）</h3>${MK('new')}<span class="muted small">每个模板最多 1 个，显示在训练准备页上方，循环、静音播放</span></div><div class="mb">
+       ${v?`<div class="vrow"><div class="vthumb vid">${vidArt()}</div><div class="vinfo"><b>${esc(v.name)}</b><div class="small muted">时长 ${esc(v.dur)} · ${esc(v.size||'')}</div>
+          <div>封面图：${v.poster?'<i class="tg g">已上传</i> <a class="lk" data-vpx>移除</a>':'<i class="tg r">必填，未上传</i>'} <button class="btn sm" data-vp type="button">${v.poster?'替换封面':'上传封面'}</button></div>
+          <div><button class="btn sm" data-vr type="button">替换视频</button> <a class="lk" data-vd style="color:var(--red)">删除视频</a></div></div></div>`
+        :`<div class="vempty"><button class="btn" data-vr type="button">上传视频</button> <button class="btn g" data-vs type="button">使用示例视频</button><span class="small muted" style="margin-left:8px">没有视频时，设备端只显示下面的文字卡片</span></div>`}
+       <div class="small muted" style="margin-top:8px;line-height:1.7">规格：MP4（H.264）· 不超过 15 秒 · 16:9 · 720p · 不超过 8 MB · 不带字幕、旁白和文字（所有语言共用）；必须配封面图（PNG / JPG / WebP，2 MB 内，16:9）。发布时服务端转码，设备端同步时预下载并缓存；加载失败时设备端显示封面图。</div>
+     </div></div>
+
+     <div class="mod newish"><div class="mh"><h3>训练准备卡片 · ${t.cards.length} / ${MAXC}</h3>${MK('new')}<span class="muted small">图片、主标题、副标题都可自定义；只需调卡扣就放一张，要加 / 去箱体就放对应的卡</span></div><div class="mb">
+       ${t.cards.map((c,i)=>`<div class="cardrow"><div class="cnn">${i+1}</div>
+         <div class="cimg ${c.img?'has':''}" data-ci="${i}" title="点击上传 / 移除图片">${c.img?'✓ 已传图':'＋ 图片'}<small>1:1 · 2MB 内</small></div>
+         <div class="cf"><input type="text" data-ct="${i}" value="${esc(c.title)}" placeholder="主标题，如：放置平板凳"><input type="text" data-cs="${i}" value="${esc(c.sub)}" placeholder="副标题，如：请在器械前放置平板凳"></div>
+         <div class="cb"><a class="lk" data-cu="${i}" ${i?'':'style="opacity:.3"'}>↑</a><a class="lk" data-cd="${i}" ${i<t.cards.length-1?'':'style="opacity:.3"'}>↓</a><a class="lk" data-cx="${i}" style="color:var(--red)">删除</a></div></div>`).join('')}
+       <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;align-items:center"><span class="small muted">快捷添加：</span>${PRESETS.map((p,i)=>`<button class="btn sm" type="button" data-pr="${i}" ${t.cards.length>=MAXC?'disabled':''}>${p[0]}</button>`).join('')}</div>
+       <div class="small muted" style="margin-top:6px;line-height:1.7">预设只是帮你填入一段文案，不限制卡片类型，填完都可改。卡片 1–${MAXC} 张；副标题设备端按当前语言朗读（待确认）。位置只用文字描述（如「与肩同高」「调到第 3 档」），不套身高表，不出现具体厘米数。</div>
+       <div style="margin-top:12px"><label class="small muted">顶部标签（可选，设备端显示在动作名称下方）</label>
+        <div class="chips" style="margin-top:4px">${t.tags.map((g,i)=>`<span class="chip">${esc(g)}<button data-tx2="${i}" type="button">×</button></span>`).join('')}<input type="text" id="tagIn" placeholder="输入后回车添加" style="width:150px"></div></div>
+     </div></div>
+
+     <div class="mod newish"><div class="mh"><h3>匹配条件（筛候选动作）</h3>${MK('new')}<span class="muted small">系统按这四个字段把动作筛出来，再由你勾选；不选＝不限</span></div><div class="mb">
+      <div class="fgrid2" style="grid-template-columns:1fr">
+       <div class="fi"><label>适用场景</label><div class="fc">${pills('scene',OPT.scene)}</div></div>
+       <div class="fi"><label>动作属性</label><div class="fc">${pills('attr',OPT.attr)}</div></div>
+       <div class="fi"><label>训练部位</label><div class="fc">${pills('part',OPT.part)}</div></div>
+       <div class="fi"><label>配件</label><div class="fc">${pills('acc',EQUIP.map(e=>e[1]))}</div></div>
+      </div>
+      <div class="hitrow" style="margin-top:12px"><b>当前条件：</b><span id="condTxt">${esc(condText(t.f))}</span></div>
+      <div class="small muted" style="margin-top:6px">选项取自线上动作库的真实枚举；配件取自「器械管理」，匹配动作的「器械」字段。字段内多选＝满足其一；字段之间＝同时满足。条件只用来筛候选和提醒，<b>不会下发设备端</b>。</div>
+     </div></div>
+
+     <div class="mod newish"><div class="mh"><h3>选择动作</h3>${MK('new')}<span class="muted small" id="candCnt"></span><span class="sp" style="flex:1"></span>
+       <input type="text" id="cq" placeholder="搜索动作名称" value="${esc(q)}" style="width:170px"> <label class="small" style="display:flex;align-items:center;gap:4px;cursor:pointer"><input type="checkbox" id="sall" ${showAll?'checked':''}> 显示全部动作</label>
+       <button class="btn sm" id="pickAll" type="button">全选候选</button><button class="btn sm g" id="clrAll" type="button">清空勾选</button></div>
+      <div class="mb" style="padding:0"><div class="tw" id="candBox"></div>
+      <div class="small muted" style="padding:8px 16px">勾选的才是模板成员，设备端只认成员。一个动作只归一个模板；勾选「已在 X」的动作会从 X 移过来。片头 / 片尾不参与。草稿 / 下架动作可以先加入，上架后才在设备端出现。</div></div></div>
+
+     <div class="pagefoot"><button class="btn g" id="dc">取消</button><button class="btn" id="dsd">保存草稿</button><button class="btn p" id="dsp">保存并发布</button></div>
+    </div><div><div class="small muted" style="text-align:center;margin-bottom:6px">实时预览 · 设备端训练准备页</div><div id="live">${devHTML(previewAct(),t)}</div>
+     <p class="small muted" style="text-align:center;line-height:1.6">示例动作：${esc(previewAct().name||'')}<br>设备端实际页面见「设备端」→ 训练准备</p></div></div>`;
+    paintCand();
+    $('[data-back]').onclick=$('#dc').onclick=()=>{ui.edit=null;nav('templates')};
+    $('#t1').oninput=e=>{t.name=e.target.value;live()};
+    $('#ton').onchange=e=>{t.on=e.target.checked};
+    $$('.pills').forEach(p=>p.onclick=e=>{const pl=e.target.closest('.pill');if(!pl)return;const f=p.dataset.pf,vv=pl.dataset.v,i=t.f[f].indexOf(vv);i<0?t.f[f].push(vv):t.f[f].splice(i,1);pl.classList.toggle('on');$('#condTxt').textContent=condText(t.f);paintCand()});
+    $('#cq').oninput=e=>{q=e.target.value;paintCand()};
+    $('#sall').onchange=e=>{showAll=e.target.checked;paintCand()};
+    $('#pickAll').onclick=()=>{cands().filter(r=>r.match).forEach(r=>{if(!t.members.includes(r.a.id))t.members.push(r.a.id)});paintCand();live()};
+    $('#clrAll').onclick=()=>{t.members=[];paintCand();live()};
+    /* 视频 */
+    const setVideo=(file)=>{
+      if(!/^video\/mp4$/.test(file.type)&&!/\.mp4$/i.test(file.name))return toast('仅支持 MP4（H.264）');
+      if(file.size>8*1024*1024)return toast('视频超过 8 MB，请压缩后再上传');
+      const url=URL.createObjectURL(file),vd=document.createElement('video');vd.preload='metadata';
+      const done=dur=>{URL.revokeObjectURL(url);if(dur>15.5)return toast('视频超过 15 秒，请剪短后再上传');t.video={name:file.name,dur:dur?dur.toFixed(0)+' 秒':'—',size:(file.size/1048576).toFixed(1)+' MB',poster:t.video?t.video.poster:false};draw()};
+      vd.onloadedmetadata=()=>done(vd.duration||0);vd.onerror=()=>done(0);vd.src=url;
+    };
+    $$('[data-vr]').forEach(b=>b.onclick=()=>pickFile('video/mp4',setVideo));
+    const vs=$('[data-vs]');if(vs)vs.onclick=()=>{t.video={name:'示例-安装演示.mp4',dur:'12 秒',size:'3.2 MB',poster:true};draw()};
+    const vp=$('[data-vp]');if(vp)vp.onclick=()=>pickFile('image/png,image/jpeg,image/webp',f=>{if(!IMG_OK(f))return toast('封面图仅支持 PNG / JPG / WebP，且不超过 2 MB');t.video.poster=true;draw()});
+    const vpx=$('[data-vpx]');if(vpx)vpx.onclick=()=>{t.video.poster=false;draw()};
+    const vd2=$('[data-vd]');if(vd2)vd2.onclick=()=>{t.video=null;draw()};
+    /* 卡片 */
+    $$('[data-ct]').forEach(el=>el.oninput=()=>{t.cards[+el.dataset.ct].title=el.value;live()});
+    $$('[data-cs]').forEach(el=>el.oninput=()=>{t.cards[+el.dataset.cs].sub=el.value;live()});
+    $$('[data-ci]').forEach(el=>el.onclick=()=>{const c=t.cards[+el.dataset.ci];if(c.img){c.img=false;draw();return}pickFile('image/png,image/jpeg,image/webp',f=>{if(!IMG_OK(f))return toast('图片仅支持 PNG / JPG / WebP，且不超过 2 MB');c.img=true;draw()})});
+    $$('[data-cu]').forEach(el=>el.onclick=()=>{const i=+el.dataset.cu;if(i>0){[t.cards[i-1],t.cards[i]]=[t.cards[i],t.cards[i-1]];draw()}});
+    $$('[data-cd]').forEach(el=>el.onclick=()=>{const i=+el.dataset.cd;if(i<t.cards.length-1){[t.cards[i+1],t.cards[i]]=[t.cards[i],t.cards[i+1]];draw()}});
+    $$('[data-cx]').forEach(el=>el.onclick=()=>{if(t.cards.length<=1)return toast('至少保留 1 张卡片');t.cards.splice(+el.dataset.cx,1);draw()});
+    $$('[data-pr]').forEach(el=>el.onclick=()=>{if(t.cards.length>=MAXC)return toast('最多 '+MAXC+' 张卡片');const p=PRESETS[+el.dataset.pr];t.cards.push(mkCard(p[1],p[2]));draw()});
+    $$('[data-tx2]').forEach(el=>el.onclick=()=>{t.tags.splice(+el.dataset.tx2,1);draw()});
+    $('#tagIn').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();const s=e.target.value.trim();if(s&&!t.tags.includes(s)){t.tags.push(s);draw();$('#tagIn').focus()}}};
+    const doSave=pub=>{
+      if(!t.name.trim())return toast('请填写模板名称');
+      if(!t.cards.length)return toast('至少保留 1 张卡片');
+      if(t.cards.some(c=>!c.title.trim()))return toast('每张卡片都需要填写主标题');
+      if(t.video&&!t.video.poster)return toast('引导视频必须上传封面图');
+      t.by=WHO;t.at=nowStr();t.name=t.name.trim();
+      db.templates.forEach(o=>{if(o.id===t.id)return;const moved=o.members.filter(i=>t.members.includes(i));if(moved.length){o.members=o.members.filter(i=>!t.members.includes(i));o.by=WHO;o.at=nowStr();logOp(o.name,'成员变更','移出 '+moved.length+' 个动作（已加入「'+t.name+'」）：'+moved.map(actName).join('、'))}});
+      let saved;
+      if(src){
+        const b=changeSummary(snapOf(src),snapOf(t));if(JSON.stringify(src.f)!==JSON.stringify(t.f))b.push('修改匹配条件');
+        Object.assign(src,t);saved=src;logOp(t.name,'修改',b.join('；')||'保存（无内容变化）');
+      }else{db.templates.push(t);saved=t;logOp(t.name,'新建','新建模板：'+t.cards.length+' 张卡片'+(t.video?'、含引导视频':'')+'，'+t.members.length+' 个动作')}
+      save();ui.edit=null;
+      if(pub){pageTemplates();publishDlg([saved])}else{pageTemplates();toast('已保存为草稿，尚未发布，设备端看不到')}
+    };
+    $('#dsd').onclick=()=>doSave(false);$('#dsp').onclick=()=>doSave(true);
+  };
+  draw();
+}
+
+function previewTpl(id){
+  const t=db.templates.find(x=>x.id===id);if(!t){ui.preview=null;return pageTemplates()}
+  const mem=t.members.map(i=>db.actions.find(a=>a.id===i)).filter(Boolean),st=tplState(t);
+  $('#crumb').innerHTML=`<a class="lk" data-back style="margin:0">安装方案模板</a> / <b>预览 · ${esc(t.name)}</b>`;
+  $('#content').innerHTML=`${LEGEND}
+  <div class="split"><div>
+   <div class="mod"><div class="mh"><h3>${esc(t.name)}</h3><i class="tg ${STC[st]}">${st}</i><i class="tg ${t.on?'g':''}">${t.on?'启用':'停用'}</i></div>
+    <div class="mb"><table><tr><th class="l" style="width:120px">匹配条件</th><td class="l" style="white-space:normal">${esc(condText(t.f))}</td></tr>
+     <tr><th class="l">引导视频</th><td class="l">${t.video?esc(t.video.name)+' · '+esc(t.video.dur)+' · 封面'+(t.video.poster?'已传':'缺失'):'无'}</td></tr>
+     <tr><th class="l">顶部标签</th><td class="l">${t.tags.length?esc(t.tags.join('、')):'无'}</td></tr>
+     ${t.cards.map((c,i)=>`<tr><th class="l">卡片 ${i+1}</th><td class="l" style="white-space:normal"><b>${esc(c.title)}</b>　<span class="muted">${esc(c.sub)}</span> ${c.img?'<i class="tg">有图片</i>':''}</td></tr>`).join('')}
+     <tr><th class="l">语言版本</th><td class="l">${t.langs.length?t.langs.length+' 种':'未翻译'}</td></tr>
+     <tr><th class="l">修改人 / 时间</th><td class="l">${t.by} · ${t.at}${t.pubAt?'　最近发布 '+t.pubAt:''}</td></tr></table></div></div>
+   <div class="mod"><div class="mh"><h3>已加入的动作 · ${mem.length}</h3>${MK('new')}</div>
+    <div class="mb">${mem.length?`<div class="chips">${mem.map(a=>`<span class="chip">${esc(a.name)}${a.status!=='上架'?' <i class="tg y">'+a.status+'</i>':''}</span>`).join('')}</div>`:'<p class="muted" style="margin:0">还没有加入动作。编辑模板，按条件筛出候选并勾选。</p>'}</div></div>
+   <div class="pagefoot"><button class="btn g" id="back">返回列表</button><button class="btn" id="ed">编辑模板</button>${st!=='已发布'&&!t.del?'<button class="btn p" id="pb">发布</button>':''}</div>
+  </div><div><div class="small muted" style="text-align:center;margin-bottom:6px">设备端 · 训练准备页</div>${devHTML(mem[0]||{name:t.name},t)}</div></div>`;
+  $('[data-back]').onclick=$('#back').onclick=()=>{ui.preview=null;nav('templates')};
+  $('#ed').onclick=()=>{ui.preview=null;ui.edit={kind:'tpl',id:t.id};pageTemplates()};
+  const pb=$('#pb');if(pb)pb.onclick=()=>publishDlg([t],()=>{ui.preview=t.id;pageTemplates()});
+}
+
+/* 示例模板按「已发布」初始化，并同步给设备端 Demo */
+db.templates.forEach(t=>{if(t.seedPub){t.pub=snapOf(t);t.pubAt=t.at;delete t.seedPub}});save();syncPub();
+</script>
+<script>
+/* ========== 页面三：AI动作列表（线上已有，本期增加纠错文案维护） ========== */
+const copyOf=(so,lang)=>db.copy[so+'|'+lang]||null;
+const typesOf=(so,lang)=>{const c=copyOf(so,lang);return Array.isArray(c)?c:null};
+function filled(so){const t=typesOf(so,'zh');return !!(t&&t.length&&t.every(x=>x.lines.length&&x.lines.every(l=>l.text)))}
+const transN=so=>LANGS.filter(([id])=>typesOf(so,id)).length;
+function typeStat(so){const t=typesOf(so,'zh')||[];const n=t.reduce((s,x)=>s+x.lines.length,0);return t.length?t.length+' 类 / '+n+' 条':'未配'}
+function voiceN(so,lang){const t=typesOf(so,lang||'zh')||[];let tot=0,ok=0;t.forEach(x=>x.lines.forEach(l=>{tot++;if(l.voice)ok++}));return [ok,tot]}
+function pageAI(){
+  if(ui.edit&&ui.edit.kind==='copy')return editCopyPage(ui.edit.so,ui.edit.lang);
+  const f=ui.aiF;
+  const list=AI_LIST.filter(r=>(!f.id||String(r[0]).includes(f.id))&&(!f.name||r[1].includes(f.name)));
+  const rows=slice('ai',list);
+  const ok=AI_LIST.filter(r=>filled(r[0])).length;
+  $('#content').innerHTML=`${LEGEND}
+  <div class="card"><div class="bd"><div class="fbar" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+   <div class="fi2"><span>ID</span><input type="text" id="qid" placeholder="请输入ID" value="${esc(ui.aiQ.id)}"></div>
+   <div class="fi2"><span>动作名称</span><input type="text" id="qnm" placeholder="请输入动作名称" value="${esc(ui.aiQ.name)}"></div>
+   <div class="acts" style="grid-column:auto"><button class="btn" id="qr">重置</button><button class="btn p" id="qq">查询</button></div></div></div></div>
+  <div class="card"><div class="bd">
+   <div class="tools"><button class="btn" id="bupd">更新</button><b>当前so库版本：${db.so}</b>
+    <span class="sp"></span>
+    <button class="btn" id="bimp">批量导入纠错文案</button>${MK('new')}<button class="btn" id="bexp">导出模板</button>${MK('new')}<button class="btn" id="brep">按文案查找替换</button>${MK('new')}</div>
+   <div class="hint" style="margin-bottom:12px">线上这一页只有「ID / 动作名称 / 备注」，没有任何操作。本期在右侧加「纠错文案」相关列和操作：${MK('new')} 标注的列与按钮都是新增。so 库给每个动作一组默认纠错项，特殊动作可加类型、每个类型可写多条；屏幕文案和录音分开维护。已配齐 ${ok} / ${AI_LIST.length}（Demo）。</div>
+   <div class="tw"><table><thead><tr><th>ID</th><th>动作名称</th><th>备注</th><th>纠错结构${MK('new')}</th><th>中文${MK('new')}</th><th>语音${MK('new')}</th><th>已翻译${MK('new')}</th><th>操作${MK('new')}</th></tr></thead><tbody>
+  ${rows.map(([so,nm])=>{const t=typesOf(so,'zh');const [vok,vtot]=voiceN(so,'zh');const open=ui.expand['ai'+so];
+    const struct=t?t.map(x=>esc(x.name)+(x.lines.length>1?' ×'+x.lines.length:'')+(x.fromSo?'':' ·自增')).join(' / '):'<span class="muted">so 默认 4 项，未配文案</span>';
+    return `<tr><td>${so}</td><td>${so}_${esc(nm)}</td><td>${so>=240?'<i class="tg">演示条目</i>':''}</td>
+     <td class="l small" style="white-space:normal;min-width:200px">${struct}${t&&t.some(x=>!x.fromSo||x.lines.length>1)?' <i class="tg y">特殊结构</i>':''}</td>
+     <td>${filled(so)?'<span style="color:var(--green)">● 已配齐</span>':'<span style="color:var(--amber)">● 待配</span>'}</td>
+     <td>${vtot?vok+' / '+vtot:'—'}</td><td>${transN(so)} / ${LANGS.length}</td>
+     <td class="act"><a data-ed="${so}" data-lg="zh">编辑中文</a><a data-tr="${so}">翻译</a><a data-ex="${so}">${open?'收起语言':'展开语言'}</a></td></tr>`
+     +(open?LANGS.map(([id,name])=>{const tt=typesOf(so,id);const [o2,t2]=voiceN(so,id);return `<tr class="child"><td></td><td>${name}</td><td></td><td class="small">${tt?'已有文案':'<i class="tg y">待翻译</i>'}</td><td></td><td>${t2?o2+' / '+t2:'—'}</td><td></td><td class="act"><a data-ed="${so}" data-lg="${id}">进入修改 / 上传语音</a></td></tr>`}).join(''):'');
+  }).join('')||'<tr><td colspan="8" class="muted">暂无数据</td></tr>'}</tbody></table></div>
+  ${pager('ai',list.length)}
+  <div class="small muted" style="text-align:center">线上共 264 条（从 -1 起）；Demo 列出 ${AI_LIST.length} 条，其中 -1～8 为线上真实条目，240 起为演示补充。</div>
+  </div></div>`;
+  bindPager(pageAI);
+  $('#qid').oninput=e=>ui.aiQ.id=e.target.value;$('#qnm').oninput=e=>ui.aiQ.name=e.target.value;
+  $('#qq').onclick=()=>{ui.aiF={...ui.aiQ};ui.pg.ai=1;pageAI()};$('#qr').onclick=()=>{ui.aiQ={id:'',name:''};ui.aiF={id:'',name:''};ui.pg.ai=1;pageAI()};
+  $('#bupd').onclick=()=>toast('演示：从 so 库同步最新动作列表（线上已有功能）');
+  $$('[data-tr]').forEach(e=>e.onclick=()=>translateAI(+e.dataset.tr));
+  $$('[data-ed]').forEach(e=>e.onclick=()=>{ui.edit={kind:'copy',so:+e.dataset.ed,lang:e.dataset.lg};pageAI()});
+  $$('[data-ex]').forEach(e=>e.onclick=()=>{ui.expand['ai'+e.dataset.ex]=!ui.expand['ai'+e.dataset.ex];pageAI()});
+  $('#bexp').onclick=exportTpl;$('#bimp').onclick=importTpl;$('#brep').onclick=findReplace;
+}
+function ensureTypes(so,lang){
+  let t=typesOf(so,lang);if(t)return JSON.parse(JSON.stringify(t));
+  if(lang!=='zh'){const zh=typesOf(so,'zh');if(zh)return zh.map(x=>({...x,lines:x.lines.map(l=>({...l,text:l.text?'[译] '+l.text:'',voice:null,id:nid()}))}))}
+  return defaultTypes();
+}
+function translateAI(so){
+  if(!typesOf(so,'zh'))return toast('请先配置中文文案，再翻译其他语言');
+  LANGS.forEach(([id])=>{if(id!=='zh'&&!typesOf(so,id))db.copy[so+'|'+id]=ensureTypes(so,id)});
+  ui.expand['ai'+so]=true;save();pageAI();toast('已按中文的类型结构生成其余演示语言。类型和条数与中文一致。');
+}
+function editCopyPage(so,lang){
+  const draft=ensureTypes(so,lang);const langName=LANGS.find(x=>x[0]===lang)[1];
+  const nm=(AI_LIST.find(r=>r[0]==so)||[0,''])[1];
+  $('#crumb').innerHTML=`<a class="lk" data-back style="margin:0">AI动作列表</a> / <b>${so}_${esc(nm)} · ${langName}</b>`;
+  const draw=()=>{
+    const first=draft[0]?.lines[0]?.text||FALLBACK;
+    $('#content').innerHTML=`${LEGEND}<div class="hint">${MK('new')} so 库默认项带「so 默认」标签，不能删类型，但可以在类型下加多条；本动作可再增加类型。每条文案都有独立的「上传语音」，录音不从文案自动生成。</div>
+    <div class="split"><div>
+    ${draft.map((tp,ti)=>`<div class="typebox"><div class="th">
+        ${tp.fromSo?`<b>${esc(tp.name)}</b> <code class="small">${esc(tp.key)}</code> <i class="tg">so 默认</i>`
+          :`<input type="text" data-tn="${ti}" value="${esc(tp.name)}" style="width:140px"> <input type="text" data-tk="${ti}" value="${esc(tp.key)}" style="width:110px"> <i class="tg y">本动作新增</i> <a data-dt="${ti}" style="color:var(--red);cursor:pointer;margin-left:auto">删除该类型</a>`}
+        <span class="muted small" style="margin-left:auto">${tp.lines.length} 条</span></div>
+      ${tp.lines.map((ln,li)=>{const nl=equiv(ln.text||'');const bad=lang==='zh'&&!check(ln.text);
+        return `<div class="line"><label class="small muted">文案 ${li+1}${tp.lines.length>1?'（同一类型下的不同触发）':''}</label>
+          <input type="text" data-tx="${ti}-${li}" value="${esc(ln.text)}" style="width:100%">
+          <div class="cnt ${bad?'bad':''}">${nl} / 32${bad?' · 超出限制':''}</div>
+          <div class="voice"><b>语音（独立上传）</b>
+            ${ln.voice?`<i class="tg g">已上传 · ${esc(ln.voice.name)} · ${esc(ln.voice.dur)}</i><a data-play="${ti}-${li}" class="lk">试听</a>
+              <label class="btn sm" style="margin:0">替换<input type="file" accept="audio/*" hidden data-up="${ti}-${li}"></label><a data-dv="${ti}-${li}" style="color:var(--red);cursor:pointer">删除语音</a>`
+              :`<i class="tg y">未上传</i><label class="btn p sm" style="margin:0">上传语音<input type="file" accept="audio/*" hidden data-up="${ti}-${li}"></label>`}
+          </div></div>`}).join('')}
+      <button class="btn sm" data-al="${ti}" type="button">在「${esc(tp.name)}」下增加一条</button></div>`).join('')}
+    <button class="btn" id="addType" type="button">为本动作增加一种纠错类型</button>
+    <p class="small muted" style="margin-top:10px">兜底（该条为空时）：「${FALLBACK}」。无语音则只出字幕，不播报。</p>
+    <div class="pagefoot"><button class="btn g" id="dc">取消</button><button class="btn p" id="ds">保存</button></div>
+    </div><div><div class="small muted" style="text-align:center;margin-bottom:6px">设备端字幕预览</div><div class="pv" id="pv">${esc(first)}</div>
+      <p class="small muted" style="margin-top:10px;text-align:center">语音与字幕分开。有录音才播报。</p></div></div>`;
+    $('[data-back]').onclick=$('#dc').onclick=()=>{ui.edit=null;nav('ai')};
+    $$('[data-tn]').forEach(el=>el.oninput=()=>draft[+el.dataset.tn].name=el.value);
+    $$('[data-tk]').forEach(el=>el.oninput=()=>draft[+el.dataset.tk].key=el.value);
+    $$('[data-tx]').forEach(el=>el.oninput=()=>{const [ti,li]=el.dataset.tx.split('-').map(Number);draft[ti].lines[li].text=el.value;$('#pv').textContent=el.value||FALLBACK;
+      const cnt=el.parentElement.querySelector('.cnt');if(cnt){const n=equiv(el.value);cnt.textContent=n+' / 32'+(lang==='zh'&&n>32?' · 超出限制':'');cnt.className='cnt'+(lang==='zh'&&n>32?' bad':'')}});
+    $$('[data-al]').forEach(el=>el.onclick=()=>{draft[+el.dataset.al].lines.push(line(''));draw()});
+    $$('[data-dt]').forEach(el=>el.onclick=()=>{draft.splice(+el.dataset.dt,1);draw()});
+    $$('[data-dv]').forEach(el=>el.onclick=()=>{const [ti,li]=el.dataset.dv.split('-').map(Number);draft[ti].lines[li].voice=null;draw()});
+    $$('[data-up]').forEach(el=>el.onchange=()=>{const f=el.files&&el.files[0];if(!f)return;const [ti,li]=el.dataset.up.split('-').map(Number);
+      draft[ti].lines[li].voice={name:f.name,dur:(Math.max(1.2,Math.min(4.8,f.size/80000))).toFixed(1)+'s'};toast('已挂上录音 '+f.name+'（演示不上传到服务器）');draw()});
+    $$('[data-play]').forEach(el=>el.onclick=()=>{const [ti,li]=el.dataset.play.split('-').map(Number);const ln=draft[ti].lines[li];toast('试听：'+((ln.voice&&ln.voice.name)||'无文件')+' · '+ln.text)});
+    $('#addType').onclick=()=>{draft.push({key:'custom_'+nid(),name:'新纠错类型',fromSo:false,lines:[line('')]});draw()};
+    $('#ds').onclick=()=>{
+      if(lang==='zh'&&draft.some(tp=>tp.lines.some(l=>!check(l.text))))return toast('中文有条目超出 32 字，请精简');
+      if(draft.some(tp=>!tp.name.trim()||!tp.key.trim()))return toast('类型名称和 key 不能为空');
+      db.copy[so+'|'+lang]=draft;save();ui.edit=null;nav('ai');toast('已保存文案和语音');
+    };
+  };
+  draw();
+}
+function flattenCopy(){const out=[];Object.entries(db.copy).forEach(([k,types])=>{const [so,lang]=k.split('|');(types||[]).forEach(tp=>tp.lines.forEach(l=>out.push({so,lang,key:tp.key,name:tp.name,text:l.text,voice:l.voice})))});return out}
+function exportTpl(){
+  const rows=[['SO库ID','动作名称','纠错类型key','纠错类型名','条序号','中文文案','语音文件']];
+  AI_LIST.forEach(([so,nm])=>{(typesOf(so,'zh')||defaultTypes()).forEach(tp=>tp.lines.forEach((l,i)=>rows.push([so,nm,tp.key,tp.name,i+1,l.text||'',l.voice?l.voice.name:''])))});
+  const csv='\ufeff'+rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='ai-error-copy-template.csv';a.click();toast('已按「类型 × 多条」导出');
+}
+function importTpl(){
+  const o=dlg('批量导入中文纠错文案',`<p class="muted small">模板按动作的实际类型和条数预填，不强制每动作 4 条。语音文件需在详情页逐条上传。</p><p>演示：将写入「244_跪姿杠铃高位下拉」的默认 4 类各 1 条中文。</p>`,`<button class="btn g" data-c>取消</button><button class="btn p" data-ok>模拟导入</button>`,{w:520});
+  o.querySelector('[data-c]').onclick=o.close;
+  o.querySelector('[data-ok]').onclick=()=>{db.copy['244|zh']=pack([
+    {key:'rom',name:'幅度',fromSo:true,lines:[line('再下拉一点，让杠铃贴近锁骨')]},{key:'symmetry',name:'左右对称',fromSo:true,lines:[line('左右手一起下拉，同步发力')]},
+    {key:'stability',name:'稳定性',fromSo:true,lines:[line('跪稳别后仰，收紧核心')]},{key:'tempo',name:'节奏',fromSo:true,lines:[line('保持连贯节奏，不要停顿过久')]}]);
+    save();o.close();pageAI();toast('已导入 1 个动作的中文文案')};
+}
+function findReplace(){
+  const o=dlg('按文案查找替换',`<p class="muted small">同一句话出现在不同动作、不同类型或同一类型的多条里，一次替换。</p>
+   <div class="f"><label>查找</label><input type="text" id="fr1" value="保持连贯节奏，不要停顿过久" style="width:100%"></div>
+   <div class="f" style="margin-top:8px"><label>替换为</label><input type="text" id="fr2" value="动作再干脆一些，保持稳定节奏。" style="width:100%"></div><p class="muted small" id="frn" style="margin-top:8px"></p>`,`<button class="btn g" data-c>取消</button><button class="btn p" data-ok>替换</button>`,{w:520});
+  const count=()=>{$('#frn').textContent='将影响 '+flattenCopy().filter(x=>x.text===$('#fr1').value).length+' 条纠错文案'};
+  count();$('#fr1').oninput=count;o.querySelector('[data-c]').onclick=o.close;
+  o.querySelector('[data-ok]').onclick=()=>{const q=$('#fr1').value,r=$('#fr2').value;let n=0;Object.values(db.copy).forEach(types=>(types||[]).forEach(tp=>tp.lines.forEach(l=>{if(l.text===q){l.text=r;n++}})));save();o.close();pageAI();toast('已替换 '+n+' 条')};
+}
+
+/* ========== 页面四：本期变更清单（含作用、影响、数据流） ========== */
+function pageChanges(){
+  /* 列：页面 | 功能 / 字段 | 类型 | 在哪里配置 | 作用与影响（端 · 页面 · 时机） | 数据流 | 未配置 / 异常时 */
+  const R=[
+   ['动作库管理','整页','old','动作库管理 → 列表 / 添加 / 编辑','与线上完全一致，本期没有任何改动（推荐配重保持线上单值字段）。动作的「适用场景 / 动作属性 / 训练部位 / 器械」继续是原有字段，只是被模板拿来筛候选。','—','—'],
+   ['安装方案模板','模板（整页新增）','new','安装方案模板 → 新建 / 编辑','一条模板 = 训练准备内容（可选视频 + 1～5 张卡片）+ 匹配条件 + 成员动作。决定设备端「训练准备」页对某个动作显示什么。','后台保存为草稿 → 发布 → 服务端已发布版本 → 设备端同步并缓存。','未归属任何模板的动作，设备端直接进入动作详情。'],
+   ['安装方案模板','匹配条件：适用场景 / 动作属性 / 训练部位 / 配件','new','模板编辑页 → 匹配条件','只用来筛出候选动作，并在新建或修改动作后给模板提示「待确认」。不决定设备端展示，也不自动加入成员。','只存在后台，不下发设备端。','不设条件：候选区为空，只能「显示全部动作」手动勾选。'],
+   ['安装方案模板','成员动作（勾选结果）','new','模板编辑页 → 选择动作；列表展开 → 移出 / 加入；未归属行 → 加入建议模板','设备端按「动作 → 模板」读取：进入训练前，该动作是否出现准备页、出现哪一套内容。一个动作只归一个模板。','发布后，服务端生成「动作 ID → 模板」映射随已发布版本下发；设备端同步动作时一并取得，本地缓存。','动作不在任何模板里：不显示准备页。草稿 / 下架动作在上架前设备端看不到。'],
+   ['安装方案模板','引导视频（可选）','new','模板编辑页 → 引导视频','设备端训练准备页顶部的 16:9 视频区，循环、静音播放，一次讲清整个安装顺序。无字幕、旁白，所有语言共用。','上传 → 服务端转码并保留封面 → 发布 → 设备端同步时预下载 → 缓存，进入页面时直接播放。','没有视频：只显示文字卡片。视频未下载完 / 失败 / 离线无缓存：显示封面图，文字和按钮照常，不阻断训练。'],
+   ['安装方案模板','训练准备卡片：图片 / 主标题 / 副标题','new','模板编辑页 → 训练准备卡片','设备端准备页的步骤清单，1～5 张，顺序即显示顺序。图片、主标题、副标题都可自定义，不限卡片类型（换配件、放 / 去箱体、只调卡扣、以后的新场景）。副标题由设备端按当前语言朗读（待确认）。','随模板发布；文字可翻译；图片发布时压缩，设备端同步时下载并缓存。','图片缺失 / 失败：显示序号占位，文字照常。缺译文：回退中文。'],
+   ['安装方案模板','顶部标签（可选）','new','模板编辑页 → 训练准备卡片下方','设备端准备页动作名称下方的小标签，如「手柄」「平板凳」「与肩同高」。','随模板发布，可翻译。','不填则不显示。'],
+   ['安装方案模板','启用 / 停用','new','模板列表 → 启用开关；编辑页','停用并发布后，该模板下的动作在设备端直接进入动作详情，成员关系保留，可随时重新启用。','属于模板内容，随发布生效。','—'],
+   ['安装方案模板','发布状态（未发布 / 已发布 / 有未发布修改 / 待删除）','new','模板列表 → 发布 / 发布全部修改','保存只是草稿；发布后设备端才生效，包括成员增减、停用、删除。发布前弹窗列出本次变更。','草稿存后台；发布时生成已发布快照；设备端只读快照。','未发布的修改，设备端看不到。'],
+   ['安装方案模板','翻译','new','模板列表 → 翻译','复用动作库的「选择翻译语言」。翻译卡片主 / 副标题和标签；视频不含文字，不翻译。修改中文后需要重新翻译。','翻译结果随模板发布；设备端按当前语言取译文。','缺某语言译文时回退中文。'],
+   ['安装方案模板','操作日志','new','模板列表 → 操作日志','记录模板的新建、修改、成员增减、启停、翻译、删除和发布，含操作人与时间；风格同动作库的「操作人」列。','只存后台，不下发。','—'],
+   ['AI动作列表','纠错结构 / 中文 / 语音 / 已翻译、编辑页（多类型、多条、独立语音）','new','AI动作列表 → 编辑中文 / 翻译','设备端 AI 训练中识别到动作问题时的字幕与语音播报：按「so 库 ID + 纠错类型 + 语言」取文案和录音，同一类型有多条时按各自触发条件播报。','后台保存 → 设备端按 so ID 和语言读取并缓存（生效时机建议与模板一致，发布后生效，待确认）。','文案为空：字幕兜底「请查看动作示范并调整姿势」；没有录音：只出字幕，不播报。'],
+   ['设备端固定功能','床体引导（力量 ↔ 普拉提切换）','new','不在管理后台配置','设备端按「目标动作的适用场景 + 普拉提床当前状态」自动引导：要进普拉提但床没展开并锁定 → 引导展开；要进力量但床还展开着 → 引导收起。','设备端本地判断，床状态来自设备 / 固件传感器，与后台无关，不经过发布。','床未完全拉出等异常，沿用床体控制页的规则与全局横幅。']
+  ];
+  $('#content').innerHTML=`${LEGEND}<div class="hint">本页汇总本期所有「新增 / 修改」，并写清每项<b>在哪里配置、配置后影响哪里、数据怎么流转、没配置会怎样</b>。以线上动作库（motionstation.visbodyfit.com/#/action）为底，未列出的功能和字段与线上一致。标「待确认」的口径需要研发确认。</div>
+  <div class="card"><div class="hd"><h2>功能 / 字段清单</h2></div><div class="bd tw"><table class="chg"><thead><tr><th class="l">页面</th><th class="l">功能 / 字段</th><th class="l">类型</th><th class="l">在哪里配置</th><th class="l">作用与影响（端 · 页面 · 时机）</th><th class="l">数据流</th><th class="l">未配置 / 异常时</th></tr></thead><tbody>
+  ${R.map(r=>`<tr><td>${r[0]}</td><td><b>${r[1]}</b></td><td>${MK(r[2])}</td><td>${r[3]}</td><td>${r[4]}</td><td>${r[5]}</td><td>${r[6]}</td></tr>`).join('')}</tbody></table></div></div>
+
+  <div class="card"><div class="hd"><h2>数据流示意：安装方案模板</h2></div><div class="bd">
+   <div class="flow">
+    <div class="fb"><b>管理后台</b><span>建模板：条件筛候选<br>勾选成员 · 自定义卡片<br>上传视频 / 图片 · 翻译</span></div><i>草稿保存</i>
+    <div class="fb"><b>发布</b><span>弹窗核对变更<br>生成已发布快照<br>写操作日志</span></div><i>发布</i>
+    <div class="fb"><b>服务端</b><span>已发布版本<br>动作 → 模板映射<br>视频转码 · 图片压缩</span></div><i>同步</i>
+    <div class="fb"><b>设备端</b><span>同步时预下载并缓存<br>只读已发布版本</span></div><i>进入动作前</i>
+    <div class="fb hi"><b>训练准备页</b><span>视频区 + 文字步骤<br>已归属才显示<br>失败回退封面</span></div>
+   </div>
+   <div class="small muted" style="margin-top:10px;line-height:1.8">床体引导不在这条流程里：它是设备端固定功能，直接读取设备 / 固件回传的床体状态。匹配条件只留在后台，不下发。</div></div></div>
+
+  <div class="card"><div class="hd"><h2>发布与生效（建议口径，待研发确认）</h2></div><div class="bd"><ol style="margin:0;padding-left:20px;line-height:2">
+   <li>模板有四种状态：未发布、已发布、有未发布修改、待删除。设备端只读「已发布」那一版。</li>
+   <li>停用、删除、成员增减、卡片修改、视频替换、翻译都属于模板内容，发布后才生效；匹配条件不下发，修改后不需要发布。</li>
+   <li>草稿 / 下架的动作可以先加入模板，动作上架后才会在设备端出现；动作被下架或删除，设备端直接进入动作详情（不显示准备页）。</li>
+   <li>设备端同步时机（启动 / 联网 / 定时）和缓存失效策略由研发确定；离线时使用上次缓存。</li>
+   <li>所有模板变更与发布写入操作日志，保留操作人和时间。</li></ol></div></div>
+
+  <div class="card"><div class="hd"><h2>新模板上线初始化步骤</h2></div><div class="bd"><ol style="margin:0;padding-left:20px;line-height:2">
+   <li>新建模板，填训练准备内容：可选引导视频（必须带封面），1～5 张卡片，标签按需填写。</li>
+   <li>填匹配条件（适用场景 / 动作属性 / 训练部位 / 配件），系统实时筛出候选动作。</li>
+   <li>在「选择动作」里点「全选候选」，再逐个取消不需要的，或逐个补勾；已在别的模板里的动作会提示。</li>
+   <li>回到模板列表，检查「待确认」「未归属动作」，把遗漏的动作补进来。</li>
+   <li>点「预览」确认设备端训练准备页效果，需要多语言的先点「翻译」。</li>
+   <li>点「发布」，核对变更摘要后确认。设备端下次同步后生效。</li></ol></div></div>
+
+  <div class="card"><div class="hd"><h2>图片与视频规格（建议口径，待研发确认）</h2></div><div class="bd tw"><table class="chg"><thead><tr><th class="l">项目</th><th class="l">规格</th></tr></thead><tbody>
+   <tr><td><b>卡片图片</b></td><td>PNG / JPG / WebP 静态图；不超过 2 MB；比例 1:1，建议 400×400 px 以上，最长边不超过 1600 px；不放文字，避免多语言重复制图；不支持动图。</td></tr>
+   <tr><td><b>引导视频</b></td><td>MP4（H.264）；不超过 15 秒，循环播放；16:9，720p；不超过 8 MB；无字幕、旁白和文字，所有语言共用；每个模板最多 1 个。</td></tr>
+   <tr><td><b>视频封面图</b></td><td>必填；PNG / JPG / WebP；不超过 2 MB；16:9。视频加载中或失败时显示。</td></tr>
+   <tr><td><b>同步与缓存</b></td><td>发布时服务端对图片压缩、对视频转码；设备端同步时预下载，不在进入准备页时才下载；以文件地址为键本地缓存，更换文件地址自动更新；离线使用缓存。</td></tr>
+   <tr><td><b>缺失 / 失败</b></td><td>图片：显示序号占位；视频：显示封面图；文字与按钮照常，不阻断训练。</td></tr></tbody></table></div></div>
+
+  <div class="card"><div class="hd"><h2>待确认</h2></div><div class="bd"><ol style="margin:0;padding-left:20px;line-height:2">
+   <li>卡片副标题是否由设备端按当前语言语音朗读（系统语音合成，不上传录音）。</li>
+   <li>发布粒度：当前按「每个模板各自发布 + 一键发布全部修改」。</li>
+   <li>AI 动作纠错文案的生效时机是否与模板一致（发布后生效）。</li>
+   <li>设备端同步时机与缓存失效策略。</li>
+   <li>每个模板对应一个视频，模板多了制作量大；后期可演进为素材库复用片段，本期不做。</li></ol></div></div>`;
+}
+
+var embed=new URLSearchParams(location.search).get('embed')==='1';
+if(embed){
+  window.addEventListener('message',e=>{
+    if(location.protocol!=='file:'&&e.origin!==location.origin)return;
+    if(e.data&&e.data.type==='admin-theme'&&e.data.theme)setTheme(e.data.theme,'sync');
+    if(e.data&&e.data.type==='admin-nav'&&e.data.page&&CRUMB[e.data.page]){ui.edit=null;ui.preview=null;nav(e.data.page)}
+  });
+}
+const navBase=nav;
+nav=function(p,opt){navBase(p,opt);if(embed&&parent!==window)parent.postMessage({type:'admin-page',page:ui.page},location.protocol==='file:'?'*':location.origin)};
+nav('actions');
+</script>
+</body>
+</html>

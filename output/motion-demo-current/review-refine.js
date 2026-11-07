@@ -39,7 +39,7 @@ featureRules.rules=['完整功能规则',['完整规则、版本修改点和发�
 const preRuleRender=render;render=function(){preRuleRender();if(route==='rules'){$('#statusbar').style.display='none';$('#bottomnav').style.display='none';$('#backbar')?.remove()}};render();
 
 // APP review scope includes account deletion and FAQ; device scope is unchanged.
-const accountOnlyRender=render;render=function(){if(end==='app'&&!['account','help','rules'].includes(route))route='account';accountOnlyRender();if(end==='app'){$('#bottomnav').style.display='none';$('#reviewtitle').textContent=route==='help'?'常见问题':'账号注销';}};
+const accountOnlyRender=render;render=function(){if(end==='app'&&!['account','help','rules','registration','profile','pending','acceptance','copyTable','frIndex'].includes(route))route='registration';accountOnlyRender();if(end==='app'){$('#bottomnav').style.display='none';if(!document.body.classList.contains('v6-admin'))$('#reviewtitle').textContent=routes[route]||'APP';}};
 render();
 const countUpdate=updateTraining;updateTraining=function(){countUpdate();const counter=$('#supplement-reps');if(counter)counter.textContent=rep};
 

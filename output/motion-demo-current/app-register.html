@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>APP · 注册账号（在原注册页上增加头像上传）</title>
+<!-- 还原自 motion-station-app/lib/features/register/register_view.dart 的现有注册页：
+     顶部返回 + 语言按钮；卡片内「注册账号 / 手机号注册」标题行、用户名、邮箱（或手机号）、验证码、密码、确认密码、立即注册、协议勾选；卡片外「已有账号？去登录」。
+     本期只新增一项：卡片内、用户名之上的「头像（选填）」。其余字段、顺序、文案保持原样。 -->
+<style>
+:root{--bg:#000;--card:#19191b;--card-b:#2c2c2e;--field-b:#3a3a3c;--ink:#fff;--sub:#8e8e93;--acc:#2f66f0;--acc-t:#fff;--err:#ff6b6b;--chip:#232326}
+[data-theme=light]{--bg:#f4f6f9;--card:#fff;--card-b:#e3e8ef;--field-b:#cfd6e0;--ink:#16202c;--sub:#6b7888;--acc:#1f5fe0;--chip:#f1f4f8}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font:14px/1.4 -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",Roboto,sans-serif}
+body{display:flex;flex-direction:column;overflow:hidden}
+.top{height:56px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 12px 0 6px}
+.back{width:44px;height:44px;border:0;background:none;color:var(--ink);cursor:pointer;display:grid;place-items:center}
+.loc{display:flex;align-items:center;gap:8px;height:40px;padding:0 14px;border:1px solid var(--card-b);border-radius:14px;background:var(--chip);color:var(--ink);font-size:13px;font-weight:600;cursor:pointer}
+.scroll{flex:1;overflow-y:auto;padding:8px 16px 28px}
+.wrap{max-width:480px;margin:0 auto}
+.card{border:1px solid var(--card-b);border-radius:20px;background:var(--card);padding:22px}
+.hrow{display:flex;align-items:center;gap:8px}
+.hrow h1{flex:1;margin:0;font-size:24px;line-height:1.25;font-weight:700;white-space:nowrap}
+.link{border:0;background:none;color:var(--acc);font:inherit;font-size:13px;font-weight:700;padding:8px 4px;cursor:pointer;text-align:right}
+.mode{margin:6px 0 18px;color:var(--sub);font-size:12px}
+.f{margin-bottom:14px}
+.f>label,.lab{display:block;margin-bottom:8px;font-size:14px;font-weight:600}
+.opt{color:var(--sub);font-weight:400}
+.in{display:flex;align-items:center;height:50px;border:1px solid var(--field-b);border-radius:12px;padding:0 14px;background:transparent}
+.in:focus-within{border-color:var(--acc)}
+.in input{flex:1;min-width:0;border:0;outline:0;background:none;color:var(--ink);font:inherit;font-size:15px;font-weight:500}
+.in input::placeholder{color:var(--sub);opacity:.85}
+.row{display:flex;gap:8px}
+.row .in{flex:1}
+.ghost{flex:none;height:50px;padding:0 14px;border:1px solid var(--field-b);border-radius:12px;background:none;color:var(--acc);font:inherit;font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap}
+.ghost[disabled]{color:var(--sub);cursor:default}
+.eye{border:0;background:none;color:var(--sub);cursor:pointer;padding:4px;display:grid;place-items:center}
+.prefix{flex:none;display:flex;align-items:center;gap:4px;height:50px;padding:0 12px;border:1px solid var(--field-b);border-radius:12px;background:none;color:var(--ink);font:inherit;font-size:15px;font-weight:500;cursor:pointer}
+.prefix[hidden],.f[hidden]{display:none}
+.primary{width:100%;height:50px;margin-top:6px;border:0;border-radius:99px;background:var(--acc);color:var(--acc-t);font:inherit;font-size:16px;font-weight:700;cursor:pointer}
+.primary:active{opacity:.85}
+.policy{display:flex;gap:10px;margin-top:14px;font-size:12.5px;line-height:1.45;color:var(--sub)}
+.policy .cb{flex:none;width:18px;height:18px;margin-top:1px;border:1px solid var(--field-b);border-radius:5px;display:grid;place-items:center;cursor:pointer;background:transparent;color:var(--acc-t);padding:0}
+.policy .cb.on{background:var(--acc);border-color:var(--acc)}
+.policy b{color:var(--acc);font-weight:600}
+.login{display:block;margin:10px auto 0;border:0;background:none;color:var(--acc);font:inherit;font-size:14px;font-weight:700;padding:10px 4px;cursor:pointer}
+/* —— 本期新增：头像（选填） —— */
+.av{display:flex;align-items:center;gap:14px}
+.av .pic{flex:none;width:64px;height:64px;border-radius:50%;border:1px dashed var(--field-b);background:var(--chip);display:grid;place-items:center;overflow:hidden;color:var(--sub);cursor:pointer;padding:0}
+.av .pic img{width:100%;height:100%;object-fit:cover;display:block}
+.av .side{flex:1;min-width:0}
+.av .acts{display:flex;gap:8px;flex-wrap:wrap}
+.av .acts .ghost{height:38px;padding:0 14px;font-size:13px}
+.av .acts .ghost.del{color:var(--sub)}
+.av .tip{margin:6px 0 0;font-size:12px;color:var(--sub);line-height:1.4}
+.av .err{margin:6px 0 0;font-size:12px;color:var(--err);min-height:0}
+.new-tag{display:inline-block;margin-left:6px;padding:0 6px;border-radius:99px;background:var(--acc);color:var(--acc-t);font-size:10px;line-height:16px;font-weight:600;vertical-align:middle}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);max-width:86%;padding:10px 16px;border-radius:12px;background:#2c2c2e;color:#fff;font-size:13px;display:none;z-index:9;text-align:center}
+</style>
+<body>
+<div class="top">
+  <button class="back" type="button" aria-label="返回" id="back"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+  <button class="loc" type="button" id="loc"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg><span id="locT">跟随系统</span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+</div>
+<div class="scroll"><div class="wrap">
+<div class="card">
+  <div class="hrow"><h1>注册账号</h1><button class="link" type="button" id="sw">手机号注册</button></div>
+  <div class="mode" id="mode">邮箱注册</div>
+
+  <div class="f" id="avF">
+    <span class="lab">头像 <span class="opt">（选填）</span><span class="new-tag">本期新增</span></span>
+    <div class="av">
+      <button class="pic" type="button" id="pic" aria-label="选择头像">
+        <svg id="ph" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="3.6"/><path d="M4.5 20c.9-3.6 3.8-5.6 7.5-5.6s6.6 2 7.5 5.6"/></svg>
+        <img id="img" alt="" hidden>
+      </button>
+      <div class="side">
+        <div class="acts"><button class="ghost" type="button" id="up">上传头像</button><button class="ghost del" type="button" id="rm" hidden>移除</button></div>
+        <p class="tip" id="tip">支持 JPG、PNG、WebP，5MB 以内。不上传则使用默认头像。</p>
+        <p class="err" id="err"></p>
+      </div>
+      <input type="file" id="file" accept="image/jpeg,image/png,image/webp" hidden>
+    </div>
+  </div>
+
+  <div class="f"><label>用户名</label><div class="in"><input id="user" placeholder="5-100 位，需含字母和数字" autocomplete="off"></div></div>
+  <div class="f" id="mailF"><label>邮箱</label><div class="in"><input id="mail" type="email" placeholder="name@email.com" autocomplete="off"></div></div>
+  <div class="f" id="telF" hidden><label>手机号</label><div class="row"><button class="prefix" type="button" id="pre">+86 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button><div class="in"><input id="tel" inputmode="tel" placeholder="请输入手机号" autocomplete="off"></div></div></div>
+  <div class="f"><label>验证码</label><div class="row"><div class="in"><input id="code" inputmode="numeric" maxlength="4" placeholder="4 位验证码" autocomplete="off"></div><button class="ghost" type="button" id="send">发送验证码</button></div></div>
+  <div class="f"><label>密码</label><div class="in"><input id="pw" type="password" placeholder="密码" autocomplete="new-password"><button class="eye" type="button" data-eye="pw" aria-label="显示或隐藏密码"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div>
+  <div class="f"><label>确认密码</label><div class="in"><input id="pw2" type="password" placeholder="请再次输入密码" autocomplete="new-password"><button class="eye" type="button" data-eye="pw2" aria-label="显示或隐藏密码"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div>
+
+  <button class="primary" type="button" id="go">立即注册</button>
+  <div class="policy"><button class="cb" type="button" id="cb" aria-label="同意协议"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M5 12.5l4.5 4.5L19 7"/></svg></button><span>我已阅读并同意<b>用户协议</b>与<b>隐私政策</b>。</span></div>
+</div>
+<button class="login" type="button" id="login">已有账号？去登录</button>
+</div></div>
+<div class="toast" id="toast"></div>
+<script>
+(function(){
+  const $=id=>document.getElementById(id);
+  try{const t=parent&&parent!==window&&parent.document.getElementById('theme');document.documentElement.dataset.theme=(t&&t.value)||'dark'}catch(e){document.documentElement.dataset.theme='dark'}
+  if(new URLSearchParams(location.search).get('theme'))document.documentElement.dataset.theme=new URLSearchParams(location.search).get('theme');
+  try{const r=parent.document.getElementById('review');if(r&&!r.checked)document.querySelector('.new-tag').style.display='none'}catch(e){}
+  let phone=false,agreed=false,cd=0,timer=0;
+  const say=t=>{const e=$('toast');e.textContent=t;e.style.display='block';clearTimeout(say.t);say.t=setTimeout(()=>e.style.display='none',2200)};
+  /* 通道切换：邮箱 / 手机号 */
+  $('sw').onclick=()=>{phone=!phone;$('sw').textContent=phone?'邮箱注册':'手机号注册';$('mode').textContent=phone?'手机号注册':'邮箱注册';$('mailF').hidden=phone;$('telF').hidden=!phone};
+  $('pre').onclick=()=>say('区号选择：演示默认 +86');
+  $('loc').onclick=()=>say('语言：跟随系统');
+  $('back').onclick=$('login').onclick=()=>say('返回登录页（演示不跳转）');
+  document.querySelectorAll('[data-eye]').forEach(b=>b.onclick=()=>{const i=$(b.dataset.eye);i.type=i.type==='password'?'text':'password'});
+  $('cb').onclick=()=>{agreed=!agreed;$('cb').classList.toggle('on',agreed);$('cb').firstElementChild.style.display=agreed?'block':'none'};
+  $('send').onclick=()=>{
+    if(cd)return;
+    if(phone?!/^\d{6,15}$/.test($('tel').value.trim()):!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test($('mail').value.trim()))return say(phone?'请输入正确的手机号':'请输入正确的邮箱地址');
+    say('验证码已发送。');cd=60;const b=$('send');b.disabled=true;b.textContent=cd+' s';
+    timer=setInterval(()=>{cd--;if(cd<=0){clearInterval(timer);b.disabled=false;b.textContent='发送验证码'}else b.textContent=cd+' s'},1000);
+  };
+  /* 本期新增：头像上传。JPG / PNG / WebP，5MB 以内，选填。 */
+  const OK=['image/jpeg','image/png','image/webp'];
+  const pick=()=>$('file').click();
+  $('pic').onclick=$('up').onclick=pick;
+  $('file').onchange=function(){
+    const f=this.files&&this.files[0];if(!f)return;
+    if(!OK.includes(f.type)){$('err').textContent='仅支持 JPG、PNG、WebP 格式。';this.value='';return}
+    if(f.size>5*1024*1024){$('err').textContent='图片需在 5MB 以内。';this.value='';return}
+    const r=new FileReader();
+    r.onload=()=>{$('img').src=r.result;$('img').hidden=false;$('ph').style.display='none';$('rm').hidden=false;$('up').textContent='更换头像';$('err').textContent='';$('tip').textContent='已选择，注册成功后显示在「我的」页面。'};
+    r.readAsDataURL(f);
+  };
+  $('rm').onclick=()=>{$('file').value='';$('img').hidden=true;$('img').removeAttribute('src');$('ph').style.display='';$('rm').hidden=true;$('up').textContent='上传头像';$('err').textContent='';$('tip').textContent='支持 JPG、PNG、WebP，5MB 以内。不上传则使用默认头像。'};
+  /* 提交校验：文案取自现有注册页 */
+  $('go').onclick=()=>{
+    const u=$('user').value.trim();
+    if(!u)return say('请输入用户名');
+    if(u.length<5||u.length>100||!/[A-Za-z]/.test(u)||!/\d/.test(u))return say('账户名需 5-100 字符，至少包含字母和数字各 1 个');
+    if(phone){if(!$('tel').value.trim())return say('请输入手机号')}else{const m=$('mail').value.trim();if(!m)return say('邮箱不能为空');if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(m))return say('请输入正确的邮箱地址')}
+    if(!/^\d{4}$/.test($('code').value))return say('请输入 4 位验证码');
+    const p=$('pw').value;if(!p)return say('请输入密码');if(p.length<8)return say('密码至少 8 位');if(p.length>50)return say('密码最多 50 位');
+    if(!$('pw2').value)return say('请再次输入密码');if($('pw2').value!==p)return say('两次输入的密码不一致');
+    if(!agreed)return say('请先阅读并同意用户协议与隐私政策');
+    say($('img').hidden?'注册成功。（未上传头像，使用默认头像）':'注册成功。（头像已设置）');
+  };
+})();
+</script>
+</body>
+</html>

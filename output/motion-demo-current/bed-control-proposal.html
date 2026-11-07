@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>床体控制方案（页面设计 + 文案）· 待确认</title>
+<style>
+:root{--bg:#f3f5f8;--ink:#1d2b3a;--mute:#5d6b7c;--line:#dbe2ea;--card:#fff;--blue:#1264c6;--red:#d92d3a;--amber:#f5a524;--green:#2bb673}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.8 system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding:40px 28px 100px}
+h1{font-size:30px;margin:0 0 6px}
+h2{font-size:22px;margin:56px 0 14px;padding-top:8px;border-top:2px solid var(--ink)}
+h3{font-size:16px;margin:26px 0 8px}
+.sub{color:var(--mute);margin:0 0 20px}
+.tag{display:inline-block;font-size:12px;padding:1px 9px;border-radius:99px;background:#e4eefb;color:var(--blue);margin-right:6px;line-height:1.7}
+.tag.red{background:#fde6e8;color:var(--red)}
+.tag.amber{background:#fff2d9;color:#a96a00}
+.tag.green{background:#dff5ea;color:#17784a}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 22px;margin:14px 0}
+table{border-collapse:collapse;width:100%;background:#fff;font-size:14px}
+th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;vertical-align:top}
+th{background:#eaf0f7;white-space:nowrap}
+td code,.id{font:12px/1.4 ui-monospace,Menlo,monospace;background:#eef2f6;border-radius:4px;padding:1px 6px;white-space:nowrap}
+.photos{display:grid;grid-template-columns:1.5fr 1fr;gap:16px}
+.photos figure{margin:0;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px;text-align:center}
+.photos img{width:100%;max-height:340px;object-fit:contain;border-radius:8px}
+.photos figcaption{font-size:13px;color:var(--mute);margin-top:6px}
+/* ---------- flow ---------- */
+.flow{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch;margin:14px 0}
+.node{flex:1 1 150px;min-width:150px;background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;font-size:13px;line-height:1.55;position:relative}
+.node b{display:block;font-size:14px}
+.node small{color:var(--mute)}
+.node.ok{border-color:#8fd9b4;background:#f1fbf6}
+.node.warn{border-color:#f1b0b6;background:#fff5f6}
+.node.act{border-color:#9bbbe6;background:#f3f8ff}
+.arrow{align-self:center;color:var(--mute);font-size:20px}
+/* ---------- device mocks ---------- */
+.shots{display:flex;flex-wrap:wrap;gap:22px;margin:16px 0}
+.shot{width:252px}
+.shot .cap{font-size:13px;margin-top:8px;line-height:1.6}
+.shot .cap b{display:block;font-size:14px}
+.dev{position:relative;width:252px;height:448px;border-radius:14px;background:#08111d;color:#e8eef6;overflow:hidden;box-shadow:0 8px 24px #0b1b3320;border:3px solid #1c2a3d;font-size:10px;line-height:1.45}
+.sb{height:16px;display:flex;justify-content:space-between;align-items:center;padding:0 10px;font-size:8px;color:#9fb0c4}
+.hd{display:flex;align-items:center;gap:6px;padding:4px 10px 6px;font-size:13px;font-weight:700}
+.hd i{font-style:normal;width:20px;height:20px;border-radius:50%;background:#16273d;display:grid;place-items:center;font-size:11px;font-weight:400}
+.hero{margin:2px 10px 0;height:188px;border-radius:12px;background:#fff;display:grid;place-items:center;overflow:hidden;position:relative}
+.hero img{height:140px;max-width:100%;object-fit:contain}
+.hero.dark{background:#0f1c2e}
+.hero .cd{position:absolute;right:8px;top:8px;font:700 16px ui-monospace,Menlo,monospace;background:#0f1c2ecc;color:#fff;border-radius:8px;padding:0 8px}.hero .arr{position:absolute;right:8px;bottom:8px;font-size:10px;font-weight:700;background:#00b7e0;color:#06222c;border-radius:99px;padding:1px 9px}.hero img{max-width:100%}
+.pill{position:absolute;left:8px;top:8px;font-size:9px;padding:1px 8px;border-radius:99px;background:#0f1c2ecc;color:#8fe1f7}
+.ring{width:96px;height:96px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--c,#00c4ed) calc(var(--p,100)*1%),#1a2c44 0);position:relative}
+.ring::after{content:"";position:absolute;inset:8px;border-radius:50%;background:#0f1c2e}
+.ring span{position:relative;z-index:1;font-size:30px;font-weight:700;font-family:ui-monospace,Menlo,monospace}
+.ring small{position:absolute;z-index:1;bottom:20px;font-size:8px;color:#8aa0b8}
+.ttl{padding:8px 12px 0;font-size:15px;font-weight:700}
+.ttl.red{color:#ff7a85}.ttl.ok{color:#58d9a0}
+.txt{padding:2px 12px 0;color:#a9b8ca;font-size:10px}
+.steps{display:flex;gap:4px;padding:8px 12px 0}
+.st{flex:1;font-size:8.5px;text-align:center;color:#6d8097;border-top:3px solid #1d3048;padding-top:3px}
+.st.on{color:#8fe1f7;border-color:#00c4ed}
+.st.done{color:#58d9a0;border-color:#2bb673}
+.st.bad{color:#ff7a85;border-color:#d92d3a}
+.foot{position:absolute;left:10px;right:10px;bottom:10px;display:grid;gap:6px}
+.b{height:30px;border-radius:9px;display:grid;place-items:center;font-size:11px;font-weight:700;background:#16273d;color:#e8eef6}
+.b.p{background:#00b7e0;color:#06222c}.b.r{background:#d92d3a;color:#fff}.b.dis{opacity:.4}
+.note{text-align:center;font-size:9px;color:#7f93aa}
+.banner{position:relative;z-index:5;background:#d92d3a;color:#fff;padding:6px 8px 6px 10px;display:flex;gap:8px;align-items:center}
+.banner .ic{width:18px;height:18px;border-radius:50%;background:#fff;color:#d92d3a;display:grid;place-items:center;font-weight:900;font-size:12px;flex:none}
+.banner div{flex:1;font-size:10px;line-height:1.35}
+.banner b{display:block;font-size:11px}
+.banner u{flex:none;text-decoration:none;font-size:10px;font-weight:700;border:1px solid #ffffffaa;border-radius:6px;padding:2px 8px}
+.pg{padding:8px 10px}
+.m{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}
+.m div{background:#10213a;border-radius:8px;padding:5px 7px}
+.m small{display:block;color:#7f93aa;font-size:8px}.m b{font-size:13px}
+.blk{background:#10213a;border-radius:10px;margin-top:6px;padding:8px}
+.tile{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;padding:8px 10px}
+.tile div{background:#10213a;border-radius:9px;text-align:center;padding:7px 2px;font-size:9px;color:#a9b8ca}
+.tile div.alert{background:#4a1c24;color:#ffb3ba;box-shadow:inset 0 0 0 1px #d92d3a}
+.sheet{position:absolute;left:0;right:0;bottom:0;height:62%;background:#0d1a2b;border-top:1px solid #20344d;border-radius:14px 14px 0 0}
+.dim{position:absolute;inset:0;background:#0008}
+/* timeline */
+.tl{position:relative;height:92px;background:#fff;border:1px solid var(--line);border-radius:12px;margin:14px 0;padding:12px 16px}
+.tl .bar{position:absolute;left:16px;right:16px;top:44px;height:14px;border-radius:7px;background:linear-gradient(90deg,#9bbbe6 0 25%,#7fd7b0 25% 100%);overflow:hidden}
+.tl .bar i{position:absolute;top:0;bottom:0;background:repeating-linear-gradient(45deg,#d92d3a55,#d92d3a55 6px,#d92d3a22 6px,#d92d3a22 12px)}
+.tl span{position:absolute;font-size:12px;top:62px;transform:translateX(-50%);white-space:nowrap}
+.tl span.t{top:12px}
+@media(max-width:860px){.photos{grid-template-columns:1fr}}
+</style>
+<script src="bed-art.js"></script><script>document.head.insertAdjacentHTML('beforeend','<style>'+BedArt.css+'.hero svg{width:100%;height:100%}.art-box{width:252px;height:160px;border-radius:12px;background:linear-gradient(#f4f7fb,#e6ecf3);border:1px solid var(--line)}</style>')</script>
+<body><div class="wrap">
+
+<h1>床体控制方案：页面设计 + 文案</h1>
+<p class="sub">状态：<span class="tag green">已确认并已落入 Demo</span><span class="tag amber">V6：大图 45% 布局 / 语音=屏幕文案 / 单返回 / 暂停提示按状态</span>评审入口：左侧「床体控制」。</p>
+
+<div class="card">
+<b>你的需求，我是这样理解的</b>
+<ol style="margin:6px 0 0;padding-left:20px">
+<li>床体控制入口在快捷面板（底部拉起）；点进去就<b>自动暂停所有训练</b>，所以页面里不再出现「训练状态」「轨道锁」。</li>
+<li>主流程：点按钮 → 普拉提床由竖向放下为横向 → 设备<b>语音 + 文字</b>提示用户把普拉提床拉出来 → 拉出到位后固定普拉提床的<b>卡扣自动锁止</b>。</li>
+<li>异常：卡扣解锁有时限（暂定 <b>10 秒</b>）。时限内没拉出到位，设备给出提示；此时<b>不影响其他功能</b>，所以提示是<b>全局、所有页面、置顶、标红</b>。</li>
+</ol>
+</div>
+
+<h2>1. 设备形态与普拉提床位置（模拟示意图，不使用实物照片）</h2>
+<div class="card"><b>普拉提床的三个物理位置</b>
+<ol style="margin:6px 0 0;padding-left:20px">
+<li><b>竖向收起</b>：普拉提床竖着收在立柱一侧（仅力量训练）。</li>
+<li><b>放下后、尚未拉出</b>：点「展开普拉提床」后，普拉提床从竖向放平，停在立柱一侧，位置大致就是设备图中红框位置，卡扣解锁，等待用户向外拉出。</li>
+<li><b>完全拉出并锁定</b>：用户向外拉出到位，<b>到位传感器</b>触发，卡扣自动锁止。</li>
+</ol></div>
+<div class="shots" id="art-shots" style="margin-top:14px"></div>
+<p class="sub" style="margin-top:12px">示意图为绘制的侧视模拟图（机身 + 铰接普拉提床），各状态带动画：放下（竖→横）、拉出提示（虚线目标位 + 箭头）、锁定（滑出并上锁）、推回提示、收起（滑回→抬起）。Demo 中的实现见 <code>bed-art.js</code>，正式版由 UI 出插画替换。</p>
+
+<h2>2. 流程总览</h2>
+<div class="flow">
+<div class="node act"><b>0 · 已收起</b><small>普拉提床竖向收在立柱里，已锁止。仅力量训练。</small></div><div class="arrow">→</div>
+<div class="node act"><b>1 · 放下中</b><small>用户点「展开普拉提床」。普拉提床从竖向放到横向（放平后停在立柱一侧，仍靠左收拢），约 4 秒（Demo）。可停止。</small></div><div class="arrow">→</div>
+<div class="node act"><b>2 · 请拉出普拉提床</b><small>放平到位即<b>卡扣解锁</b>，开始 10 秒窗口；语音 + 文案 + 倒计时环，提示向外拉出。</small></div><div class="arrow">→</div>
+<div class="node ok"><b>3 · 已锁定</b><small><b>到位传感器</b>确认拉出到位，卡扣<b>自动锁止</b>。可返回训练。</small></div>
+</div>
+<div class="flow">
+<div class="node warn"><b>异常 E1 · 10 秒内未拉出到位</b><small>卡扣<b>自动重新锁止</b>（已确认）。页面进入「未完全拉出」，同时触发<b>全局红色置顶横幅</b>。</small></div><div class="arrow">→</div>
+<div class="node act"><b>处理</b><small>点横幅「去处理」进入普拉提床页，点「重新解锁」→ 回到状态 2，重新计 10 秒。</small></div><div class="arrow">→</div>
+<div class="node ok"><b>恢复</b><small>拉出到位并锁止 → 横幅自动消失。</small></div>
+</div>
+
+<h3>时间轴（以默认参数为例）</h3>
+<div class="tl">
+<div class="bar"><i style="left:25%;width:15%"></i></div>
+<span class="t" style="left:6%">0s 点击展开</span><span class="t" style="left:25%">≈4s 放平到位<br>卡扣解锁</span><span class="t" style="left:56%">拉出到位 → 自动锁止</span><span class="t" style="left:94%">≈14s</span>
+<span style="left:12%">放下中</span><span style="left:32.5%;color:#a96a00">窗口 10 秒</span><span style="left:60%">用户拉出 / 锁止</span>
+</div>
+<p class="sub">窗口 10 秒为需求中的示例值，正式值以固件为准（见「待确认事项」）。设备只知道<b>「到位 / 未到位」</b>（到位传感器），不回传拉出百分比；倒计时只是展示窗口剩余时间，<b>不能用页面计时代替硬件重锁</b>（沿用现有规则）。</p>
+
+<h2>3. 页面设计</h2>
+<h3>3.1 床体控制页（从快捷面板进入，全屏）</h3>
+<div class="card">
+<ul style="margin:0;padding-left:20px">
+<li><b>进入即暂停</b>：进入页面时自动暂停所有训练；页面顶部不再展示「训练状态」「轨道锁」。</li>
+<li><b>四区布局，自上而下</b>：标题栏 → <b>示意图约占剩余高度 45%</b>（倒计时圆环叠在图右上角）→ 三步进度条贴在图下方 → 标题 + 一句说明垂直居中 → 通栏主按钮贴底。底部只保留一个「返回」。</li>
+<li><b>只保留一个主操作</b>，文案随状态变化；放下中 / 收起中隐藏返回；等待拉出 / 推回无按钮。</li>
+<li>「已为你暂停训练，操作完成后可继续」仅在放下中、已停止、等待拉出 / 推回、收起中显示。已锁定、已收起、卡扣重新锁止时不显示。</li>
+<li>语音播报内容 = 屏幕说明文案，页面上不再另写「语音：…」。</li>
+<li>离开页面<b>不会自动恢复训练</b>；用户回训练页手动点「继续」，且必须普拉提床处于「已锁定／已收起」才可继续。</li>
+</ul>
+</div>
+
+<div class="shots" id="shots-main"></div>
+
+<h3>3.2 异常：全局红色置顶横幅</h3>
+<div class="card">
+<ul style="margin:0;padding-left:20px">
+<li><b>范围</b>：设备端所有页面（首页、训练库、训练中、设置、快捷面板、床体控制页本身除外——该页用页内红色状态即可，避免重复）。</li>
+<li><b>位置</b>：贴在屏幕最顶部，覆盖在状态栏上，红底白字，高度约 88px（1080 宽设计稿）；页面内容整体下移，不遮挡按钮（<b>推开式</b>，不是浮层）。</li>
+<li><b>不阻断</b>：横幅不拦截点击，其他功能照常；横幅右侧「去处理」直达床体控制页。</li>
+<li><b>不可手动关闭</b>：问题未解除前一直显示，避免用户忽略；解除（拉出到位锁定，或回到收起并锁止）后自动消失。</li>
+<li><b>联动</b>：快捷面板里「床体控制」开关变红并显示「未完全拉出」；<b>异常期间：普拉提训练禁止开始；力量训练照常使用</b>（已确认）。</li>
+<li><b>语音</b>：出现时播报一次；不循环。每次新触发才再次播报。</li>
+</ul>
+</div>
+<div class="shots" id="shots-banner"></div>
+
+<h3>3.3 收起流程（V5 修订：先在屏幕点「收起普拉提床」，再手动推回，系统自动收起）</h3>
+<table>
+<tr><th>步骤</th><th>页面状态</th><th>说明</th></tr>
+<tr><td>1</td><td>已锁定（已展开）</td><td>用户在屏幕上点「收起普拉提床」（需床上无人、周围无遮挡，沿用原确认弹窗）。<b>用户不点此按钮时，不允许直接推回。</b></td></tr>
+<tr><td>2</td><td>请将普拉提床推回</td><td>卡扣解锁，开始 10 秒推回窗口；语音「请在十秒内将普拉提床完全推回设备」；页面只显示倒计时与「等待普拉提床推回到位…」。</td></tr>
+<tr><td>3</td><td>手动推回到位</td><td>用户把普拉提床手动推回原位，到位传感器触发，卡扣锁止。</td></tr>
+<tr><td>4</td><td>收起中（系统自动）</td><td>系统自动将普拉提床抬起为竖向（约 4 秒）；此阶段页面不可操作，<b>隐藏返回按钮</b>，仅显示「收起中」。</td></tr>
+<tr><td>5</td><td>已收起</td><td>完成。窗口超时（10 秒内未推回到位）：卡扣自动重新锁止，触发全局红色横幅「普拉提床未完全推入」，按钮「重新解锁」可重新开始窗口。</td></tr>
+</table>
+<div class="card"><b>V5 全局规则：</b>① 全局文案统一为「展开普拉提床 / 收起普拉提床」；② 页面无法点击返回时（放下中、收起中）隐藏返回按钮（左上角与底部返回均隐藏），其余状态正常显示；③ 示意图采用模拟绘制图，不用实物照片。</div>
+
+<h2>4. 状态与规则</h2>
+<table>
+<tr><th>状态</th><th>普拉提床</th><th>卡扣</th><th>训练</th><th>页面主按钮</th><th>全局横幅</th></tr>
+<tr><td>已收起</td><td>竖向</td><td>锁</td><td>仅力量可训练</td><td>展开普拉提床</td><td>无</td></tr>
+<tr><td>放下中</td><td>运动中</td><td>锁</td><td>暂停</td><td>停止</td><td>无</td></tr>
+<tr><td>请拉出普拉提床</td><td>横向、待拉出</td><td><b>解锁（10s）</b></td><td>暂停</td><td>（禁用）显示倒计时</td><td>无</td></tr>
+<tr><td>已锁定（展开）</td><td>完全拉出</td><td>锁</td><td>可继续</td><td>收起普拉提床</td><td>无</td></tr>
+<tr><td>未完全拉出（异常）</td><td>未到位</td><td>已重新锁止 / 窗口关闭</td><td>按「待确认」</td><td>重新解锁</td><td><b>显示（红）</b></td></tr>
+<tr><td>设备断连 / 状态未知</td><td>未知</td><td>未知</td><td>暂停</td><td>禁用 + 原因</td><td>不显示本横幅（走断连提示）</td></tr>
+</table>
+<ul>
+<li>放下中任何时候都可「停止」，无需二次确认；停止后停在中间位置，按钮变为「继续放下」，同时给出「普拉提床未放平」提示（沿用原规则：中停仅继续原方向）。</li>
+<li>放下中若设备异常（断连、卡阻），不显示拉出提示，直接显示失败原因与「重试」。</li>
+<li>设备只回传「到位 / 未到位」，没有拉出进度：页面只显示倒计时与「等待普拉提床拉出到位…」，不显示百分比；窗口内到位传感器未触发即视为异常。</li>
+<li>用户在窗口内离开页面：流程继续，窗口超时则触发全局横幅；回到页面状态同步，不重置倒计时。</li>
+</ul>
+
+<h2>5. 文案表</h2>
+<p class="sub">语音与屏幕文案同一语义，语音更口语。中文为主，英文待审核。</p>
+<table>
+<tr><th style="width:84px">ID</th><th>场景</th><th>屏幕文案</th><th>语音</th></tr>
+<tr><td><span class="id">BED-01</span></td><td>页面标题</td><td>普拉提床控制</td><td>—</td></tr>
+<tr><td><span class="id">BED-02</span></td><td>已收起 · 标题 / 说明</td><td><b>普拉提床已收起</b><br>当前仅支持力量训练。如需普拉提训练，请展开普拉提床。</td><td>—</td></tr>
+<tr><td><span class="id">BED-03</span></td><td>已收起 · 主按钮</td><td>展开普拉提床</td><td>—</td></tr>
+<tr><td><span class="id">BED-04</span></td><td>暂停提示（条件显示）</td><td>已为你暂停训练，操作完成后可继续</td><td>—</td></tr>
+<tr><td><span class="id">BED-05</span></td><td>放下中 · 标题 / 说明</td><td><b>普拉提床放下中</b><br>请勿靠近普拉提床，请勿放置物品。</td><td>同屏幕说明</td></tr>
+<tr><td><span class="id">BED-06</span></td><td>放下中 · 按钮</td><td>停止</td><td>—</td></tr>
+<tr><td><span class="id">BED-07</span></td><td>请拉出 · 标题 / 说明</td><td><b>请将普拉提床向外拉出</b><br>请在 <span class="id">N</span> 秒内将普拉提床向外拉出到位，到位后将自动锁定。</td><td>同屏幕说明（含秒数）</td></tr>
+<tr><td><span class="id">BED-08</span></td><td>请拉出 · 倒计时</td><td>示意图右上角圆环，剩余 N 秒（≤3 秒变橙）</td><td>剩余 3 秒时再播报一次屏幕说明</td></tr>
+<tr><td><span class="id">BED-09</span></td><td>等待到位</td><td>（不单独展示，避免与说明文案重复）</td><td>—</td></tr>
+<tr><td><span class="id">BED-10</span></td><td>已锁定 · 标题 / 说明</td><td><b>普拉提床已锁定</b><br>普拉提训练已就绪，可返回训练。</td><td>同屏幕说明</td></tr>
+<tr><td><span class="id">BED-11</span></td><td>已锁定 · 按钮</td><td>收起普拉提床（唯一操作；返回用底部「返回」）</td><td>—</td></tr>
+<tr><td><span class="id">BED-12</span></td><td>异常 · 页面标题 / 说明</td><td><b>普拉提床未完全拉出</b><br>卡扣已重新锁止，请重新解锁后再拉出。</td><td>同屏幕说明</td></tr>
+<tr><td><span class="id">BED-13</span></td><td>异常 · 页面按钮</td><td>重新解锁</td><td>—</td></tr>
+<tr><td><span class="id">BED-14</span></td><td><b>全局红色横幅</b> · 标题</td><td><b>普拉提床未完全拉出</b></td><td>同 BED-12 语音，仅播报一次</td></tr>
+<tr><td><span class="id">BED-15</span></td><td>全局红色横幅 · 说明</td><td>卡扣已重新锁止，普拉提训练暂不可用</td><td>—</td></tr>
+<tr><td><span class="id">BED-16</span></td><td>全局红色横幅 · 按钮</td><td>去处理</td><td>—</td></tr>
+<tr><td><span class="id">BED-17</span></td><td>快捷面板普拉提床卡 · 异常态</td><td>床体控制 · <span style="color:#d92d3a">未完全拉出</span></td><td>—</td></tr>
+<tr><td><span class="id">BED-18</span></td><td>放下 / 拉出失败（卡阻、断连）</td><td><b>普拉提床操作失败</b><br>请检查普拉提床周围是否有遮挡后重试</td><td>普拉提床操作失败，请检查后重试</td></tr>
+<tr><td><span class="id">BED-19</span></td><td>收起 · 请推入</td><td><b>请将普拉提床推回</b><br>请在 10 秒内将普拉提床完全推入，到位后将自动收起</td><td>请在十秒内将普拉提床完全推回设备</td></tr>
+<tr><td><span class="id">BED-20</span></td><td>收起 · 异常横幅</td><td><b>普拉提床未完全推入</b>　卡扣已重新锁止，请重新处理</td><td>普拉提床未完全推入，请重新操作</td></tr>
+</table>
+
+<h2>6. 已确认与待确认</h2>
+<h3>已确认（你的回复）</h3>
+<table>
+<tr><th style="width:48px">#</th><th>事项</th><th>结论</th><th>已落入方案的位置</th></tr>
+<tr><td>1</td><td>卡扣超时后</td><td><b>自动重新锁止</b></td><td>流程 E1、BED-12/15</td></tr>
+<tr><td>2</td><td>异常期间训练</td><td><b>普拉提禁止开始；力量训练正常</b></td><td>3.2 联动、状态表、训练页示意</td></tr>
+<tr><td>3</td><td>横幅与页面关系 / 普拉提床位置</td><td>横幅把页面内容<b>往下推</b>（不浮层）；普拉提床放下后<b>仍靠左收拢</b>（设备图红框位置），需用户向外拉出到位</td><td>第 1 节、状态 B/C、示意图</td></tr>
+<tr><td>4</td><td>拉出进度</td><td>设备<b>只回传到位/未到位</b>（到位传感器），无百分比</td><td>已删除进度百分比，BED-09 改为「等待到位」</td></tr>
+</table>
+<h3>仍待确认</h3>
+<table>
+<tr><th style="width:48px">#</th><th>问题</th><th>我的建议</th></tr>
+<tr><td>A</td><td>窗口 10 秒是否固定？设备是否回传剩余时间？</td><td>有回传则按回传显示；没有则页面按 10 秒本地倒计时，到位传感器触发即结束，超时以设备「重新锁止」回传为准。</td></tr>
+<tr><td>B</td><td>横幅是否允许用户手动关闭？</td><td>不允许，问题解除才消失（安全相关）。</td></tr>
+<tr><td>C</td><td>卡扣重新锁止后，普拉提床停在半拉出位置。再次「重新解锁」前是否要先把普拉提床推回靠左？</td><td>建议不用推回：直接重新解锁、继续向外拉。若硬件要求先推回，需加一个「请先将普拉提床推回」的提示（新增文案）。</td></tr>
+<tr><td>D</td><td>收起流程是否本期同步做？</td><td>建议一并设计，文案已备（BED-19/20）。</td></tr>
+<tr><td>E</td><td>放下过程中是否需要「停止」？</td><td>需要，作为安全入口。</td></tr>
+<tr><td>F</td><td>普拉提床处于半拉出且已锁止时，力量训练可用，是否有碰撞风险需要额外提示？</td><td>由硬件安全评估决定；默认不额外提示。</td></tr>
+</table>
+
+<h2>7. 确认后我会做的改动</h2>
+<ul>
+<li>重做 Demo「床体控制」页：按上述 5 种状态可点击演示，去掉「训练状态」「轨道锁」；评审面板加状态切换与「模拟拉出 / 模拟超时」。</li>
+<li>新增全局红色置顶横幅组件（设备端所有页面，含 AI 训练等 iframe 页面），评审面板可一键触发 / 解除。</li>
+<li>快捷面板普拉提床卡显示异常态；同步更新「床体控制」规则文案与 UI 文案表。</li>
+</ul>
+
+</div>
+
+<script>
+const steps=(a)=>`<div class="steps">${['放下普拉提床','拉出普拉提床','自动锁定'].map((t,i)=>`<div class="st ${a[i]||''}">${i+1} ${t}</div>`).join('')}</div>`;
+const sb=()=>'<div class="sb"><span>10:24</span><span>IP: 10.0.2.15 ◖ ᯤ</span></div>';
+const head=()=>'<div class="hd"><i>‹</i>床体控制</div>';
+function bedScreen({img,pill,hero,light,title,cls,txt,st,btns,foot,ban}){
+  return `<div class="dev">${ban?bannerHTML():''}${sb()}${head()}
+   <div class="hero ${hero&&!light?'dark':''}">${hero||BedArt.svg(img)}${pill?`<span class="pill">${pill}</span>`:''}</div>
+   <div class="ttl ${cls||''}">${title}</div><div class="txt">${txt}</div>${steps(st)}
+   <div class="foot">${btns}${foot?`<div class="note">${foot}</div>`:''}</div></div>`;
+}
+function bannerHTML(){return '<div class="banner"><span class="ic">!</span><div><b>普拉提床未完全拉出</b>卡扣已重新锁止，普拉提训练暂不可用</div><u>去处理</u></div>'}
+const FOOT='已为你暂停训练，操作完成后可继续';
+const main=[
+ ['A · 已收起',bedScreen({img:'folded',title:'普拉提床已收起',txt:'当前仅支持力量训练。如需普拉提训练，请展开普拉提床。',st:[],btns:'<div class="b p">展开普拉提床</div>'}),'示意图约占 45%。无暂停提示。底部一个「返回」。'],
+ ['B · 放下中',bedScreen({img:'lowering',title:'普拉提床放下中',txt:'请勿靠近普拉提床，请勿放置物品。',st:['on'],btns:'<div class="b">停止</div>',foot:FOOT}),'隐藏返回。语音 = 屏幕说明。'],
+ ['C · 请拉出普拉提床',bedScreen({img:'low',hero:BedArt.svg('pull')+'<span class="cd">7s</span>',light:1,title:'请将普拉提床向外拉出',txt:'请在 7 秒内将普拉提床向外拉出到位，到位后将自动锁定。',st:['done','on'],btns:'',foot:FOOT}),'倒计时圆环叠在示意图右上角。无操作按钮。'],
+ ['D · 已锁定',bedScreen({img:'locked',title:'普拉提床已锁定',cls:'ok',txt:'普拉提训练已就绪，可返回训练。',st:['done','done','done'],btns:'<div class="b">收起普拉提床</div>'}),'无暂停提示。唯一操作是收起。'],
+ ['E · 异常：未完全拉出',bedScreen({img:'timeout',title:'普拉提床未完全拉出',cls:'red',txt:'卡扣已重新锁止，请重新解锁后再拉出。',st:['done','bad'],btns:'<div class="b r">重新解锁</div>'}),'文字区红色警示底。无暂停提示。同时触发全局横幅。']
+];
+document.getElementById('shots-main').innerHTML=main.map(([t,h,c])=>`<div class="shot">${h}<div class="cap"><b>${t}</b>${c}</div></div>`).join('');
+
+const qs=`<div class="dev">${bannerHTML()}${sb()}
+ <div class="pg"><div style="font-size:13px;font-weight:700">首页</div>
+ <div class="blk"><b>今日训练</b><div style="color:#8aa0b8;margin-top:2px">力量 · 全身基础</div><div class="b p" style="margin-top:8px;height:26px">开始训练</div></div>
+ <div class="blk" style="color:#8aa0b8">本周统计 · 5 次</div></div></div>`;
+const train=`<div class="dev">${bannerHTML()}${sb()}
+ <div class="pg"><div class="m"><div><small>时长</small><b>02:12</b></div><div><small>次数</small><b>8</b></div><div><small>总阻力</small><b>14kg</b></div></div>
+ <div class="blk" style="height:150px;display:grid;place-items:center;color:#7f93aa">训练画面（已暂停）</div>
+ <div class="foot" style="position:static;margin-top:8px"><div class="b p">开始力量训练</div><div class="b dis">普拉提训练（普拉提床未到位，暂不可用）</div></div></div></div>`;
+const quick=`<div class="dev"><div class="banner"><span class="ic">!</span><div><b>普拉提床未完全拉出</b>卡扣已重新锁止，普拉提训练暂不可用</div><u>去处理</u></div>${sb()}<div class="pg"><div class="blk" style="height:110px;color:#7f93aa">（下层页面）</div></div>
+ <div class="dim" style="top:62px"></div><div class="sheet"><div style="width:30px;height:3px;border-radius:2px;background:#33475f;margin:6px auto"></div>
+ <div class="tile"><div>Wi-Fi<br>已连接</div><div>深色<br>已开启</div><div class="alert">床体控制<br>未完全拉出</div><div>设置</div></div></div></div>`;
+document.getElementById('shots-banner').innerHTML=[
+ ['任意页面 · 首页',qs,'红色横幅贴顶，页面内容整体下移；其余功能照常可点。'],
+ ['训练页（暂停中）',train,'横幅同样显示；<b>力量训练照常可开始，普拉提训练置灰</b>并说明原因。'],
+ ['快捷面板',quick,'横幅在最顶；面板里普拉提床卡变红并显示「未完全拉出」。']
+].map(([t,h,c])=>`<div class="shot">${h}<div class="cap"><b>${t}</b>${c}</div></div>`).join('');
+document.getElementById('art-shots').innerHTML=[['folded','竖向收起'],['lowering','放下中（动画）'],['pull','放平 · 请向外拉出'],['locked','已拉出并锁定'],['push','请推回'],['retracting','收起中（动画）'],['timeout','异常：未完全拉出']].map(([k,t])=>`<div class="shot" style="width:252px"><div class="art-box">${BedArt.svg(k)}</div><div class="cap"><b>${t}</b></div></div>`).join('');
+</script>
+</body>
+</html>

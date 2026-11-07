@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>训练准备 + 管理后台方案（安装方案模板 / 床体引导 / AI 纠错文案）</title>
+<style>
+:root{--bg:#f3f5f8;--ink:#1d2b3a;--mute:#5d6b7c;--line:#dbe2ea;--card:#fff;--blue:#1264c6;--red:#d92d3a;--amber:#f5a524;--green:#2bb673}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.8 system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:40px 28px 100px}
+h1{font-size:28px;margin:0 0 6px}h2{font-size:22px;margin:48px 0 12px;padding-top:8px;border-top:2px solid var(--ink)}h3{font-size:16px;margin:24px 0 8px}
+.sub{color:var(--mute);margin:0 0 18px}
+.tag{display:inline-block;font-size:12px;padding:1px 9px;border-radius:99px;background:#e4eefb;color:var(--blue);margin-right:6px;line-height:1.7}
+.tag.green{background:#dff5ea;color:#17784a}.tag.amber{background:#fff2d9;color:#a96a00}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 22px;margin:14px 0}
+.card.key{border-color:#9bbbe6;background:#f3f8ff}
+table{border-collapse:collapse;width:100%;background:#fff;font-size:14px;margin:10px 0}
+th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;vertical-align:top}
+th{background:#eaf0f7;white-space:nowrap}
+code{font:12px/1.4 ui-monospace,Menlo,monospace;background:#eef2f6;border-radius:4px;padding:1px 6px}
+ul{margin:6px 0;padding-left:22px}li{margin:3px 0}
+.nav{position:sticky;top:0;background:#fffffff0;backdrop-filter:blur(6px);border-bottom:1px solid var(--line);padding:8px 28px;font-size:13px;z-index:5;display:flex;gap:16px;flex-wrap:wrap}
+.nav a{color:var(--blue);text-decoration:none}
+.flow{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch;margin:14px 0}
+.node{flex:1 1 140px;min-width:140px;background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;font-size:13px;line-height:1.55}
+.node b{display:block;font-size:14px}.node small{color:var(--mute)}
+.node.ok{border-color:#8fd9b4;background:#f1fbf6}.node.act{border-color:#9bbbe6;background:#f3f8ff}
+.arrow{align-self:center;color:var(--mute);font-size:20px}
+</style>
+<div class="nav"><a href="#s0">结论</a><a href="#s1">准备页</a><a href="#s2">模板</a><a href="#s2b">动作库</a><a href="#s2c">发布</a><a href="#s2d">床体引导</a><a href="#s3b">数据流</a><a href="#s3e">待确认</a><a href="#s4">AI 纠错</a><a href="#s5">数据清理</a><a href="index.html">返回 Demo</a><a href="admin-demo.html">打开管理后台 Demo</a></div>
+<div class="wrap">
+<h1>训练准备 + 管理后台方案</h1>
+<p class="sub">会议修订 V5 · 2026-11-07 · <span class="tag green">已确认并落入 Demo</span> 依据动作库表《动作库-内部》第一期 191 条有内容动作。本版改为：模板内选动作、完全自定义内容、引导视频、发布机制、设备端床体引导，并补全每个字段的用途 / 影响 / 数据流。</p>
+
+<h2 id="s0">结论速览</h2>
+<div class="card key">
+<ol>
+<li><b>训练准备页完全由安装方案模板驱动</b>：可选 1 个引导视频 + 1～5 张自定义卡片（图片 / 主标题 / 副标题）+ 顶部标签。不再固定「放凳子 / 换配件 / 调卡扣」三张；位置只用文字（如「与肩同高」）或龙门架档位，不出现厘米数，也不按身高换算。</li>
+<li><b>安装方案模板是唯一维护入口</b>，所有与安装方案相关的信息都在「安装方案模板」一张表里看完：展开行看成员动作、待确认动作、已翻译语言；表尾有「未归属动作」。动作库页面回到线上原样，没有任何命中相关内容。</li>
+<li><b>选动作流程</b>：建模板时填「适用场景 / 动作属性 / 训练部位 / 配件」（均多选，不选＝不限）→ 系统自动筛出候选动作 → <b>人工勾选</b>要加入的。成员关系是明确保存的；设备端只读成员。一个动作只属于一个模板，没有优先级和冲突计算。</li>
+<li><b>发布才生效</b>：模板状态「未发布 / 已发布 / 有未发布修改 / 待删除」。设备端只读已发布版本。条件字段不下发，改条件无需发布。支持单个发布和「发布全部修改」，发布前列出变更。所有新增 / 修改 / 成员变化 / 启停 / 翻译 / 删除 / 发布都进操作日志。</li>
+<li><b>多语言复用「翻译」</b>：沿用动作库的翻译弹窗和语言子行；视频不翻译；缺译文回退中文。</li>
+<li><b>床体引导只在设备端</b>：目标动作场景与床体状态不符时（力量 → 普拉提且床未展开锁定；普拉提 → 力量且床未收起），设备自动弹引导页，复用现有「床体控制」流程。系统固定逻辑，管理后台不配置、不发布、不翻译、不记日志。</li>
+<li><b>推荐配重保持线上单值字段</b>，不改三档，Demo 不展示建议重量（不同性别和人群承重不同，避免因推荐重量导致拉伤的责任风险）。</li>
+<li><b>AI 动作</b> = 有 SO 库 ID。so 库给默认纠错类型（常见 4 项），特殊动作可增加类型，同一类型多条文案；屏幕文案和录音分开维护。不做通用库。</li>
+</ol>
+</div>
+
+<h2 id="s1">1. 设备端训练准备页</h2>
+<h3>目的</h3>
+<p>现有动作详情页的安装示意不够醒目，用户开练时会忽略换配件或调卡扣。准备页把它拉进主流程，并用一个短视频把「先调龙门架高度、再换成手柄」这类连续操作一次讲清楚，文字步骤清单保留。</p>
+<h3>一页结构</h3>
+<div class="flow">
+<div class="node act"><b>标题 + 标签</b><small>动作名 + 模板顶部标签（可选）</small></div>
+<div class="arrow">→</div>
+<div class="node act"><b>引导视频（可选）</b><small>16:9，循环、静音；失败显示封面</small></div>
+<div class="arrow">→</div>
+<div class="node act"><b>1～5 张文字步骤卡</b><small>图片 + 主标题 + 副标题</small></div>
+<div class="arrow">→</div>
+<div class="node ok"><b>已完成，查看动作</b><small>通栏主按钮，进入动作详情</small></div>
+</div>
+<h3>何时出现</h3>
+<table>
+<tr><th>情况</th><th>准备页</th></tr>
+<tr><td>动作属于一个已发布且启用的模板，且与上一个动作不是同一模板</td><td>展示该模板的视频 + 卡片</td></tr>
+<tr><td>相邻两个动作属于同一模板</td><td>不弹</td></tr>
+<tr><td>动作未归属任何模板 / 模板停用 / 模板未发布</td><td>不出现，直接进动作详情</td></tr>
+<tr><td>视频未下载完 / 加载失败 / 离线无缓存</td><td>视频区显示封面图，文字与按钮照常，不阻断训练</td></tr>
+</table>
+<p>注：普拉提动作是否需要准备页，取决于运营是否为其建了模板（如「放置箱体」）；没建就直接进动作详情。普拉提床的展开 / 收起由下面的「床体引导」负责。</p>
+
+<h2 id="s2">2. 安装方案模板</h2>
+<p>一条模板 = 模板名 + 启用开关 + 引导视频（可选）+ 1～5 张自定义卡片 + 顶部标签 + 条件字段（适用场景 / 动作属性 / 训练部位 / 配件，仅用于筛候选）+ 成员动作 + 翻译。模板不含适用型号：动作本身已有适用型号，天然归属。</p>
+<h3>创建流程</h3>
+<ol>
+<li>填训练准备内容：视频（可选）、卡片、标签。预设只是「快捷添加」文案，可随意改。</li>
+<li>填条件字段（全部多选，不选＝不限）。配件取自「器械管理」。</li>
+<li>系统筛出候选：必须是「视频动作 / 非视频动作」（片头 / 片尾等不参与），且满足所有已填字段（字段内多选＝满足其一，字段之间＝同时满足）。</li>
+<li>人工勾选要加入的动作。已在其他模板里的动作会提示，勾选后将从原模板移到本模板。</li>
+<li>保存草稿或发布。</li>
+</ol>
+<h3>成员与归属</h3>
+<ul>
+<li><b>待确认</b>：满足本模板条件、但还没归属任何模板的动作，仅提醒，不自动加入。</li>
+<li><b>未归属动作</b>：符合条件资格、但不在任何模板里的动作，列在表尾一行，点开可批量处理。</li>
+<li>动作被删除时自动从成员里移除；动作下架时设备端不会出现，但仍保留成员关系。</li>
+</ul>
+<h3>列表页</h3>
+<p>单张主表 + 筛选标签：模板名、状态、条件、成员数、待确认数、语言、更新人、操作。点行展开：成员动作、待确认动作、语言。</p>
+
+<h2 id="s2b">3. 动作库哪些字段有变化</h2>
+<p><b>本期动作库没有任何改动</b>，字段、选项、顺序、操作与线上 <code>motionstation.visbodyfit.com/#/action</code> 完全一致。「适用场景 / 动作属性 / 训练部位」是已有字段，只是在安装方案模板里被拿来筛候选动作；「安装示意」仍只给动作详情页使用，与训练准备页互不覆盖。推荐配重保持线上单值字段。</p>
+
+<h2 id="s2c">4. 发布与生效</h2>
+<table>
+<tr><th>状态</th><th>含义</th><th>设备端</th></tr>
+<tr><td>未发布</td><td>新建后从未发布</td><td>看不到</td></tr>
+<tr><td>已发布</td><td>当前草稿 = 已发布版本</td><td>读取已发布内容</td></tr>
+<tr><td>有未发布修改</td><td>草稿与已发布版本不同</td><td>仍读旧的已发布版本</td></tr>
+<tr><td>待删除</td><td>已标记删除，发布后下线</td><td>发布前仍显示</td></tr>
+</table>
+<ul>
+<li>进入发布快照的内容：模板名、启用、成员动作、标签、视频、卡片、已翻译语言。条件字段不进快照，改条件无需发布。</li>
+<li>支持「单个模板发布」与「发布全部修改」；发布弹窗列出每个模板的变更项。</li>
+<li>操作日志记录：新增 / 修改 / 成员变化 / 启用 / 停用 / 翻译 / 删除 / 发布，含操作人与时间。</li>
+</ul>
+
+<h2 id="s2d">5. 床体引导（仅设备端）</h2>
+<table>
+<tr><th>切换方向</th><th>触发条件</th><th>引导</th></tr>
+<tr><td>力量训练 → 普拉提</td><td>床体不是「已展开并锁定」</td><td>请展开普拉提床</td></tr>
+<tr><td>普拉提 → 力量训练</td><td>床体不是「已收起」</td><td>请收起普拉提床</td></tr>
+<tr><td>同一场景内切换</td><td>—</td><td>不触发</td></tr>
+</table>
+<ul>
+<li>由设备按「目标动作的适用场景 + 当前床体状态」自动判断；动作自带场景，无需运营配置。</li>
+<li>主按钮进入现有「床体控制」的展开 / 收起流程；不想现在处理可返回，不会开始训练。完成后回到引导页，再继续进入训练准备。</li>
+<li>文案是设备端固定的 UI 文案（随设备语言包），<b>不经管理后台发布，也不进后台操作日志</b>。</li>
+</ul>
+
+<h2 id="s3">6. 推荐配重</h2>
+<p>保持线上「动作库 → 推荐配重」单值字段，本期不改。不新增「建议重量」，设备端训练准备页也不展示任何建议重量。原因：不同性别和人群承受重量差异很大，按推荐重量训练若造成拉伤，责任无法承担。</p>
+
+<h2 id="s3b">7. 字段用途与数据流</h2>
+<table>
+<tr><th>位置</th><th>字段 / 功能</th><th>用在哪里</th><th>配置后影响</th><th>数据流</th><th>未配置 / 异常时</th></tr>
+<tr><td>模板</td><td>引导视频</td><td>设备端训练准备页顶部</td><td>该模板下所有动作的准备页出现视频</td><td>后台上传 → 发布 → 设备同步并预下载 → 本地缓存播放</td><td>无视频只显示图文卡；加载失败显示封面</td></tr>
+<tr><td>模板</td><td>卡片 图片 / 主标题 / 副标题</td><td>设备端准备页步骤清单</td><td>决定用户看到的每一步</td><td>后台编辑 → 发布 → 设备读取快照</td><td>至少 1 张卡；图片缺失显示序号</td></tr>
+<tr><td>模板</td><td>顶部标签</td><td>设备端准备页动作名下方</td><td>仅展示</td><td>同上</td><td>不填则不显示</td></tr>
+<tr><td>模板</td><td>条件字段（场景 / 属性 / 部位 / 配件）</td><td>仅后台，筛候选动作</td><td>不影响设备端</td><td>只在后台计算，不下发</td><td>全不选＝不限</td></tr>
+<tr><td>模板</td><td>成员动作</td><td>设备端判断该动作是否出现准备页</td><td>决定哪个动作弹哪个模板</td><td>勾选保存 → 发布 → 设备按动作名查模板</td><td>未归属直接进动作详情</td></tr>
+<tr><td>模板</td><td>启用开关</td><td>后台 + 设备端</td><td>停用后设备端不弹</td><td>发布后生效</td><td>—</td></tr>
+<tr><td>模板</td><td>翻译</td><td>设备端按语言显示卡片文案</td><td>该语言用户看到译文</td><td>翻译弹窗 → 发布</td><td>缺译文回退中文；视频不翻译</td></tr>
+<tr><td>设备端</td><td>床体引导</td><td>切换到不同场景动作前</td><td>引导展开 / 收起普拉提床</td><td>设备本地：目标动作场景 + 床体传感器状态</td><td>传感器异常按现有床体控制异常流程</td></tr>
+</table>
+<div class="flow">
+<div class="node act"><b>运营编辑模板</b><small>草稿</small></div><div class="arrow">→</div>
+<div class="node act"><b>发布</b><small>生成快照 + 操作日志</small></div><div class="arrow">→</div>
+<div class="node ok"><b>服务端已发布版本</b><small>含视频 / 图片资源地址</small></div><div class="arrow">→</div>
+<div class="node ok"><b>设备端同步</b><small>预下载视频、图片，本地缓存</small></div><div class="arrow">→</div>
+<div class="node ok"><b>进入动作前读取</b><small>按动作名查模板 → 准备页</small></div>
+</div>
+
+<h2 id="s3c">8. 图片与视频规格</h2>
+<table>
+<tr><th>素材</th><th>规格</th></tr>
+<tr><td>引导视频</td><td>每个模板最多 1 个；MP4（H.264），≤ 15 秒，16:9，720p，≤ 8 MB，无文字、无音频；必须配封面图（PNG / JPG / WebP，≤ 2 MB，16:9）</td></tr>
+<tr><td>卡片图片</td><td>1:1，≤ 2 MB（JPG / PNG / WebP）；可不传，显示序号</td></tr>
+</table>
+
+<h2 id="s3d">9. 新模板上线初始化</h2>
+<ol>
+<li>先按「适用场景 / 动作属性 / 训练部位 / 配件」建第一批模板，系统筛出候选，人工勾选成员。</li>
+<li>看列表表尾「未归属动作」与各模板「待确认」，逐步补全。</li>
+<li>录制并上传引导视频（可选），补卡片图片与翻译。</li>
+<li>单个或批量「发布」，设备端同步后生效。</li>
+</ol>
+
+<h2 id="s3e">10. 待确认</h2>
+<ul>
+<li>卡片<b>副标题</b>（卡片主标题下方的灰色说明文字）是否用语音合成朗读：待确认。</li>
+<li>发布粒度：是否需要「定时发布」「回滚到上一版」：待确认。</li>
+<li>AI 动作纠错文案的发布时机，是否也走同一套发布机制：待确认。</li>
+<li>设备端同步与缓存策略（同步频率、视频预下载时机、存储上限）：待确认。</li>
+</ul>
+
+<h2 id="s4">11. AI 动作纠错文案</h2>
+<h3>口径</h3>
+<p>有 <code>SO 库 ID</code> 就是 AI 动作。表中 127 个，其中 44 个已有终版屏幕文案。</p>
+<h3>结构：按动作配置，不锁死 4 条</h3>
+<p>so 库给该动作一组默认纠错类型（多数是下面 4 项），后台用稳定 key 存，不用 1/2/3/4 序号。这是起点，不是上限。</p>
+<table>
+<tr><th>常见默认 key</th><th>中文</th><th>说明</th></tr>
+<tr><td><code>rom</code></td><td>幅度</td><td>动作是否做到位</td></tr>
+<tr><td><code>symmetry</code></td><td>左右对称</td><td>两侧是否同步</td></tr>
+<tr><td><code>stability</code></td><td>稳定性</td><td>核心 / 站位 / 关节稳定</td></tr>
+<tr><td><code>tempo</code></td><td>节奏</td><td>速度是否过慢或停顿</td></tr>
+</table>
+<ul>
+<li>特殊动作可<b>再增加一种类型</b>（例如深蹲加「膝关节」）。自定义类型归该动作，不进通用库。</li>
+<li>同一类型下可<b>多条文案</b>，对应不同触发。例如幅度拆成「过浅 / 过深」两条，而不是挤在一句里。</li>
+<li>so 默认类型不能删，以免和算法对不上；可以在下面加条。本动作新增的类型可以删。</li>
+<li>so 库升级时对比清单：新增类型标「待配置」，下线类型标「已下线」。</li>
+</ul>
+<p>Demo 用「哑铃深蹲」示范：幅度 2 条（过浅 / 过深）+ 本动作新增「膝关节」。</p>
+<h3>文案和语音分开</h3>
+<p>语音是自己录的，不从文案 TTS 生成。每一条文案都有独立的「上传语音 / 替换 / 删除 / 试听」。</p>
+<table>
+<tr><th>项</th><th>规则</th></tr>
+<tr><td>屏幕文案</td><td>中文 ≤ 32 等效字、最多 2 行。其他语言按两行内放得下提示，不硬拦。</td></tr>
+<tr><td>语音文件</td><td>按「动作 × 语言 × 类型 × 第 N 条」各传一条录音。无语音则只出字幕，不播报。</td></tr>
+<tr><td>读取顺序</td><td>当前语言 → 英文 → 中文 → 系统兜底「请查看动作示范并调整姿势」（兜底也要 32 语）。无对应语音则静音。</td></tr>
+</table>
+<h3>多语言（沿用动作库）</h3>
+<ul>
+<li>列表默认显示一种语言的内容。</li>
+<li>点「翻译」→ 按中文的<b>类型结构和条数</b>生成全部系统语言（最多 32 种），列表展开为语言行。</li>
+<li>点进某一语言 → 改该语言的各条文案，并逐条上传该语言录音。</li>
+</ul>
+<h3>不做通用库</h3>
+<p>每个动作独立维护类型、文案和录音。相同源文案的译文在后台内部自动复用，运营不可见。同一句话要改时，用「按文案查找替换」，替换前显示影响条数。</p>
+<h3>批量导入</h3>
+<ol>
+<li>导出模板：按每个动作实际的类型 × 条数预填，不强制 4 列。语音文件名可附在表里对照，但录音仍在详情页逐条上传。</li>
+<li>导入时校验字数、缺项、未知 key，给出错误报告。</li>
+<li>导入后再点翻译，按语言校对、上传语音。</li>
+<li>现有 44 个动作的终版文案可按此模板先导入。</li>
+</ol>
+
+<h2 id="s5">12. 数据清理（交给运营）</h2>
+<table>
+<tr><th>问题</th><th>数量</th><th>处理</th></tr>
+<tr><td>支持配件写「无」，安装示意却要杠铃杆 / 把手</td><td>15</td><td>改配件或清空安装示意</td></tr>
+<tr><td>安装示意为空</td><td>7</td><td>归入模板或标为无配件</td></tr>
+<tr><td>写「无需安装」但配件是手柄</td><td>1</td><td>纠正</td></tr>
+<tr><td>普拉提安装示意仍写传统弹簧 / 脚踏杆 / 头垫</td><td>75</td><td>清空或隐藏，避免误导</td></tr>
+</table>
+
+<h2>13. Demo 入口</h2>
+<ul>
+<li>设备端「床体引导」：右侧评审可切换 力量 → 普拉提 / 普拉提 → 力量 / 同场景，并模拟床体状态。</li>
+<li>设备端「训练准备」：右侧评审可切换 有视频 + 3 张卡 / 连续同模板 / 只调卡扣 / 无视频图文卡 / 普拉提放置箱体 / 未归属，并可模拟视频加载失败。后台 Demo 发布后这里同步变化（共用浏览器本地存储）。</li>
+<li>左侧「管理后台」或直接打开 <a href="admin-demo.html">admin-demo.html</a>：动作库管理（线上原样）、安装方案模板、AI动作列表。</li>
+</ul>
+</div>
+</body>
+</html>

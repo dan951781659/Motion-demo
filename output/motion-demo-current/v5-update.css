@@ -1,0 +1,84 @@
+/* V5 device components. Colors come from the shared --d-* palette so both themes stay in sync. */
+
+/* Quick panel */
+.frame.device .gc-panel.v5-panel{left:0;right:0;bottom:0;height:auto;max-height:none;overflow:visible;display:flex;flex-direction:column;gap:10px;padding:8px 14px 16px;border-radius:20px 20px 0 0;background:var(--d-panel-fill);color:var(--d-text);border:1px solid var(--d-line);border-bottom:0;box-shadow:var(--d-panel-shadow);backdrop-filter:blur(20px)}
+.frame.device .v5-panel .gc-grip{width:40px;height:4px;min-height:4px;margin:0 auto 2px;padding:0;background:var(--d-muted);opacity:.7}
+.frame.device .v5-panel svg{width:20px;height:20px;flex-shrink:0}
+.v5-tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.frame.device .v5-tile{display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-height:0;padding:10px;border-radius:12px;background:var(--d-soft);color:var(--d-text);border:1px solid var(--d-line);text-align:left;cursor:pointer;width:auto;margin:0}
+.frame.device .v5-tile svg{color:var(--d-secondary);margin-bottom:4px}
+.frame.device .v5-tile b{font-size:13px;font-weight:600;line-height:1.3;white-space:nowrap}
+.frame.device .v5-tile small{font-size:11px;line-height:1.3;color:var(--d-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.frame.device .v5-tile.on{background:var(--d-action);border-color:transparent;color:#fff}
+.frame.device .v5-tile.on svg,.frame.device .v5-tile.on small{color:#ffffffd9}
+
+/* Pill slider: whole pill is the hit area, fill width follows --v */
+.v5-pill{position:relative;flex:1;min-width:0;height:40px;display:flex;align-items:center;justify-content:space-between;gap:6px;padding:0 12px;border-radius:12px;background:var(--d-soft);border:1px solid var(--d-line);overflow:hidden;cursor:pointer}
+.v5-pill::before{content:'';position:absolute;inset:0 auto 0 0;width:var(--v,50%);background:color-mix(in srgb,var(--d-primary) 30%,transparent);pointer-events:none}
+.v5-pill input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}
+.v5-pill b,.v5-pill-label{position:relative;font-size:13px;font-weight:600;pointer-events:none;font-variant-numeric:tabular-nums}
+.v5-pill b{margin-left:auto}
+.v5-pill:focus-within{outline:2px solid var(--d-focus);outline-offset:2px}
+.v5-levels{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.v5-level{display:flex;align-items:center;gap:6px}
+.frame.device .v5-level>svg{color:var(--d-secondary);width:18px;height:18px}
+.frame.device .v5-more{flex:0 0 32px;height:40px;width:32px;min-height:0;padding:0;margin:0;display:grid;place-items:center;border-radius:12px;background:var(--d-soft);border:1px solid var(--d-line);color:var(--d-primary);cursor:pointer}
+.frame.device .v5-more svg{width:16px;height:16px}
+
+/* Ambient light: toggle, brightness and mode on one row */
+.v5-light{display:flex;align-items:center;gap:8px}
+.frame.device .v5-icon-toggle{flex:0 0 40px;width:40px;height:40px;min-height:0;padding:0;margin:0;display:grid;place-items:center;border-radius:12px;background:var(--d-soft);border:1px solid var(--d-line);color:var(--d-secondary);cursor:pointer}
+.frame.device .v5-icon-toggle.on{background:var(--d-action);border-color:transparent;color:#fff}
+.frame.device .v5-chip{flex:0 0 auto;height:40px;min-height:0;width:auto;margin:0;padding:0 12px;display:flex;align-items:center;gap:6px;border-radius:12px;background:var(--d-soft);border:1px solid var(--d-line);color:var(--d-text);font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
+.frame.device .v5-chip svg{width:16px;height:16px;color:var(--d-primary)}
+.v5-light.off .v5-pill{opacity:.45;pointer-events:none}
+.frame.device .v5-light.off .v5-chip{opacity:.45!important;background:var(--d-soft)!important;color:var(--d-text)!important}
+
+/* Mini player */
+.v5-music{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;background:var(--d-soft);border:1px solid var(--d-line)}
+.frame.device .v5-music-art{flex:0 0 36px;height:36px;border-radius:10px;display:grid;place-items:center;background:var(--d-selected);color:var(--d-primary)}
+.frame.device .v5-music-art svg{width:18px;height:18px}
+.v5-music-meta{flex:1;min-width:0}
+.v5-music-title{display:flex;align-items:baseline;gap:8px}
+.v5-music-title b{flex:1;min-width:0;font-size:13px;font-weight:600;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.v5-music-title small{font-size:10px;color:var(--d-secondary);white-space:nowrap;font-variant-numeric:tabular-nums}
+.v5-progress{display:flex;align-items:center;margin-top:6px}
+.frame.device .v5-progress input{flex:1;width:100%;height:4px;margin:0;accent-color:var(--d-primary)}
+.v5-transport{display:flex;align-items:center;gap:2px}
+.frame.device .v5-transport button{width:30px;height:30px;min-height:0;padding:0;margin:0;display:grid;place-items:center;border-radius:50%;background:transparent;border:0;color:var(--d-text);cursor:pointer}
+.frame.device .v5-transport svg{width:16px;height:16px}
+.frame.device .v5-transport .v5-play{width:34px;height:34px;background:var(--d-action);color:#fff}
+
+/* Left navigation: volume is a child of Settings */
+#routes .v5-subnav{padding-left:30px!important;font-size:12px!important;position:relative}
+#routes .v5-subnav::before{content:'';position:absolute;left:18px;top:50%;width:6px;height:6px;border-left:1px solid currentColor;border-bottom:1px solid currentColor;transform:translateY(-70%);opacity:.5}
+#routes .v5-parent{font-weight:600}
+
+/* Volume settings */
+.frame.device .v5-volume .group{padding:0;overflow:hidden}
+.v5-volume-row{padding:16px}
+.v5-volume-row+.v5-volume-row{border-top:1px solid var(--d-line)}
+.v5-volume-head{display:flex;align-items:center;gap:12px}
+.v5-volume-head>div{flex:1;min-width:0}
+.v5-volume-head b{display:block;font-size:15px;font-weight:600;line-height:1.4}
+.v5-volume-head small{display:block;font-size:12px;line-height:1.5;color:var(--d-secondary)}
+.v5-volume-head>span{font-size:15px;font-weight:600;color:var(--d-primary);font-variant-numeric:tabular-nums;min-width:44px;text-align:right}
+.frame.device .v5-mute{flex:0 0 36px;width:36px;height:36px;min-height:0;padding:0;margin:0;display:grid;place-items:center;border-radius:50%;background:var(--d-selected);color:var(--d-primary);border:0;cursor:pointer}
+.frame.device .v5-mute svg{width:18px;height:18px}
+.v5-track{display:flex;align-items:center;gap:10px;margin-top:14px}
+.frame.device .v5-track input{flex:1;width:auto;margin:0;padding:0!important;border:0!important;min-height:0!important;height:6px!important;border-radius:6px;-webkit-appearance:none;appearance:none;background:linear-gradient(var(--d-primary),var(--d-primary)) 0/var(--v,50%) 100% no-repeat,var(--d-track);cursor:pointer}
+.frame.device .v5-track input::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:#fff;border:0;box-shadow:0 1px 4px #0006}
+.frame.device .v5-track input::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#fff;border:0;box-shadow:0 1px 4px #0006}
+.frame.device .v5-step{flex:0 0 32px;width:32px;height:32px;min-height:0;padding:0;margin:0;display:grid;place-items:center;border-radius:50%;background:var(--d-soft);border:1px solid var(--d-line);color:var(--d-text);font-size:18px;line-height:1;cursor:pointer}
+.v5-volume-note{font-size:12px;color:var(--d-secondary);margin:10px 4px 0;line-height:1.6}
+
+/* Review panel: selected page switch */
+.review-scenarios .v5-on{background:#dcecff!important;box-shadow:inset 0 0 0 1px #8eb9ed;color:#1c5eaa!important}
+
+/* Same-page consistency: one segmented style per page, no review notes inside the device screen */
+.frame.device .prep-current-mode,.frame.device .prep-guide>p.muted.small:last-child,.frame.device .meeting-chip{display:none!important}
+.frame.device .prep-progress{gap:4px;padding:4px;border-radius:10px;background:var(--d-soft)!important}
+.frame.device .prep-progress button{background:transparent!important;color:var(--d-secondary)!important;border-radius:8px}
+.frame.device .prep-progress .on{background:var(--d-surface)!important;color:var(--d-primary)!important}
+.frame.device .meeting-bed .card .row{padding:8px 0}
+.frame.device .meeting-bed .card .row+.row{border-top:1px solid var(--d-line)}

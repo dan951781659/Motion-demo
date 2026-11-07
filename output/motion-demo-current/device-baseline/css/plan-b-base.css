@@ -518,7 +518,7 @@ body {
   min-height: 140px;
   background-image:
     linear-gradient(to top, rgba(2, 6, 23, 0.94), rgba(2, 6, 23, 0.52) 48%, rgba(2, 6, 23, 0.2)),
-    url("assets/card3.jpg");
+    url("../assets/card3.jpg");
   background-size: cover;
   background-position: center;
   position: relative;
@@ -532,7 +532,7 @@ body {
 #featuredPlanBanner {
   background-image:
     linear-gradient(to top, rgba(2, 6, 23, 0.94), rgba(2, 6, 23, 0.52) 48%, rgba(2, 6, 23, 0.2)),
-    url("assets/card3.jpg");
+    url("../assets/card3.jpg");
 }
 .banner::after {
   content: "";
