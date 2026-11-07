@@ -8,13 +8,14 @@ const PUBKEY='motionAdminDemo.pub.v5';
 const C=(title,sub)=>({title,sub,img:false});
 /* 后台还没打开过时用的内置已发布样例，与后台种子一致 */
 const DEF={
-  acts:{2:'坐姿双手绳索高位下拉',4:'站立位双手绳索胸推',5:'站姿高位绳索弯举',6:'站姿双头绳面拉',8:'弹簧阻力卷腹',9:'平板支撑',15:'站姿绳索侧平举'},
+  acts:{2:'坐姿双手绳索高位下拉',4:'站立位双手绳索胸推',5:'站姿高位绳索弯举',6:'站姿双头绳面拉',8:'弹簧阻力卷腹',9:'平板支撑',15:'站姿绳索侧平举',17:'侧卧弹簧抬腿'},
   tpls:[
-    {id:'T-bh',name:'平板凳 · 手柄 · 最高一档',on:true,members:[2],tags:['平板凳','手柄','最高一档'],video:{name:'平板凳+手柄安装.mp4',poster:true},cards:[C('放置平板凳','请在器械前放置平板凳。'),C('更换手柄','请把配件更换为手柄。'),C('调整卡扣','请把卡扣调到最高一档。')]},
+    {id:'T-bh',name:'平板凳 · 手柄 · 最高一档',on:true,members:[2],tags:['平板凳','手柄','最高一档'],video:{name:'平板凳+手柄安装.mp4',poster:true},cards:[C('放置平板凳','请在器械前放置平板凳。'),C('更换手柄','请把配件更换为手柄。'),C('调整卡扣','请把卡扣调到最高一档。')],i18n:{'en-US':{name:'Flat bench · Handle · Top notch',tags:['Flat bench','Handle','Top notch'],cards:[C('Place the bench','Place a flat bench in front of the machine.'),C('Switch to the handle','Replace the accessory with a handle.'),C('Adjust the clip','Set the clip to the top notch.')]}}},
     {id:'T-chest',name:'手柄 · 与肩同高',on:true,members:[4],tags:['手柄','与肩同高'],video:null,cards:[C('更换手柄','请把配件更换为手柄。'),C('调整卡扣','请把卡扣调到与肩同高的位置。')]},
     {id:'T-rope',name:'双头绳 · 与肩同高',on:true,members:[5,6],tags:['双头绳','与肩同高'],video:null,cards:[C('更换双头绳','请把配件更换为双头绳。'),C('调整卡扣','请把卡扣调到与肩同高的位置。')]},
     {id:'T-clip',name:'仅调卡扣 · 最低一档',on:true,members:[15],tags:[],video:null,cards:[C('调整卡扣','请把卡扣调到最低一档，无需更换配件。')]},
-    {id:'T-pbox',name:'普拉提 · 放置箱体',on:true,members:[8],tags:['箱体'],video:{name:'普拉提放置箱体.mp4',poster:true},cards:[C('放置箱体','请把箱体放到普拉提床上。'),C('确认箱体固定','请确认箱体卡稳后再开始。')]}
+    {id:'T-pbox',name:'普拉提 · 放置箱体',on:true,members:[8],tags:['箱体'],video:{name:'普拉提放置箱体.mp4',poster:true},cards:[C('放置箱体','请把箱体放到普拉提床上。'),C('确认箱体固定','请确认箱体卡稳后再开始。')]},
+    {id:'T-pboxoff',name:'普拉提 · 移除箱体',on:true,members:[17],tags:[],video:null,cards:[C('移除箱体','请把箱体从普拉提床上取下，放到一旁。')]}
   ]
 };
 function store(){try{const s=JSON.parse(localStorage.getItem(PUBKEY)||'null');if(s&&s.tpls&&s.acts)return s}catch(e){}return DEF}
@@ -24,15 +25,37 @@ function tplOf(name){
   if(id==null)return null;
   return s.tpls.find(t=>t.on&&t.members.includes(+id))||null;
 }
+/* 只使用已上架的译文；没有对应语言时回退中文。视频和图片与中文共用 */
+function localize(t){
+  if(!t)return t;
+  const code=prefs.language==='en'?'en-US':null;
+  const v=code&&t.i18n&&t.i18n[code];
+  if(!v)return t;
+  return Object.assign({},t,{
+    tags:(v.tags||[]).some(Boolean)?v.tags:t.tags,
+    cards:(t.cards||[]).map((c,i)=>{const x=(v.cards||[])[i];return x&&x.title?Object.assign({},c,{title:x.title,sub:x.sub||''}):c})
+  });
+}
 const ACTS={
   first:{name:'坐姿双手绳索高位下拉'},
   same:{name:'站姿双头绳面拉',prev:'站姿高位绳索弯举'},
   clip:{name:'站姿绳索侧平举'},
   chest:{name:'站立位双手绳索胸推'},
   pbox:{name:'弹簧阻力卷腹'},
+  pboxoff:{name:'侧卧弹簧抬腿'},
   skip:{name:'平板支撑'}
 };
 window.V6Prep={scene:'first',vfail:false};
+/* 副标题由设备端系统语音合成，按当前语言依次朗读；不上传录音 */
+V6Prep.speak=function(){
+  const a=ACTS[V6Prep.scene]||ACTS.first,t=localize(tplOf(a.name));
+  const subs=t?t.cards.map(c=>c.sub).filter(Boolean):[];
+  if(!subs.length)return notify(T('当前没有可朗读的副标题','Nothing to read'));
+  if(!('speechSynthesis' in window))return notify(T('当前浏览器不支持语音合成','Speech synthesis not supported'));
+  speechSynthesis.cancel();
+  subs.forEach(s=>{const u=new SpeechSynthesisUtterance(s);u.lang=prefs.language==='en'?'en-US':'zh-CN';speechSynthesis.speak(u)});
+  notify(T('正在朗读 '+subs.length+' 条副标题','Reading '+subs.length+' subtitles'));
+};
 function artImg(){return '<svg viewBox="0 0 280 140" aria-hidden="true"><rect x="118" y="28" width="44" height="88" rx="10" fill="#2a3b52"/><path d="M86 70h32m8 0h32" stroke="#3b82c4" stroke-width="6" stroke-linecap="round"/><circle cx="78" cy="70" r="10" fill="#e8eef6" stroke="#8aa0b8" stroke-width="3"/><circle cx="202" cy="70" r="10" fill="#e8eef6" stroke="#8aa0b8" stroke-width="3"/></svg>'}
 function vidSvg(still){
   return '<svg viewBox="0 0 160 90" class="v6p-vsvg'+(still?' still':'')+'" aria-hidden="true"><rect x="18" y="8" width="10" height="74" rx="3" fill="#2a3b52"/><rect x="132" y="8" width="10" height="74" rx="3" fill="#2a3b52"/><path d="M32 47h96" stroke="#3b82c4" stroke-width="2" stroke-dasharray="4 3"/><g class="v6p-clip"><rect x="13" y="44" width="20" height="7" rx="2" fill="#f5a524"/></g><circle class="v6p-h" cx="132" cy="47" r="7" fill="#e8eef6" stroke="#8aa0b8" stroke-width="2"/></svg>';
@@ -56,7 +79,8 @@ pages.prepare=function(){
   if($('#state')&&$('#state').value==='error'){
     return bar(T('训练准备','Training preparation'),'library')+'<div class="pad prep-guide v6p"><div class="v6p-skip"><b>'+T('安装内容加载失败','Could not load setup')+'</b><p>'+T('可重试，或直接查看动作详情。','Retry, or open the action detail.')+'</p></div>'+btn(T('重试','Retry'),"$('#state').value='normal';render()")+btn(T('查看动作详情','View action'),'finishPrep()','secondary')+'</div>';
   }
-  const t=tplOf(a.name);
+  const raw=tplOf(a.name);
+  const t=localize(raw);
   const prevT=a.prev?tplOf(a.prev):null;
   let body,head='<div class="v6p-head"><h3 class="v6p-name">'+esc(a.name)+'</h3>';
   if(!t){
@@ -78,9 +102,12 @@ reviewControls=(prior=>function(key){
    +btn('只调卡扣（1 张卡，无视频）',"V6Prep.scene='clip';render()",'secondary')
    +btn('无视频图文卡（手柄 + 卡扣）',"V6Prep.scene='chest';render()",'secondary')
    +btn('普拉提 · 放置箱体（有视频）',"V6Prep.scene='pbox';render()",'secondary')
+   +btn('普拉提 · 移除箱体（1 张卡）',"V6Prep.scene='pboxoff';render()",'secondary')
    +btn('未归属模板（直接进动作）',"V6Prep.scene='skip';render()",'secondary')
    +'<p class="review-cap">视频兜底</p>'
-   +btn(V6Prep.vfail?'模拟视频加载失败：开（点击关闭）':'模拟视频加载失败：关（点击开启）',"V6Prep.vfail=!V6Prep.vfail;render()",'secondary')+'</div>';
+   +btn(V6Prep.vfail?'模拟视频加载失败：开（点击关闭）':'模拟视频加载失败：关（点击开启）',"V6Prep.vfail=!V6Prep.vfail;render()",'secondary')
+   +'<p class="review-cap">副标题朗读（待确认）</p>'
+   +btn('试听：按当前语言朗读副标题',"V6Prep.speak()",'secondary')+'</div>';
 })(reviewControls);
 /* 后台发布后，设备端 Demo 同步刷新 */
 window.addEventListener('storage',e=>{if(e.key===PUBKEY&&route==='prepare'&&end==='device')render()});

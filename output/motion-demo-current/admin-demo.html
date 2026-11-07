@@ -167,6 +167,8 @@ tr.dimrow td{opacity:.5}tr.orph td{background:var(--head);border-top:2px solid v
 .cardrow{display:flex;gap:10px;align-items:center;border:1px solid var(--line);border-radius:10px;padding:8px 10px;margin-bottom:8px;background:var(--inp)}
 .cardrow .cnn{width:22px;height:22px;border-radius:50%;background:var(--blue-bg);color:var(--bluet2);display:grid;place-items:center;font-size:12px;flex:none}
 .cimg{width:84px;height:62px;border:1px dashed var(--bd4);border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:12px;color:var(--mute);cursor:pointer;flex:none}.cimg small{font-size:10px}.cimg.has{border-style:solid;border-color:var(--bluebd);color:var(--bluet2);background:var(--uphas)}
+.cimg{position:relative;overflow:hidden}.cimg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.cimg img+span{position:absolute;right:3px;bottom:3px;font-size:10px;background:#000a;color:#fff;border-radius:4px;padding:0 4px}
+.dev .ico{overflow:hidden}.dev .ico img{width:100%;height:100%;object-fit:cover;display:block}
 .cardrow .cf{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}.cardrow .cf input{width:100%}
 .cardrow .cb{display:flex;flex-direction:column;gap:2px;align-items:center;flex:none}
 .vrow{display:flex;gap:14px;align-items:flex-start}.vthumb{width:200px;flex:none}.vinfo{display:flex;flex-direction:column;gap:6px;font-size:13px}
@@ -225,7 +227,6 @@ const AI_LIST=[[-1,'原地踏步'],[0,'开合跳'],[1,'锤式弯举'],[2,'跪姿
 const aiName=id=>{const r=AI_LIST.find(x=>x[0]==id);return r?id+'_'+r[1]:String(id)};
 
 const SO_TYPES=[['rom','幅度'],['symmetry','左右对称'],['stability','稳定性'],['tempo','节奏']];
-const LANGS=[['zh','简体中文'],['en','English'],['ja','日本語'],['ko','한국어'],['es','Español'],['de','Deutsch'],['fr','Français'],['ar','العربية']];
 const FALLBACK='请查看动作示范并调整姿势';
 const nid=()=>'n'+Math.random().toString(36).slice(2,8);
 const line=(text,voice)=>({id:nid(),text,voice:voice||null});
@@ -236,7 +237,7 @@ const defaultTypes=()=>SO_TYPES.map(([key,name])=>({key,name,fromSo:true,lines:[
 const AC=o=>Object.assign({models:['MS'],type:'非视频动作',scene:'力量训练',diff:'中级',equip:[],coach:'',parts:[],muscles:[],attr:'按次数计算',motor:true,side:'双边',w:null,ai:null,status:'上架',op:'superadmin',intro:'',points:'',breath:'',mistakes:'',install:'',note:'',cover:true,pm:false,im:false,langs:[]},o);
 const CD=(title,sub)=>({id:nid(),title,sub,img:false});
 const T=o=>Object.assign({on:true,f:{scene:[],attr:[],part:[],acc:[]},members:[],tags:[],video:null,cards:[],langs:[],by:'superadmin',at:'2026-11-05 10:20',pub:null,pubAt:'',del:false,seedPub:true},o);
-const seed=()=>({log:[{t:'2026-11-05 10:20',who:'superadmin',obj:'示例模板',act:'发布',desc:'初始化 7 个示例模板并发布'}],
+const seed=()=>({log:[{t:'2026-11-05 10:20',who:'superadmin',obj:'示例模板',act:'发布',desc:'初始化 8 个示例模板并发布'}],
  so:62,
  templates:[
   T({id:'T-bar',name:'杠铃杆 · 便于取放',tags:['杠铃杆'],f:{scene:[],attr:[],part:[],acc:['杠铃杆']},members:[1,7],cards:[CD('更换杠铃杆','请把配件更换为杠铃杆。'),CD('调整卡扣','请把卡扣调到便于取放的位置。')]}),
@@ -245,7 +246,8 @@ const seed=()=>({log:[{t:'2026-11-05 10:20',who:'superadmin',obj:'示例模板',
   T({id:'T-chest',name:'手柄 · 与肩同高',tags:['手柄','与肩同高'],f:{scene:['力量训练'],attr:['按次数计算'],part:['胸部'],acc:['手柄']},members:[4],cards:[CD('更换手柄','请把配件更换为手柄。'),CD('调整卡扣','请把卡扣调到与肩同高的位置。')]}),
   T({id:'T-rope',name:'双头绳 · 与肩同高',tags:['双头绳','与肩同高'],f:{scene:[],attr:[],part:['手臂','肩部'],acc:['双头绳']},members:[5,6],cards:[CD('更换双头绳','请把配件更换为双头绳。'),CD('调整卡扣','请把卡扣调到与肩同高的位置。')]}),
   T({id:'T-clip',name:'仅调卡扣 · 最低一档',tags:[],f:{scene:['力量训练'],attr:['按次数计算'],part:['肩部'],acc:['手柄']},members:[15],cards:[CD('调整卡扣','请把卡扣调到最低一档，无需更换配件。')]}),
-  T({id:'T-pbox',name:'普拉提 · 放置箱体',tags:['箱体'],f:{scene:['普拉提'],attr:[],part:[],acc:['瑜伽垫']},members:[8],video:{name:'普拉提放置箱体.mp4',dur:'9 秒',size:'2.1 MB',poster:true},cards:[CD('放置箱体','请把箱体放到普拉提床上。'),CD('确认箱体固定','请确认箱体卡稳后再开始。')]})
+  T({id:'T-pbox',name:'普拉提 · 放置箱体',tags:['箱体'],f:{scene:['普拉提'],attr:[],part:[],acc:['瑜伽垫']},members:[8],video:{name:'普拉提放置箱体.mp4',dur:'9 秒',size:'2.1 MB',poster:true},cards:[CD('放置箱体','请把箱体放到普拉提床上。'),CD('确认箱体固定','请确认箱体卡稳后再开始。')]}),
+  T({id:'T-pboxoff',name:'普拉提 · 移除箱体',tags:[],f:{scene:['普拉提'],attr:[],part:['大腿','臀部'],acc:[]},members:[17],cards:[CD('移除箱体','请把箱体从普拉提床上取下，放到一旁。')]})
  ],
  actions:[
   AC({id:1,name:'站立位杠铃划船',equip:['杠铃杆'],parts:['背部'],muscles:['背阔肌','斜方肌','肱二头肌'],w:12,ai:240,langs:['en-US','ja-JP'],intro:'站立位杠铃划船属于力量训练基础动作，保持核心收紧与躯干稳定。',points:'双脚与肩同宽站立，膝盖微屈，核心收紧，按轨迹拉回再控制还原。',breath:'发力时呼气，还原时吸气。',mistakes:'动作幅度过大或过小；身体代偿；借力甩动。',install:'将杠铃杆调节至便于安全取放的高度即可。'}),
@@ -263,7 +265,8 @@ const seed=()=>({log:[{t:'2026-11-05 10:20',who:'superadmin',obj:'示例模板',
   AC({id:13,name:'肩部拉伸',type:'视频动作',scene:'拉伸康复',diff:'初级',attr:'按时长计算',equip:['徒手'],parts:['肩部'],muscles:['三角肌后束'],motor:false,intro:'肩部拉伸。',points:'保持呼吸，缓慢拉伸。',breath:'平稳呼吸。',mistakes:'耸肩。',install:''}),
   AC({id:14,name:'Motion 训练片头',type:'片头',attr:'其他',equip:['徒手'],parts:['全身'],muscles:['腹肌'],motor:false,models:['MS','T5X','MS-CN'],intro:'品牌片头。'}),
   AC({id:15,name:'站姿绳索侧平举',diff:'初级',equip:['手柄'],parts:['肩部'],muscles:['三角肌中束'],w:4,intro:'侧平举。',points:'手臂抬至与肩同高。',breath:'抬起呼气。',mistakes:'耸肩。',install:'手柄低位。'}),
-  AC({id:16,name:'跪姿绳索卷腹',status:'草稿',equip:['双头绳'],parts:['腹部'],muscles:['腹肌'],w:10,intro:'双头绳跪姿卷腹。',points:'用腹部发力卷曲。',breath:'卷起呼气。',mistakes:'用手臂拉。',install:'双头绳高位。'})
+  AC({id:16,name:'跪姿绳索卷腹',status:'草稿',equip:['双头绳'],parts:['腹部'],muscles:['腹肌'],w:10,intro:'双头绳跪姿卷腹。',points:'用腹部发力卷曲。',breath:'卷起呼气。',mistakes:'用手臂拉。',install:'双头绳高位。'}),
+  AC({id:17,name:'侧卧弹簧抬腿',type:'视频动作',scene:'普拉提',diff:'初级',models:['MS','MS-CN'],equip:['瑜伽垫'],parts:['大腿','臀部'],muscles:['臀大肌','大腿内收肌'],motor:false,intro:'普拉提侧卧抬腿，床面需移除箱体。',points:'身体侧卧成一条线，缓慢抬腿。',breath:'抬腿呼气。',mistakes:'骨盆后倒。',install:''})
  ],
  copy:{
   '240|zh':pack([
@@ -272,7 +275,7 @@ const seed=()=>({log:[{t:'2026-11-05 10:20',who:'superadmin',obj:'示例模板',
     {key:'stability',name:'稳定性',fromSo:true,lines:[line('收紧核心站稳，别晃动',{name:'240-稳定-zh.wav',dur:'1.8s'})]},
     {key:'tempo',name:'节奏',fromSo:true,lines:[line('保持连贯节奏，不要停顿过久',{name:'240-节奏-zh.wav',dur:'2.0s'})]}
   ]),
-  '240|en':pack([
+  '240|en-US':pack([
     {key:'rom',name:'ROM',fromSo:true,lines:[line('Pull closer to your chest and open your elbows.',{name:'240-rom-en.wav',dur:'2.6s'})]},
     {key:'symmetry',name:'Symmetry',fromSo:true,lines:[line('Pull both arms evenly.')]},
     {key:'stability',name:'Stability',fromSo:true,lines:[line('Brace your core and stand still.')]},
@@ -299,8 +302,35 @@ const seed=()=>({log:[{t:'2026-11-05 10:20',who:'superadmin',obj:'示例模板',
   ])
  }
 });
+/* v4 → v5：add/ex + 优先级匹配改为明确成员；配件 / 凳 / 卡扣三项各转一张卡片，不保留身高档与厘米数；推荐配重三档回到单值（取中级） */
+function migrateV4(old){
+  const base=seed();
+  const baseIds=new Set(base.actions.map(a=>a.id)),baseTpl=new Set(base.templates.map(t=>t.id));
+  const acts=base.actions.concat((old.actions||[]).filter(a=>!baseIds.has(a.id)).map(a=>Object.assign({},a,{w:a.w&&typeof a.w==='object'?(a.w.m!=null?a.w.m:a.w.n!=null?a.w.n:a.w.h):a.w})));
+  const ok=a=>a.type==='视频动作'||a.type==='非视频动作';
+  const taken=new Set(base.templates.flatMap(t=>t.members));
+  const tpls=(old.templates||[]).filter(o=>!baseTpl.has(o.id)).map(o=>{
+    const f={scene:o.scene||[],attr:o.attr||[],part:o.part||[],acc:[o.acc,o.bench].filter(Boolean)};
+    const cond=f.scene.length||f.attr.length||f.part.length;
+    const hit=a=>cond&&ok(a)&&(!f.scene.length||f.scene.includes(a.scene))&&(!f.attr.length||f.attr.includes(a.attr))&&(!f.part.length||(a.parts||[]).some(p=>f.part.includes(p)));
+    const ex=new Set(o.ex||[]);
+    const ids=[...(o.add||[]),...acts.filter(hit).map(a=>a.id)].filter(id=>!ex.has(id)&&!taken.has(id));
+    const members=[...new Set(ids)];members.forEach(id=>taken.add(id));
+    const label=o.heightKind==='tier'?({high:'最高一档',mid:'中间一档',low:'最低一档'}[o.h]||''):(o.heightLabel||'');
+    const cards=[];
+    if(o.bench)cards.push(CD('放置'+o.bench,o.benchText||'请在器械前放置'+o.bench+'。'));
+    if(o.acc)cards.push(CD('更换'+o.acc,o.accText||'请把配件更换为'+o.acc+'。'));
+    cards.push(CD('调整卡扣',label?'请把卡扣调到'+label+'。':'请调整卡扣位置。'));
+    return T({id:o.id,name:o.name,on:o.on!==false,f,members,tags:[o.bench,o.acc,label].filter(Boolean),cards,at:'2026-11-05 10:20'});
+  });
+  return Object.assign(base,{so:old.so||base.so,actions:acts,templates:base.templates.concat(tpls),
+    log:[{t:'2026-11-07 10:00',who:'system',obj:'数据迁移',act:'修改',desc:'从 v4 升级：示例模板换为新结构；另迁移 '+tpls.length+' 个自建模板，匹配结果转为成员，配件 / 凳 / 卡扣转为卡片，推荐配重恢复单值'}].concat(base.log)});
+}
 let db;try{db=JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){}
-if(!db||!db.templates||!db.actions||!db.log)db=seed();
+if(!db||!db.templates||!db.actions||!db.log){
+  let old=null;try{old=JSON.parse(localStorage.getItem('motionAdminDemo.v4')||'null')}catch(e){}
+  db=old&&Array.isArray(old.templates)&&old.templates.length?migrateV4(old):seed();
+}
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(db))}catch(e){}};
 
 /* ========== 候选引擎：匹配条件只用来筛候选动作、提醒「待确认」，不决定设备端展示 ========== */
@@ -350,7 +380,7 @@ function bindPager(redraw){
 }
 const slice=(id,arr)=>{const s=ui.ps[id],p=Math.min(ui.pg[id],Math.max(1,Math.ceil(arr.length/s)));return arr.slice((p-1)*s,p*s)};
 
-const ui={page:'actions',model:'全部型号',f:{},fopen:true,dense:false,cols:{},expand:{},pg:{actions:1,ai:1},ps:{actions:12,ai:10},edit:null,preview:null,tf:'',texp:{},aiQ:{id:'',name:''},aiF:{id:'',name:''},aeq:{}};
+const ui={page:'actions',model:'全部型号',f:{},fopen:true,dense:false,cols:{},expand:{},pg:{actions:1,ai:1},ps:{actions:12,ai:10},edit:null,preview:null,tf:'',texp:{},tlang:{},aiQ:{id:'',name:''},aiF:{id:'',name:''},aeq:{}};
 const MENU=[['actions','动作库管理','◎','old'],['templates','安装方案模板','▤','new'],['coach','教练管理','◉','old'],['equip','器械管理','⋮','old'],['ai','AI动作列表','◈','mod'],['music','音乐管理','♪','old'],['sys','系统管理','⚙','old'],['agent','Agent 素材运营','☗','old']];
 const CRUMB={actions:'动作库管理',templates:'安装方案模板',ai:'AI动作列表',changes:'本期变更清单'};
 function paintSide(){
@@ -373,7 +403,6 @@ setTheme((()=>{try{return localStorage.getItem(TKEY)}catch(e){return null}})()||
 $('#marks').onchange=e=>{document.body.classList.toggle('nomk',!e.target.checked)};
 $('#reset').onclick=()=>{localStorage.removeItem(KEY);db=seed();ui.edit=null;ui.preview=null;ui.expand={};ui.f={};nav(ui.page);toast('已重置演示数据')};
 
-const LEGEND=`<div class="legend"><b>标注说明</b>${MK('new')}本期新增的功能或字段　${MK('mod')}线上已有，本期修改　${MK('old')}线上已有，不改。其余未标注内容均与线上一致。</div>`;
 </script>
 <script>
 /* ========== 页面一：动作库管理（线上已有，本期局部修改） ========== */
@@ -418,11 +447,11 @@ function pageActions(){
       :`<a class="g" data-op="up" data-id="${a.id}">上架</a><a data-op="view" data-id="${a.id}">查看</a><a data-op="tr" data-id="${a.id}">翻译</a><a data-op="edit" data-id="${a.id}">编辑</a><a class="r" data-op="del" data-id="${a.id}">删除</a>`;
     let h=`<tr>${vis.map(c=>c[0]==='no'?noCell:`<td ${c[0]==='name'?'class="l"':''}>${cell(a,c[0])}</td>`).join('')}<td class="act">${ops}</td></tr>`;
     if(open)h+=a.langs.map((lc,i)=>{const L=LANG_ALL.find(x=>x[0]===lc)||[lc,lc];const nm=lc==='en-US'&&a.id===1?'Standing Barbell Row':a.name+'（'+L[1]+'）';
-      return `<tr class="child">${vis.map(c=>c[0]==='no'?`<td>${a.id}-${i+1}</td>`:`<td ${c[0]==='name'?'class="l"':''}>${cell(a,c[0],{name:nm,lang:L[1]})}</td>`).join('')}<td class="act"><a class="g" data-op="child">上架</a><a data-op="child">查看</a><a data-op="child">编辑</a><a class="r" data-op="child">删除</a></td></tr>`}).join('');
+      const st=(a.lst&&a.lst[lc])||'上架';
+      return `<tr class="child">${vis.map(c=>c[0]==='no'?`<td>${a.id}-${i+1}</td>`:c[0]==='status'?`<td><span style="color:${stColor(st)}">${st}</span></td>`:`<td ${c[0]==='name'?'class="l"':''}>${cell(a,c[0],{name:nm,lang:L[1]})}</td>`).join('')}<td class="act">${langOpsHTML(st,`data-aid="${a.id}" data-lc="${lc}"`)}</td></tr>`}).join('');
     return h;
   }).join('');
-  $('#content').innerHTML=`${LEGEND}
-  <div class="card" style="margin-bottom:12px"><div class="bd" style="padding:0 16px 0"><div class="tabs">${['全部型号',...OPT.model].map(m=>`<a data-m="${m}" class="${ui.model===m?'on':''}">${m}</a>`).join('')}</div></div></div>
+  $('#content').innerHTML=`<div class="card" style="margin-bottom:12px"><div class="bd" style="padding:0 16px 0"><div class="tabs">${['全部型号',...OPT.model].map(m=>`<a data-m="${m}" class="${ui.model===m?'on':''}">${m}</a>`).join('')}</div></div></div>
   <div class="card"><div class="bd"><div class="fbar">
    ${sel('scene','适用场景',OPT.scene)}${sel('diff','难度',OPT.diff)}${sel('equip','器械',EQUIP.map(e=>e[1]))}${sel('part','训练部位',OPT.part)}
    ${ui.fopen?`${sel('type','动作类型',OPT.type)}${sel('status','状态',OPT.status)}${sel('ai','AI支持',['支持','不支持'])}${sel('coach','教练',['无',...OPT.coach])}
@@ -436,7 +465,6 @@ function pageActions(){
     <button class="ib" id="ib1" title="刷新">⟳</button><button class="ib" id="ib2" title="密度">☰</button><button class="ib" id="ib3" title="列设置">⚙</button></div>
    <div class="tw"><table class="${ui.dense?'dense':''}"><thead><tr>${vis.map(c=>`<th>${c[1]}${c[2]?MK(c[2]):''}</th>`).join('')}<th>操作</th></tr></thead><tbody>${trs||`<tr><td colspan="${vis.length+1}" class="muted">暂无数据</td></tr>`}</tbody></table></div>
    ${pager('actions',all.length)}
-   <div class="small muted" style="text-align:center">Demo 共 ${db.actions.length} 条演示动作；线上现有 266 条。序号列带「(n)」的是已翻译，点 › 展开语言子行。</div>
   </div></div>`;
   bindPager(pageActions);
   $$('[data-m]').forEach(e=>e.onclick=()=>{ui.model=e.dataset.m;ui.pg.actions=1;pageActions()});
@@ -445,6 +473,12 @@ function pageActions(){
   $('#fr').onclick=()=>{ui.f={};ui.pg.actions=1;pageActions()};
   $('#ft').onclick=()=>{ui.fopen=!ui.fopen;pageActions()};
   $$('[data-ex]').forEach(e=>e.onclick=()=>{ui.expand[e.dataset.ex]=!ui.expand[e.dataset.ex];pageActions()});
+  $$('[data-lop]').forEach(e=>e.onclick=()=>{
+    const op=e.dataset.lop,lc=e.dataset.lc,a=db.actions.find(x=>x.id===+e.dataset.aid),ln=langName(lc);
+    if(op==='view'||op==='edit')return openAction(a.id,op);
+    if(op==='up'||op==='down'){const label=op==='up'?'上架':'下架';return confirmDlg(label,'确定'+label+'「'+esc(a.name)+'」（'+esc(ln)+'）？','确定',()=>{a.lst=a.lst||{};a.lst[lc]=label;save();pageActions();toast('已'+label)})}
+    if(op==='del')confirmDlg('删除','确定删除「'+esc(a.name)+'」（'+esc(ln)+'）？不可恢复。','删除',()=>{a.langs=a.langs.filter(x=>x!==lc);if(a.lst)delete a.lst[lc];save();pageActions();toast('已删除')});
+  });
   $('#anew').onclick=()=>openAction(0,'new');
   $('#ib1').onclick=()=>{ui.f={};pageActions();toast('已刷新')};$('#ib2').onclick=()=>{ui.dense=!ui.dense;pageActions()};
   $('#ib3').onclick=()=>{
@@ -453,7 +487,6 @@ function pageActions(){
   };
   $$('[data-op]').forEach(e=>e.onclick=()=>{
     const op=e.dataset.op,a=db.actions.find(x=>x.id===+e.dataset.id);
-    if(op==='child')return toast('译文行的操作与主行一致，Demo 不展开');
     if(op==='view')return openAction(a.id,'view');
     if(op==='edit')return openAction(a.id,'edit');
     if(op==='tr')return translateDlg(a);
@@ -463,8 +496,12 @@ function pageActions(){
   });
 }
 function translateDlg(a){
+  pickLangDlg(a.name,sel=>{a.langs=[...new Set([...a.langs,...sel])];a.lst=a.lst||{};sel.forEach(c=>a.lst[c]='草稿');ui.expand[a.id]=true;save();pageActions();toast('已生成 '+sel.size+' 种语言译文（演示，不调用真实翻译）')});
+}
+/* 三处翻译共用：与线上动作库「选择翻译语言」一致 */
+function pickLangDlg(title,onOk){
   const sel=new Set(LANG_ALL.map(x=>x[0]));
-  const body=()=>`<div style="display:flex;justify-content:space-between;margin-bottom:10px"><b>${esc(a.name)}</b><span class="muted small">源语言：简体中文 (zh-CN)</span></div>
+  const body=()=>`<div style="display:flex;justify-content:space-between;margin-bottom:10px"><b>${esc(title)}</b><span class="muted small">源语言：简体中文 (zh-CN)</span></div>
    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><button class="btn sm" data-all>${sel.size===LANG_ALL.length?'取消全选':'全选'}</button><span class="small muted">已选 ${sel.size} / 32（Demo 列出 20 种）</span></div>
    <div class="lang-grid">${LANG_ALL.map(([c,n])=>`<label class="${sel.has(c)?'':'off'}"><input type="checkbox" data-lc="${c}" ${sel.has(c)?'checked':''}><span>${n}<small>${c}</small></span></label>`).join('')}</div>
    <p class="small muted" style="margin:12px 0 0">所选已有译文将重新翻译，未选语言的译文予以保留。</p>`;
@@ -475,8 +512,14 @@ function translateDlg(a){
     o.querySelectorAll('[data-lc]').forEach(c=>c.onchange=()=>{c.checked?sel.add(c.dataset.lc):sel.delete(c.dataset.lc);redraw()});
   };bind();
   o.querySelector('[data-c]').onclick=o.close;
-  o.querySelector('[data-ok]').onclick=()=>{if(!sel.size)return toast('请至少选择一种语言');a.langs=[...new Set([...a.langs,...sel])];ui.expand[a.id]=true;save();o.close();pageActions();toast('已生成 '+sel.size+' 种语言译文（演示，不调用真实翻译）')};
+  o.querySelector('[data-ok]').onclick=()=>{if(!sel.size)return toast('请至少选择一种语言');o.close();onOk(sel)};
 }
+const langName=c=>c==='zh'?'简体中文':(LANG_ALL.find(x=>x[0]===c)||[c,c])[1];
+/* 语言子行的操作，规则与动作库主行一致：上架 → 下架 / 查看；其余 → 上架 / 查看 / 编辑 / 删除 */
+const langOpsHTML=(st,attrs)=>st==='上架'
+  ?`<a class="o" data-lop="down" ${attrs}>下架</a><a data-lop="view" ${attrs}>查看</a>`
+  :`<a class="g" data-lop="up" ${attrs}>上架</a><a data-lop="view" ${attrs}>查看</a><a data-lop="edit" ${attrs}>编辑</a><a class="r" data-lop="del" ${attrs}>删除</a>`;
+const stColor=st=>st==='上架'?'var(--green)':st==='下架'?'var(--red)':'var(--mute)';
 
 /* ---------- 添加 / 编辑 / 查看 动作（线上完整表单 + 标注） ---------- */
 function openAction(id,mode){
@@ -581,7 +624,27 @@ const PRESETS=[['空白卡片','',''],['更换配件','更换配件','请把配�
 const mkCard=(title,sub,img)=>({id:nid(),title:title||'',sub:sub||'',img:!!img});
 const actName=id=>(db.actions.find(a=>a.id===id)||{}).name||('#'+id);
 const vidArt=()=>`<svg viewBox="0 0 160 90" class="vsvg" aria-hidden="true"><rect x="18" y="8" width="10" height="74" rx="3" fill="#2a3b52"/><rect x="132" y="8" width="10" height="74" rx="3" fill="#2a3b52"/><path d="M32 47h96" stroke="#3b82c4" stroke-width="2" stroke-dasharray="4 3"/><g class="vclip"><rect x="13" y="44" width="20" height="7" rx="2" fill="#f5a524"/></g><circle class="vh" cx="132" cy="47" r="7" fill="#e8eef6" stroke="#8aa0b8" stroke-width="2"/></svg><span class="vplay">▶</span>`;
-const snapOf=t=>({name:t.name,on:!!t.on,members:[...t.members].sort((a,b)=>a-b),tags:[...t.tags],video:t.video?{name:t.video.name,dur:t.video.dur,poster:!!t.video.poster}:null,cards:t.cards.map(c=>({title:c.title,sub:c.sub,img:!!c.img})),langs:[...t.langs].sort()});
+const SEED_I18N={'T-bh':{
+ 'en-US':{status:'上架',name:'Flat bench · Handle · Top notch',tags:['Flat bench','Handle','Top notch'],cards:[{title:'Place the bench',sub:'Place a flat bench in front of the machine.'},{title:'Switch to the handle',sub:'Replace the accessory with a handle.'},{title:'Adjust the clip',sub:'Set the clip to the top notch.'}]},
+ 'ja-JP':{status:'上架',name:'フラットベンチ · ハンドル · 最上段',tags:['ベンチ','ハンドル','最上段'],cards:[{title:'ベンチを置く',sub:'マシンの前にフラットベンチを置いてください。'},{title:'ハンドルに交換',sub:'アタッチメントをハンドルに交換してください。'},{title:'クリップを調整',sub:'クリップを最上段に合わせてください。'}]}
+}};
+function shelfI18n(t){const o={};Object.entries(t.i18n||{}).forEach(([k,v])=>{if(v&&v.status==='上架')o[k]={name:v.name||'',tags:[...(v.tags||[])],cards:(v.cards||[]).map(c=>({title:c.title||'',sub:c.sub||''}))}});return o}
+function normTpl(t){
+  if(!t.i18n||typeof t.i18n!=='object')t.i18n={};
+  if(!Object.keys(t.i18n).length&&SEED_I18N[t.id])t.i18n=JSON.parse(JSON.stringify(SEED_I18N[t.id]));
+  (t.langs||[]).forEach(c=>{if(!t.i18n[c])t.i18n[c]={status:'上架',name:t.name,tags:[...(t.tags||[])],cards:(t.cards||[]).map(x=>({title:x.title,sub:x.sub})),by:t.by,at:t.at}});
+  Object.values(t.i18n).forEach(v=>{v.status=['上架','下架','草稿'].includes(v.status)?v.status:'草稿';v.tags=v.tags||[];v.cards=v.cards||[];v.by=v.by||t.by;v.at=v.at||t.at});
+  t.langs=Object.keys(t.i18n);
+}
+function alignI18n(t){
+  Object.values(t.i18n||{}).forEach(v=>{
+    v.cards=(t.cards||[]).map((c,i)=>({title:(v.cards[i]&&v.cards[i].title)||'',sub:(v.cards[i]&&v.cards[i].sub)||''}));
+    v.tags=(t.tags||[]).map((tag,i)=>(v.tags&&v.tags[i])||'');
+  });
+  t.langs=Object.keys(t.i18n||{});
+}
+function pushLang(t){if(!t.pub)return false;t.pub.i18n=shelfI18n(t);t.pub.langs=Object.keys(t.pub.i18n).sort();syncPub();return true}
+const snapOf=t=>({name:t.name,on:!!t.on,members:[...t.members].sort((a,b)=>a-b),tags:[...t.tags],video:t.video?{name:t.video.name,dur:t.video.dur,poster:!!t.video.poster}:null,cards:t.cards.map(c=>({title:c.title,sub:c.sub,img:!!c.img})),langs:Object.keys(shelfI18n(t)).sort(),i18n:shelfI18n(t)});
 const isDirty=t=>!t.pub||JSON.stringify(snapOf(t))!==JSON.stringify(t.pub);
 const tplState=t=>t.del?'待删除':!t.pub?'未发布':isDirty(t)?'有未发布修改':'已发布';
 const STC={'已发布':'g','有未发布修改':'y','未发布':'y','待删除':'r'};
@@ -597,7 +660,8 @@ function changeSummary(a,b){
   const add=b.members.filter(x=>!a.members.includes(x)),rm=a.members.filter(x=>!b.members.includes(x));
   if(add.length)o.push('加入 '+add.length+' 个动作：'+add.map(actName).join('、'));
   if(rm.length)o.push('移出 '+rm.length+' 个动作：'+rm.map(actName).join('、'));
-  if(JSON.stringify(a.langs)!==JSON.stringify(b.langs))o.push('翻译语言：'+a.langs.length+' → '+b.langs.length+' 种');
+  if(JSON.stringify(a.langs)!==JSON.stringify(b.langs))o.push('已上架语言：'+(a.langs||[]).length+' → '+(b.langs||[]).length+' 种');
+  if(JSON.stringify(a.i18n||{})!==JSON.stringify(b.i18n||{}))o.push('已上架语言的文案有修改');
   return o;
 }
 const nowStr=()=>{const d=new Date(),p=n=>String(n).padStart(2,'0');return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes())};
@@ -608,23 +672,17 @@ function syncPub(){
 }
 const pickFile=(accept,cb)=>{const i=document.createElement('input');i.type='file';i.accept=accept;i.onchange=()=>{if(i.files&&i.files[0])cb(i.files[0])};i.click()};
 const IMG_OK=f=>/^image\/(png|jpe?g|webp)$/.test(f.type)&&f.size<=2*1024*1024;
+const IMG_URL={};
 
 function devHTML(a,t){
   const head=`<div class="dev"><div class="sb"><span>IP: 192.168.1.100</span><span>15:43</span></div><div class="hd2">训练准备</div>`;
-  if(!t)return head+`<div class="pad"><div class="none">${a&&a.name?'未归属任何模板<br>设备端直接进入动作详情':'这里显示训练准备页'}</div></div><div class="btns"><div class="btn2">开始动作</div></div></div>`;
+  if(!t)return head+`<div class="pad"><div class="none">${a&&a.name?'未归属任何模板<br>设备端直接进入动作详情':'这里显示训练准备页'}</div></div><div class="btns"><div class="btn2">查看动作</div></div></div>`;
   return head+`<div class="pad"><b style="font-size:12px">${esc(a?.name||t.name)}</b>
    ${t.tags.length?`<div class="tags">${t.tags.map(x=>`<span>${esc(x)}</span>`).join('')}</div>`:''}
    ${t.video?`<div class="vid">${vidArt()}<em>${esc(t.video.name)}</em></div>`:''}
-   ${t.cards.map((c,i)=>`<div class="card2">${c.img?'<div class="ico"></div>':`<div class="num">${i+1}</div>`}<div><b>${esc(c.title||'（主标题）')}</b><p class="muted" style="margin:0;font-size:9px">${esc(c.sub||'')}</p></div></div>`).join('')}
-   </div><div class="btns"><div class="btn2">已完成，开始动作</div></div></div>`;
+   ${t.cards.map((c,i)=>`<div class="card2">${c.img?`<div class="ico">${IMG_URL[c.id]?`<img src="${IMG_URL[c.id]}" alt="">`:''}</div>`:`<div class="num">${i+1}</div>`}<div><b>${esc(c.title||'（主标题）')}</b><p class="muted" style="margin:0;font-size:9px">${esc(c.sub||'')}</p></div></div>`).join('')}
+   </div><div class="btns"><div class="btn2">已完成，查看动作</div></div></div>`;
 }
-const RULES_HTML=`<div class="hint"><b>怎么用（本期新增）</b>
- <ol><li>新建模板：填<b>训练准备内容</b>（可选引导视频 + 1～5 张自定义卡片），再填<b>匹配条件</b>：适用场景、动作属性、训练部位、配件。</li>
- <li>系统按条件把动作筛成<b>候选</b>，由人工<b>勾选</b>要加入的动作。勾选结果才是模板成员，设备端只认成员关系。</li>
- <li>一个动作只归一个模板；勾选已在别的模板里的动作，会从原模板移过来。没有任何模板的动作，设备端直接进入动作详情。</li>
- <li>条件只用来筛候选和提醒：新建或改了动作后，符合条件但没加入的会在模板上显示「待确认」，不会自动生效。</li>
- <li><b>保存是草稿，发布后设备端才生效</b>（包括停用、删除、成员增减）。所有变更记在操作日志里。</li></ol></div>`;
-
 function condCell(t){
   const row=(k,arr)=>`<span><b>${k}</b>${arr.length?esc(arr.join('、')):'<span class="muted">不限</span>'}</span>`;
   return `<div class="cond">${row('场景',t.f.scene)}${row('属性',t.f.attr)}${row('部位',t.f.part)}${row('配件',t.f.acc)}</div>`;
@@ -638,7 +696,113 @@ function orphanList(){
 const actRow=(a,extra)=>`<tr><td class="l"><b>${esc(a.name)}</b> ${a.status!=='上架'?`<i class="tg">${a.status}</i>`:''}</td><td>${a.models.join(' ')}</td><td>${a.scene}</td><td>${a.attr}</td><td>${esc(a.parts.join('、'))}</td><td>${esc(a.equip.join('、'))}</td>${extra||''}</tr>`;
 const ACT_HEAD='<th class="l">动作名称</th><th>适用型号</th><th>适用场景</th><th>动作属性</th><th>训练部位</th><th>器械</th>';
 
+const IMP_HEAD=['模板名称','启用','适用场景','动作属性','训练部位','配件','顶部标签','成员动作','卡片'];
+const splitList=s=>String(s||'').split(/[、,，;；]/).map(x=>x.trim()).filter(Boolean);
+const splitCards=s=>String(s||'').split(/[;；\n]/).map(x=>x.trim()).filter(Boolean).map(p=>{const i=p.indexOf('|');return i<0?{title:p,sub:''}:{title:p.slice(0,i).trim(),sub:p.slice(i+1).trim()}});
+function parseCsv(text){
+  text=String(text||'').replace(/^\uFEFF/,'').replace(/\r\n/g,'\n').replace(/\r/g,'\n');
+  const rows=[];let row=[],cur='',q=false;
+  for(let i=0;i<text.length;i++){
+    const c=text[i];
+    if(q){if(c==='"'&&text[i+1]==='"'){cur+='"';i++}else if(c==='"')q=false;else cur+=c}
+    else if(c==='"')q=true;
+    else if(c===','){row.push(cur);cur=''}
+    else if(c==='\n'){row.push(cur);rows.push(row);row=[];cur=''}
+    else cur+=c;
+  }
+  if(cur||row.length){row.push(cur);rows.push(row)}
+  return rows.filter(r=>r.some(c=>String(c).trim()));
+}
+function rowsFromCsv(text){
+  const raw=parseCsv(text);
+  if(!raw.length)return {error:'文件是空的'};
+  const head=raw[0].map(x=>x.trim());
+  if(head.join(',')!==IMP_HEAD.join(','))return {error:'表头须为：'+IMP_HEAD.join('、')+'。请用「下载导入模板」，并用 UTF-8 保存。'};
+  const list=raw.slice(1).map(r=>{const o={};IMP_HEAD.forEach((k,i)=>o[k]=(r[i]||'').trim());return o});
+  if(!list.length)return {error:'表头下没有数据行'};
+  return {rows:list.map(o=>({name:o['模板名称'],onText:o['启用'],scene:splitList(o['适用场景']),attr:splitList(o['动作属性']),part:splitList(o['训练部位']),acc:splitList(o['配件']),tags:splitList(o['顶部标签']),memberNames:splitList(o['成员动作']),cards:splitCards(o['卡片'])}))};
+}
+function checkImport(rows){
+  const names=new Map(),acts=new Map(),accOk=EQUIP.map(e=>e[1]);
+  return rows.map((r,i)=>{
+    const err=[],warn=[],memberActs=[];
+    const onText=(r.onText||'').trim();
+    const on=onText===''||onText==='是'||onText==='启用';
+    if(onText&&!['是','否','启用','停用'].includes(onText))err.push('启用请填「是」或「否」');
+    if(!r.name)err.push('缺少模板名称');
+    else if(db.templates.some(t=>!t.del&&t.name===r.name))err.push('已有同名模板');
+    else if(names.has(r.name))err.push('与第 '+(names.get(r.name))+' 行模板重名');
+    else names.set(r.name,i+1);
+    [['适用场景',r.scene,OPT.scene],['动作属性',r.attr,OPT.attr],['训练部位',r.part,OPT.part],['配件',r.acc,accOk]].forEach(([lab,vals,ok])=>vals.forEach(v=>{if(!ok.includes(v))err.push(lab+'「'+v+'」不在选项里')}));
+    if(!r.cards.length)err.push('至少 1 张卡片');
+    if(r.cards.length>MAXC)err.push('卡片超过 '+MAXC+' 张');
+    r.cards.forEach((c,ci)=>{if(!c.title)err.push('第 '+(ci+1)+' 张卡片缺少主标题')});
+    r.memberNames.forEach(nm=>{
+      const a=db.actions.find(x=>x.name===nm);
+      if(!a){err.push('找不到动作「'+nm+'」');return}
+      if(!eligible(a)){err.push('「'+nm+'」是'+a.type+'，不能加入模板');return}
+      if(acts.has(a.id)){err.push('「'+nm+'」在第 '+acts.get(a.id)+' 行已出现');return}
+      acts.set(a.id,i+1);memberActs.push(a);
+      const o=ownerOf(a);if(o)warn.push('「'+nm+'」将从「'+o.name+'」移入');
+    });
+    return Object.assign({},r,{on,memberActs,err,warn,ok:!err.length,line:i+1});
+  });
+}
+function downloadTplCsv(){
+  const rows=[IMP_HEAD,['握把 · 便于取放','是','力量训练','按次数计算','背部','握把','握把','坐姿窄握下拉','更换握把|请把配件更换为握把。；调整卡扣|请把卡扣调到便于取放的位置。']];
+  const csv='\ufeff'+rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='安装方案模板导入.csv';a.click();
+}
+function applyImport(list){
+  let moved=0;
+  list.forEach(r=>{
+    r.memberActs.forEach(a=>{const o=ownerOf(a);if(o){o.members=o.members.filter(id=>id!==a.id);o.by=WHO;o.at=nowStr();logOp(o.name,'成员变更','移出（批量导入到「'+r.name+'」）：'+a.name);moved++}});
+    const t=T({id:'T-imp-'+nid(),name:r.name,on:r.on,f:{scene:r.scene,attr:r.attr,part:r.part,acc:r.acc},members:r.memberActs.map(a=>a.id),tags:r.tags,cards:r.cards.map(c=>mkCard(c.title,c.sub)),langs:[],by:WHO,at:nowStr(),pub:null,pubAt:'',del:false});
+    delete t.seedPub;db.templates.push(t);
+    logOp(t.name,'导入','批量导入：'+t.cards.length+' 张卡片，'+t.members.length+' 个动作（未发布）');
+  });
+  save();return moved;
+}
+function importTplDlg(){
+  let checked=null;
+  const sample=()=>checkImport([
+    {name:'握把 · 便于取放',onText:'是',scene:['力量训练'],attr:['按次数计算'],part:['背部'],acc:['握把'],tags:['握把'],memberNames:['坐姿窄握下拉'],cards:[{title:'更换握把',sub:'请把配件更换为握把。'},{title:'调整卡扣',sub:'请把卡扣调到便于取放的位置。'}]},
+    {name:'哑铃 · 无需更换配件',onText:'是',scene:['力量训练'],attr:[],part:['大腿'],acc:['哑铃'],tags:['哑铃'],memberNames:['哑铃深蹲'],cards:[{title:'准备哑铃',sub:'请拿起哑铃，无需更换龙门架配件。'}]},
+    {name:'',onText:'也许',scene:['游泳'],attr:[],part:[],acc:[],tags:[],memberNames:['不存在的动作'],cards:[]}
+  ]);
+  const body=()=>{
+    if(!checked)return `<p class="small muted" style="margin-top:0">一行一个模板。多选用「、」分隔；卡片写成「主标题|副标题」，多张用「；」分隔，1～5 张。成员按动作名称精确匹配，一个动作只能出现一次；已在其他模板里的会移过来。引导视频和卡片图片不在表格里，导入后到编辑页上传。</p>
+     <p class="small" style="margin:0 0 10px">导入结果是<b>未发布草稿</b>，发布后设备端才生效。同名模板不会覆盖。</p>
+     <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" type="button" data-dl>下载导入模板</button><button class="btn" type="button" data-file>选择 CSV 文件</button><button class="btn g" type="button" data-demo>填入示例（含 1 行错误）</button></div>`;
+    const ok=checked.filter(r=>r.ok),bad=checked.filter(r=>!r.ok);
+    return `<p class="small" style="margin-top:0">可导入 <b style="color:var(--green)">${ok.length}</b> 行，跳过 <b style="color:var(--red)">${bad.length}</b> 行。${bad.length?'错误行不会写入。':''}</p>
+     <div class="tw"><table class="dense"><thead><tr><th>行</th><th class="l">模板名称</th><th>卡片</th><th>成员</th><th class="l">结果</th></tr></thead><tbody>${checked.map(r=>`<tr><td>${r.line}</td><td class="l">${esc(r.name||'（空）')}</td><td>${r.cards.length}</td><td>${r.memberNames.length}</td><td class="l" style="white-space:normal">${r.ok?`<i class="tg g">可导入</i>${r.warn.length?` <span class="small" style="color:var(--amber)">${esc(r.warn.join('；'))}</span>`:''}`:`<i class="tg r">跳过</i> <span class="small" style="color:var(--red)">${esc(r.err.join('；'))}</span>`}</td></tr>`).join('')}</tbody></table></div>`;
+  };
+  const o=dlg('批量导入安装方案模板',body(),`<button class="btn g" data-c>取消</button><button class="btn" data-back style="display:none">重新选择</button><button class="btn p" data-ok disabled>导入</button>`,{w:860,l2:true});
+  const paint=()=>{o.querySelector('.dlb').innerHTML=body();const back=o.querySelector('[data-back]'),okb=o.querySelector('[data-ok]');back.style.display=checked?'':'none';okb.disabled=!(checked&&checked.some(r=>r.ok));okb.textContent=checked?('导入 '+(checked.filter(r=>r.ok).length)+' 条'):'导入';bind()};
+  const bind=()=>{
+    const dl=o.querySelector('[data-dl]');if(dl)dl.onclick=downloadTplCsv;
+    const file=o.querySelector('[data-file]');if(file)file.onclick=()=>pickFile('.csv,text/csv',f=>{
+      const rd=new FileReader();
+      rd.onload=()=>{const buf=rd.result;let text=new TextDecoder('utf-8').decode(buf);let got=rowsFromCsv(text);
+        if(got.error){try{const gbk=new TextDecoder('gbk').decode(buf);const g=rowsFromCsv(gbk);if(!g.error){text=gbk;got=g}}catch(e){}}
+        if(got.error)return toast(got.error);checked=checkImport(got.rows);paint()};
+      rd.readAsArrayBuffer(f);
+    });
+    const demo=o.querySelector('[data-demo]');if(demo)demo.onclick=()=>{checked=sample();paint()};
+  };
+  bind();
+  o.querySelector('[data-c]').onclick=o.close;
+  o.querySelector('[data-back]').onclick=()=>{checked=null;paint()};
+  o.querySelector('[data-ok]').onclick=()=>{
+    const ok=(checked||[]).filter(r=>r.ok);if(!ok.length)return;
+    const moved=applyImport(ok);o.close();pageTemplates();
+    toast('已导入 '+ok.length+' 个模板为草稿'+(moved?'，'+moved+' 个动作从原模板移入':'')+'，发布后设备端生效');
+  };
+}
+
 function pageTemplates(){
+  if(ui.edit&&ui.edit.kind==='tplLang')return editLangPage(ui.edit.id,ui.edit.code,ui.edit.mode);
   if(ui.preview)return previewTpl(ui.preview);
   if(ui.edit&&ui.edit.kind==='tpl')return editTplPage(ui.edit.id);
   const f=ui.tf||'';
@@ -649,39 +813,45 @@ function pageTemplates(){
   const shown=ts.filter(t=>f==='pending'?(t.on&&!t.del&&pendingOf(t).length):f==='dirty'?tplState(t)!=='已发布':f==='orphan'?false:true);
   const showOrph=f===''||f==='orphan';
   const trs=shown.map((t,i)=>{
-    const st=tplState(t),pend=t.on&&!t.del?pendingOf(t):[],open=ui.texp[t.id];
+    const st=tplState(t),pend=t.on&&!t.del?pendingOf(t):[],open=ui.texp[t.id],lopen=ui.tlang[t.id],n=t.langs.length;
     const mem=t.members.map(id=>db.actions.find(a=>a.id===id)).filter(Boolean);
-    let h=`<tr class="${t.del?'dimrow':''}"><td><a class="lk" data-tx="${t.id}" style="margin:0 4px 0 0">${open?'⌄':'›'}</a>${i+1}</td><td class="l"><b>${esc(t.name)}</b>${t.langs.length?` <i class="tg">${t.langs.length} 种语言</i>`:''}</td>
+    const langRows=lopen?t.langs.map((c,k)=>{const v=t.i18n[c]||{};
+      return `<tr class="child"><td>${i+1}-${k+1}</td><td class="l">${esc(v.name||t.name)}</td><td>${esc(langName(c))}</td>
+       <td class="l muted small">同中文</td><td class="l" style="white-space:normal">${esc((v.cards||[]).map(x=>x.title).filter(Boolean).join(' / ')||'—')}</td>
+       <td>${t.members.length} 个</td><td class="muted">—</td><td><span style="color:${stColor(v.status)}">${esc(v.status)}</span></td><td class="muted">—</td>
+       <td class="small">${esc(v.by||'')}<br><span class="muted">${esc(v.at||'')}</span></td>
+       <td class="act">${langOpsHTML(v.status,`data-tid="${t.id}" data-lc="${c}"`)}</td></tr>`}).join(''):'';
+    let h=`<tr class="${t.del?'dimrow':''}"><td>${n?`<a class="lk" data-tl="${t.id}" style="margin:0 4px 0 0">${lopen?'⌄':'›'}</a>`:''}${i+1}${n?` (${n})`:''}</td><td class="l"><b>${esc(t.name)}</b></td><td>简体中文</td>
      <td class="l">${condCell(t)}</td><td class="l" style="white-space:normal;min-width:200px">${cardSum(t)}</td>
-     <td><b>${t.members.length}</b> 个</td><td>${pend.length?`<a class="lk" data-tx="${t.id}" style="margin:0"><i class="tg y">${pend.length} 个</i></a>`:'<span class="muted">—</span>'}</td>
+     <td><a class="lk" data-tx="${t.id}" style="margin:0"><b>${t.members.length}</b> 个 ${open?'⌃':'⌄'}</a></td><td>${pend.length?`<a class="lk" data-tx="${t.id}" style="margin:0"><i class="tg y">${pend.length} 个</i></a>`:'<span class="muted">—</span>'}</td>
      <td><i class="tg ${STC[st]}">${st}</i></td><td><span class="sw2 ${t.on?'on':''}" data-on="${t.id}"></span></td><td class="small">${t.by}<br><span class="muted">${t.at}</span></td>
-     <td class="act">${t.del?`<a data-un="${t.id}">撤销删除</a>`:`<a data-pv="${t.id}">预览</a><a data-te="${t.id}">编辑</a>${st!=='已发布'?`<a class="g" data-pb="${t.id}">发布</a>`:''}<a data-tr="${t.id}">翻译</a><a class="r" data-td="${t.id}">删除</a>`}</td></tr>`;
-    if(open)h+=`<tr class="child"><td colspan="10" style="white-space:normal;text-align:left;padding:12px 18px">
+     <td class="act">${t.del?`<a data-un="${t.id}">撤销删除</a>`:`<a data-pv="${t.id}">预览</a><a data-te="${t.id}">编辑</a>${st!=='已发布'?`<a class="g" data-pb="${t.id}">发布</a>`:''}<a data-tr="${t.id}">翻译</a><a class="r" data-td="${t.id}">删除</a>`}</td></tr>`+langRows;
+    if(open)h+=`<tr class="child"><td colspan="11" style="white-space:normal;text-align:left;padding:12px 18px">
       <div class="small muted" style="margin-bottom:6px"><b style="color:var(--t3)">已加入的动作 · ${mem.length}</b>　设备端：这些动作进入训练前显示本模板；动作上架且模板已发布后才出现</div>
       ${mem.length?`<table class="dense"><thead><tr>${ACT_HEAD}<th>操作</th></tr></thead><tbody>${mem.map(a=>actRow(a,`<td class="act"><a class="r" data-rm="${t.id}:${a.id}">移出</a></td>`)).join('')}</tbody></table>`:'<div class="muted small">还没有加入动作。编辑模板，按条件筛出候选并勾选。</div>'}
       ${pend.length?`<div class="small" style="margin:12px 0 6px;color:var(--yt)"><b>待确认 · ${pend.length}</b>　符合本模板条件、还没归属任何模板，不会自动生效</div><table class="dense"><thead><tr>${ACT_HEAD}<th>操作</th></tr></thead><tbody>${pend.map(a=>actRow(a,`<td class="act"><a data-add="${t.id}:${a.id}">加入本模板</a></td>`)).join('')}</tbody></table>`:''}
-      <div class="small muted" style="margin-top:12px"><b style="color:var(--t3)">语言版本</b>　${t.langs.length?t.langs.map(c=>`<i class="tg ai">${esc((LANG_ALL.find(x=>x[0]===c)||[c,c])[1])}</i>`).join(' '):'未翻译。设备端按当前语言取译文，缺译文时回退中文。'}</div></td></tr>`;
+      </td></tr>`;
     return h;
   }).join('');
   const orphOpen=ui.texp.orph||f==='orphan';
-  const orphRow=!showOrph?'':`<tr class="orph"><td><a class="lk" data-ox style="margin:0 4px 0 0">${orphOpen?'⌄':'›'}</a>—</td><td class="l" colspan="3"><b>未归属动作</b> <span class="muted small">不在任何模板里的动作；设备端直接进入动作详情</span></td><td><b>${orph.length}</b> 个</td><td colspan="5" class="small muted" style="text-align:left">含配件 / 凳的排在前面，建议先处理</td></tr>`
-   +(orphOpen?`<tr class="child"><td colspan="10" style="white-space:normal;text-align:left;padding:12px 18px">${orph.length?`<table class="dense"><thead><tr>${ACT_HEAD}<th>提示</th><th>操作</th></tr></thead><tbody>${orph.map(o=>actRow(o.a,`<td>${o.acc?'<i class="tg y">含配件 / 凳</i> ':''}${o.sug?`<span class="small">建议：${esc(o.sug.name)}</span>`:'<span class="muted small">无符合条件的模板</span>'}</td><td class="act">${o.sug?`<a data-oadd="${o.a.id}:${o.sug.id}">加入建议模板</a>`:''}</td>`)).join('')}</tbody></table>`:'<span class="muted small">所有动作都已归属模板。</span>'}</td></tr>`:'');
+  const orphRow=!showOrph?'':`<tr class="orph"><td><a class="lk" data-ox style="margin:0 4px 0 0">${orphOpen?'⌄':'›'}</a>—</td><td class="l" colspan="4"><b>未归属动作</b> <span class="muted small">不在任何模板里的动作；设备端直接进入动作详情</span></td><td><b>${orph.length}</b> 个</td><td colspan="5" class="small muted" style="text-align:left">含配件 / 凳的排在前面，建议先处理</td></tr>`
+   +(orphOpen?`<tr class="child"><td colspan="11" style="white-space:normal;text-align:left;padding:12px 18px">${orph.length?`<table class="dense"><thead><tr>${ACT_HEAD}<th>提示</th><th>操作</th></tr></thead><tbody>${orph.map(o=>actRow(o.a,`<td>${o.acc?'<i class="tg y">含配件 / 凳</i> ':''}${o.sug?`<span class="small">建议：${esc(o.sug.name)}</span>`:'<span class="muted small">无符合条件的模板</span>'}</td><td class="act">${o.sug?`<a data-oadd="${o.a.id}:${o.sug.id}">加入建议模板</a>`:''}</td>`)).join('')}</tbody></table>`:'<span class="muted small">所有动作都已归属模板。</span>'}</td></tr>`:'');
   const chip=(k,l,n)=>`<a class="tg ${f===k?'ai':''} lk" data-fl="${k}" style="margin:0;cursor:pointer">${l}${n!=null?' '+n:''}</a>`;
-  $('#content').innerHTML=`${LEGEND}${RULES_HTML}
-  <div class="stat"><div><b>${ts.length}</b><span>模板</span></div><div><b style="color:var(--green)">${ts.length-nDirty}</b><span>已发布</span></div>
+  $('#content').innerHTML=`<div class="stat"><div><b>${ts.length}</b><span>模板</span></div><div><b style="color:var(--green)">${ts.length-nDirty}</b><span>已发布</span></div>
    <div class="click" data-fl="dirty"><b style="color:var(--amber)">${nDirty}</b><span>待发布</span></div>
    <div><b>${ts.reduce((s,t)=>s+t.members.length,0)}</b><span>已加入动作</span></div>
    <div class="click" data-fl="pending"><b style="color:var(--amber)">${pendIds.size}</b><span>待确认动作</span></div>
    <div class="click" data-fl="orphan"><b>${orph.length}</b><span>未归属动作</span></div></div>
   <div class="card"><div class="hd"><h2>安装方案模板</h2>${MK('new','新增页面')}<span class="sp"></span>
-   <button class="btn g" id="tlog">操作日志</button><button class="btn" id="pall" ${nDirty?'':'disabled'}>发布全部修改${nDirty?'（'+nDirty+'）':''}</button><button class="btn p" id="tnew">新建模板</button></div>
+   <button class="btn g" id="tlog">操作日志</button><button class="btn" id="timp">批量导入</button>${MK('new')}<button class="btn p" id="tnew">新建模板</button></div>
    <div class="bd" style="padding:10px 16px 0"><div class="tools" style="margin-bottom:8px"><span class="small muted">筛选：</span>${chip('','全部')}${chip('pending','有待确认')}${chip('dirty','有未发布修改')}${chip('orphan','未归属动作')}</div></div>
-  <div class="bd tw" style="padding:0"><table><thead><tr><th>序号</th><th class="l">模板名称</th><th class="l">匹配条件（筛候选用）</th><th class="l">训练准备内容</th><th>已加入动作</th><th>待确认</th><th>发布状态</th><th>启用</th><th>修改人 / 时间</th><th>操作</th></tr></thead><tbody>${trs}${orphRow}${!trs&&!showOrph?'<tr><td colspan="10" class="muted">没有符合筛选的模板</td></tr>':''}</tbody></table></div></div>`;
+  <div class="bd tw" style="padding:0"><table><thead><tr><th>序号</th><th class="l">模板名称</th><th>语言</th><th class="l">匹配条件（筛候选用）</th><th class="l">训练准备内容</th><th>已加入动作</th><th>待确认</th><th>状态</th><th>启用</th><th>修改人 / 时间</th><th>操作</th></tr></thead><tbody>${trs}${orphRow}${!trs&&!showOrph?'<tr><td colspan="11" class="muted">没有符合筛选的模板</td></tr>':''}</tbody></table></div></div>`;
   $$('[data-fl]').forEach(e=>e.onclick=()=>{ui.tf=ui.tf===e.dataset.fl?'':e.dataset.fl;pageTemplates()});
   $('#tnew').onclick=()=>{ui.edit={kind:'tpl',id:null};pageTemplates()};
+  $('#timp').onclick=importTplDlg;
   $('#tlog').onclick=logDlg;
-  $('#pall').onclick=()=>publishDlg(db.templates.filter(t=>tplState(t)!=='已发布'));
   $$('[data-tx]').forEach(e=>e.onclick=()=>{ui.texp[e.dataset.tx]=!ui.texp[e.dataset.tx];pageTemplates()});
+  $$('[data-tl]').forEach(e=>e.onclick=()=>{ui.tlang[e.dataset.tl]=!ui.tlang[e.dataset.tl];pageTemplates()});
   const ox=$('[data-ox]');if(ox)ox.onclick=()=>{ui.texp.orph=!ui.texp.orph;pageTemplates()};
   $$('[data-te]').forEach(e=>e.onclick=()=>{ui.edit={kind:'tpl',id:e.dataset.te};pageTemplates()});
   $$('[data-pv]').forEach(e=>e.onclick=()=>{ui.preview=e.dataset.pv;pageTemplates()});
@@ -696,10 +866,28 @@ function pageTemplates(){
   $$('[data-rm]').forEach(e=>e.onclick=()=>{const [tid,aid]=e.dataset.rm.split(':');const t=db.templates.find(x=>x.id===tid);t.members=t.members.filter(i=>i!==+aid);t.by=WHO;t.at=nowStr();logOp(t.name,'成员变更','移出：'+actName(+aid));save();pageTemplates()});
   $$('[data-add]').forEach(e=>e.onclick=()=>{const [tid,aid]=e.dataset.add.split(':');const t=db.templates.find(x=>x.id===tid);if(!t.members.includes(+aid))t.members.push(+aid);t.by=WHO;t.at=nowStr();logOp(t.name,'成员变更','加入：'+actName(+aid));save();pageTemplates()});
   $$('[data-oadd]').forEach(e=>e.onclick=()=>{const [aid,tid]=e.dataset.oadd.split(':');const t=db.templates.find(x=>x.id===tid);if(!t.members.includes(+aid))t.members.push(+aid);t.by=WHO;t.at=nowStr();logOp(t.name,'成员变更','加入（来自未归属）：'+actName(+aid));save();pageTemplates();toast('已加入「'+t.name+'」，发布后设备端生效')});
+  $$('[data-lop]').forEach(e=>e.onclick=()=>langOp(e.dataset.lop,e.dataset.tid,e.dataset.lc));
+}
+function langOp(op,tid,code){
+  const t=db.templates.find(x=>x.id===tid);if(!t||!t.i18n[code])return;
+  const v=t.i18n[code],nm=langName(code);
+  if(op==='view'){ui.edit={kind:'tplLang',id:tid,code,mode:'view'};ui.tlang[tid]=true;return pageTemplates()}
+  if(op==='edit'){ui.edit={kind:'tplLang',id:tid,code,mode:'edit'};ui.tlang[tid]=true;return pageTemplates()}
+  if(op==='up'||op==='down'){
+    const up=op==='up',label=up?'上架':'下架';
+    return confirmDlg(label,'确定'+label+'「'+esc(v.name||t.name)+'」（'+esc(nm)+'）？','确定',()=>{
+      v.status=label;v.by=WHO;v.at=nowStr();
+      const live=pushLang(t);logOp(t.name,label,nm+' '+label);save();pageTemplates();
+      toast(up?(live?'已上架':'已上架，模板发布后生效'):'已下架');
+    });
+  }
+  if(op==='del')confirmDlg('删除','确定删除「'+esc(v.name||t.name)+'」（'+esc(nm)+'）？不可恢复。','删除',()=>{
+    delete t.i18n[code];t.langs=Object.keys(t.i18n);pushLang(t);logOp(t.name,'删除','删除译文：'+nm);save();pageTemplates();toast('已删除');
+  });
 }
 
 function logDlg(){
-  dlg('操作日志（'+db.log.length+'）',`<div class="tw"><table class="dense"><thead><tr><th>时间</th><th>操作人</th><th class="l">对象</th><th>操作</th><th class="l">内容</th></tr></thead><tbody>${db.log.map(r=>`<tr><td>${r.t}</td><td>${r.who}</td><td class="l">${esc(r.obj)}</td><td><i class="tg ${r.act==='发布'?'g':r.act==='删除'?'r':''}">${r.act}</i></td><td class="l" style="white-space:normal">${esc(r.desc)}</td></tr>`).join('')||'<tr><td colspan="5" class="muted">暂无记录</td></tr>'}</tbody></table></div><p class="small muted" style="margin:10px 0 0">记录模板的新建、修改、成员增减、启停、翻译、删除和发布；风格同动作库的「操作人」列。</p>`,`<button class="btn p" data-c>关闭</button>`,{w:860}).querySelector('[data-c]').onclick=function(){this.closest('.ov').remove()};
+  dlg('操作日志（'+db.log.length+'）',`<div class="tw"><table class="dense"><thead><tr><th>时间</th><th>操作人</th><th class="l">对象</th><th>操作</th><th class="l">内容</th></tr></thead><tbody>${db.log.map(r=>`<tr><td>${r.t}</td><td>${r.who}</td><td class="l">${esc(r.obj)}</td><td><i class="tg ${r.act==='发布'?'g':r.act==='删除'?'r':''}">${r.act}</i></td><td class="l" style="white-space:normal">${esc(r.desc)}</td></tr>`).join('')||'<tr><td colspan="5" class="muted">暂无记录</td></tr>'}</tbody></table></div><p class="small muted" style="margin:10px 0 0">记录模板的新建、批量导入、修改、成员增减、启停、翻译、删除和发布；风格同动作库的「操作人」列。</p>`,`<button class="btn p" data-c>关闭</button>`,{w:860}).querySelector('[data-c]').onclick=function(){this.closest('.ov').remove()};
 }
 function publishDlg(list,after){
   list=list.filter(Boolean);if(!list.length)return;
@@ -713,18 +901,51 @@ function publishDlg(list,after){
   };
 }
 function translateTplDlg(t){
-  const sel=new Set(t.langs.length?t.langs:LANG_ALL.map(x=>x[0]));
-  const body=()=>`<div style="display:flex;justify-content:space-between;margin-bottom:10px"><b>${esc(t.name)}</b><span class="muted small">源语言：简体中文 (zh-CN)</span></div>
-   <div class="hint" style="margin-bottom:10px">待翻译内容：每张卡片的主标题和副标题、顶部标签。引导视频不含文字，所有语言共用；图片建议不放文字。修改中文后需要重新翻译，缺译文时设备端回退中文。</div>
-   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><button class="btn sm" data-all>${sel.size===LANG_ALL.length?'取消全选':'全选'}</button><span class="small muted">已选 ${sel.size} / 32（Demo 列出 20 种）</span></div>
-   <div class="lang-grid">${LANG_ALL.map(([c,n])=>`<label class="${sel.has(c)?'':'off'}"><input type="checkbox" data-lc="${c}" ${sel.has(c)?'checked':''}><span>${n}<small>${c}</small></span></label>`).join('')}</div>`;
-  const o=dlg('选择翻译语言',body(),`<button class="btn g" data-c>取消</button><button class="btn p" data-ok>开始翻译</button>`,{w:760,l2:true});
-  const bind=()=>{
-    o.querySelector('[data-all]').onclick=()=>{if(sel.size===LANG_ALL.length)sel.clear();else LANG_ALL.forEach(x=>sel.add(x[0]));o.querySelector('.dlb').innerHTML=body();bind()};
-    o.querySelectorAll('[data-lc]').forEach(c=>c.onchange=()=>{c.checked?sel.add(c.dataset.lc):sel.delete(c.dataset.lc);o.querySelector('.dlb').innerHTML=body();bind()});
-  };bind();
-  o.querySelector('[data-c]').onclick=o.close;
-  o.querySelector('[data-ok]').onclick=()=>{if(!sel.size)return toast('请至少选择一种语言');t.langs=LANG_ALL.map(x=>x[0]).filter(c=>sel.has(c));t.by=WHO;t.at=nowStr();logOp(t.name,'翻译','生成 '+t.langs.length+' 种语言译文');ui.texp[t.id]=true;save();o.close();pageTemplates();toast('已生成 '+t.langs.length+' 种语言译文（演示，不调用真实翻译），发布后设备端生效')};
+  pickLangDlg(t.name,sel=>{
+    if(!t.i18n)t.i18n={};
+    sel.forEach(c=>{t.i18n[c]={status:'草稿',name:t.name,tags:[...t.tags],cards:t.cards.map(card=>({title:card.title,sub:card.sub})),by:WHO,at:nowStr()}});
+    t.langs=Object.keys(t.i18n);t.by=WHO;t.at=nowStr();pushLang(t);
+    logOp(t.name,'翻译','生成 '+sel.size+' 种语言译文');ui.tlang[t.id]=true;save();pageTemplates();
+    toast('已生成 '+sel.size+' 种语言译文（演示，不调用真实翻译）');
+  });
+}
+function editLangPage(id,code,mode){
+  const t=db.templates.find(x=>x.id===id);
+  if(!t||!t.i18n||!t.i18n[code]){ui.edit=null;return pageTemplates()}
+  const v=JSON.parse(JSON.stringify(t.i18n[code]));
+  const ro=mode==='view',dis=ro?' disabled':'';
+  const nm=langName(code);
+  $('#crumb').innerHTML=`<a class="lk" data-back style="margin:0">安装方案模板</a> / <b>${esc(t.name)} · ${esc(nm)}</b>`;
+  const draw=()=>{
+    $('#content').innerHTML=`<div class="split"><div>
+     <div class="mod"><div class="mh"><h3>${esc(nm)} <span class="muted small">${esc(code)}</span></h3><i class="tg ${v.status==='上架'?'g':'y'}">${v.status}</i></div><div class="mb">
+      <div class="f" style="margin-bottom:12px"><label>模板名称</label><input type="text" id="ln" value="${esc(v.name)}" placeholder="${esc(t.name)}"${dis} style="width:100%"></div>
+      <div class="f" style="margin-bottom:12px"><label>顶部标签</label>${t.tags.length?t.tags.map((tag,i)=>`<div class="small muted" style="margin-top:6px">中文：${esc(tag)}</div><input type="text" data-lt="${i}" value="${esc(v.tags[i]||'')}"${dis} style="width:100%">`).join(''):'<div class="muted small">中文没有标签</div>'}</div>
+      ${t.cards.map((c,i)=>`<div class="mod" style="margin-bottom:10px"><div class="mh"><h3>卡片 ${i+1}</h3></div><div class="mb">
+        <div class="small muted">中文主标题：${esc(c.title)}</div><input type="text" data-lct="${i}" value="${esc((v.cards[i]||{}).title||'')}"${dis} style="width:100%;margin:4px 0 8px">
+        <div class="small muted">中文副标题：${esc(c.sub)}</div><input type="text" data-lcs="${i}" value="${esc((v.cards[i]||{}).sub||'')}"${dis} style="width:100%;margin-top:4px">
+      </div></div>`).join('')}
+      <div class="pagefoot"><button class="btn g" id="lc">返回</button>${ro?(v.status==='上架'?'':'<button class="btn" id="le">编辑</button>'):'<button class="btn p" id="ls">保存</button>'}</div>
+     </div></div>
+    </div><div><div class="small muted" style="text-align:center;margin-bottom:6px">该语言 · 训练准备页</div>${devHTML({name:t.members.length?actName(t.members[0]):t.name},{name:v.name||t.name,tags:(v.tags||[]).filter(Boolean),video:t.video,cards:t.cards.map((c,i)=>({id:c.id,title:(v.cards[i]&&v.cards[i].title)||c.title,sub:(v.cards[i]&&v.cards[i].sub)||c.sub,img:c.img}))})}</div></div>`;
+    $('[data-back]').onclick=$('#lc').onclick=()=>{ui.edit=null;pageTemplates()};
+    const le=$('#le');if(le)le.onclick=()=>{ui.edit.mode='edit';editLangPage(id,code,'edit')};
+    if(!ro){
+      $('#ln').oninput=e=>{v.name=e.target.value;drawLive()};
+      $$('[data-lt]').forEach(el=>el.oninput=()=>{v.tags[+el.dataset.lt]=el.value;drawLive()});
+      $$('[data-lct]').forEach(el=>el.oninput=()=>{v.cards[+el.dataset.lct]=v.cards[+el.dataset.lct]||{title:'',sub:''};v.cards[+el.dataset.lct].title=el.value;drawLive()});
+      $$('[data-lcs]').forEach(el=>el.oninput=()=>{v.cards[+el.dataset.lcs]=v.cards[+el.dataset.lcs]||{title:'',sub:''};v.cards[+el.dataset.lcs].sub=el.value;drawLive()});
+      $('#ls').onclick=()=>{
+        t.i18n[code]=v;v.by=WHO;v.at=nowStr();
+        pushLang(t);
+        logOp(t.name,'翻译','修改 '+nm+' 文案');save();ui.edit=null;pageTemplates();toast('已保存');
+      };
+    }
+  };
+  const drawLive=()=>{const box=$('#content .dev');if(!box)return;const wrap=box.parentElement;wrap.innerHTML=`<div class="small muted" style="text-align:center;margin-bottom:6px">该语言 · 训练准备页</div>`+devHTML({name:t.members.length?actName(t.members[0]):t.name},{name:v.name||t.name,tags:(v.tags||[]).filter(Boolean),video:t.video,cards:t.cards.map((c,i)=>({id:c.id,title:(v.cards[i]&&v.cards[i].title)||c.title,sub:(v.cards[i]&&v.cards[i].sub)||c.sub,img:c.img}))})};
+  v.cards=t.cards.map((c,i)=>({title:(v.cards[i]&&v.cards[i].title)||'',sub:(v.cards[i]&&v.cards[i].sub)||''}));
+  v.tags=t.tags.map((tag,i)=>(v.tags&&v.tags[i])||'');
+  draw();
 }
 
 function editTplPage(id){
@@ -746,8 +967,7 @@ function editTplPage(id){
   const draw=()=>{
     const pills=(f,opts)=>`<div class="pills" data-pf="${f}">${opts.map(o=>`<span class="pill ${t.f[f].includes(o)?'on':''}" data-v="${o}">${o}</span>`).join('')}</div>`;
     const v=t.video;
-    $('#content').innerHTML=`${LEGEND}
-    <div class="split"><div>
+    $('#content').innerHTML=`<div class="split"><div>
      <div class="mod"><div class="mh"><h3>模板信息</h3>${MK('new')}</div><div class="mb"><div class="fgrid">
        <div class="f w"><label><span class="req">*</span> 模板名称</label><input type="text" id="t1" value="${esc(t.name)}" placeholder="如：平板凳 · 手柄 · 高位"></div>
        <div class="f w"><label><input type="checkbox" id="ton" ${t.on?'checked':''}> 启用（停用并发布后，该模板下的动作在设备端直接进入动作详情）</label></div></div></div></div>
@@ -762,7 +982,7 @@ function editTplPage(id){
 
      <div class="mod newish"><div class="mh"><h3>训练准备卡片 · ${t.cards.length} / ${MAXC}</h3>${MK('new')}<span class="muted small">图片、主标题、副标题都可自定义；只需调卡扣就放一张，要加 / 去箱体就放对应的卡</span></div><div class="mb">
        ${t.cards.map((c,i)=>`<div class="cardrow"><div class="cnn">${i+1}</div>
-         <div class="cimg ${c.img?'has':''}" data-ci="${i}" title="点击上传 / 移除图片">${c.img?'✓ 已传图':'＋ 图片'}<small>1:1 · 2MB 内</small></div>
+         <div class="cimg ${c.img?'has':''}" data-ci="${i}" title="点击上传 / 移除图片">${c.img&&IMG_URL[c.id]?`<img src="${IMG_URL[c.id]}" alt=""><span>移除</span>`:c.img?'✓ 已传图':'＋ 图片'}${c.img&&IMG_URL[c.id]?'':'<small>1:1 · 2MB 内</small>'}</div>
          <div class="cf"><input type="text" data-ct="${i}" value="${esc(c.title)}" placeholder="主标题，如：放置平板凳"><input type="text" data-cs="${i}" value="${esc(c.sub)}" placeholder="副标题，如：请在器械前放置平板凳"></div>
          <div class="cb"><a class="lk" data-cu="${i}" ${i?'':'style="opacity:.3"'}>↑</a><a class="lk" data-cd="${i}" ${i<t.cards.length-1?'':'style="opacity:.3"'}>↓</a><a class="lk" data-cx="${i}" style="color:var(--red)">删除</a></div></div>`).join('')}
        <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;align-items:center"><span class="small muted">快捷添加：</span>${PRESETS.map((p,i)=>`<button class="btn sm" type="button" data-pr="${i}" ${t.cards.length>=MAXC?'disabled':''}>${p[0]}</button>`).join('')}</div>
@@ -816,7 +1036,7 @@ function editTplPage(id){
     /* 卡片 */
     $$('[data-ct]').forEach(el=>el.oninput=()=>{t.cards[+el.dataset.ct].title=el.value;live()});
     $$('[data-cs]').forEach(el=>el.oninput=()=>{t.cards[+el.dataset.cs].sub=el.value;live()});
-    $$('[data-ci]').forEach(el=>el.onclick=()=>{const c=t.cards[+el.dataset.ci];if(c.img){c.img=false;draw();return}pickFile('image/png,image/jpeg,image/webp',f=>{if(!IMG_OK(f))return toast('图片仅支持 PNG / JPG / WebP，且不超过 2 MB');c.img=true;draw()})});
+    $$('[data-ci]').forEach(el=>el.onclick=()=>{const c=t.cards[+el.dataset.ci];if(c.img){c.img=false;delete IMG_URL[c.id];draw();return}pickFile('image/png,image/jpeg,image/webp',f=>{if(!IMG_OK(f))return toast('图片仅支持 PNG / JPG / WebP，且不超过 2 MB');IMG_URL[c.id]=URL.createObjectURL(f);c.img=true;draw();toast('已按 1:1 居中裁剪预览（演示不上传到服务器）')})});
     $$('[data-cu]').forEach(el=>el.onclick=()=>{const i=+el.dataset.cu;if(i>0){[t.cards[i-1],t.cards[i]]=[t.cards[i],t.cards[i-1]];draw()}});
     $$('[data-cd]').forEach(el=>el.onclick=()=>{const i=+el.dataset.cd;if(i<t.cards.length-1){[t.cards[i+1],t.cards[i]]=[t.cards[i],t.cards[i+1]];draw()}});
     $$('[data-cx]').forEach(el=>el.onclick=()=>{if(t.cards.length<=1)return toast('至少保留 1 张卡片');t.cards.splice(+el.dataset.cx,1);draw()});
@@ -828,7 +1048,7 @@ function editTplPage(id){
       if(!t.cards.length)return toast('至少保留 1 张卡片');
       if(t.cards.some(c=>!c.title.trim()))return toast('每张卡片都需要填写主标题');
       if(t.video&&!t.video.poster)return toast('引导视频必须上传封面图');
-      t.by=WHO;t.at=nowStr();t.name=t.name.trim();
+      t.by=WHO;t.at=nowStr();t.name=t.name.trim();alignI18n(t);
       db.templates.forEach(o=>{if(o.id===t.id)return;const moved=o.members.filter(i=>t.members.includes(i));if(moved.length){o.members=o.members.filter(i=>!t.members.includes(i));o.by=WHO;o.at=nowStr();logOp(o.name,'成员变更','移出 '+moved.length+' 个动作（已加入「'+t.name+'」）：'+moved.map(actName).join('、'))}});
       let saved;
       if(src){
@@ -847,14 +1067,13 @@ function previewTpl(id){
   const t=db.templates.find(x=>x.id===id);if(!t){ui.preview=null;return pageTemplates()}
   const mem=t.members.map(i=>db.actions.find(a=>a.id===i)).filter(Boolean),st=tplState(t);
   $('#crumb').innerHTML=`<a class="lk" data-back style="margin:0">安装方案模板</a> / <b>预览 · ${esc(t.name)}</b>`;
-  $('#content').innerHTML=`${LEGEND}
-  <div class="split"><div>
+  $('#content').innerHTML=`<div class="split"><div>
    <div class="mod"><div class="mh"><h3>${esc(t.name)}</h3><i class="tg ${STC[st]}">${st}</i><i class="tg ${t.on?'g':''}">${t.on?'启用':'停用'}</i></div>
     <div class="mb"><table><tr><th class="l" style="width:120px">匹配条件</th><td class="l" style="white-space:normal">${esc(condText(t.f))}</td></tr>
      <tr><th class="l">引导视频</th><td class="l">${t.video?esc(t.video.name)+' · '+esc(t.video.dur)+' · 封面'+(t.video.poster?'已传':'缺失'):'无'}</td></tr>
      <tr><th class="l">顶部标签</th><td class="l">${t.tags.length?esc(t.tags.join('、')):'无'}</td></tr>
      ${t.cards.map((c,i)=>`<tr><th class="l">卡片 ${i+1}</th><td class="l" style="white-space:normal"><b>${esc(c.title)}</b>　<span class="muted">${esc(c.sub)}</span> ${c.img?'<i class="tg">有图片</i>':''}</td></tr>`).join('')}
-     <tr><th class="l">语言版本</th><td class="l">${t.langs.length?t.langs.length+' 种':'未翻译'}</td></tr>
+     <tr><th class="l">语言版本</th><td class="l">${t.langs.length?t.langs.map(c=>esc(langName(c))+' · '+(t.i18n[c]&&t.i18n[c].status==='上架'?'上架':'未上架')).join('、'):'未翻译'}</td></tr>
      <tr><th class="l">修改人 / 时间</th><td class="l">${t.by} · ${t.at}${t.pubAt?'　最近发布 '+t.pubAt:''}</td></tr></table></div></div>
    <div class="mod"><div class="mh"><h3>已加入的动作 · ${mem.length}</h3>${MK('new')}</div>
     <div class="mb">${mem.length?`<div class="chips">${mem.map(a=>`<span class="chip">${esc(a.name)}${a.status!=='上架'?' <i class="tg y">'+a.status+'</i>':''}</span>`).join('')}</div>`:'<p class="muted" style="margin:0">还没有加入动作。编辑模板，按条件筛出候选并勾选。</p>'}</div></div>
@@ -866,24 +1085,30 @@ function previewTpl(id){
 }
 
 /* 示例模板按「已发布」初始化，并同步给设备端 Demo */
-db.templates.forEach(t=>{if(t.seedPub){t.pub=snapOf(t);t.pubAt=t.at;delete t.seedPub}});save();syncPub();
+db.templates.forEach(normTpl);
+db.templates.forEach(t=>{if(t.seedPub){t.pub=snapOf(t);t.pubAt=t.at;delete t.seedPub}else if(t.pub&&!t.pub.i18n){t.pub.i18n=shelfI18n(t);t.pub.langs=Object.keys(t.pub.i18n).sort()}});save();syncPub();
 </script>
 <script>
 /* ========== 页面三：AI动作列表（线上已有，本期增加纠错文案维护） ========== */
+/* 旧数据的短语言码换成与动作库一致的语言码；各语言的上架状态单独记录 */
+(()=>{const map={en:'en-US',ja:'ja-JP',ko:'ko-KR',es:'es-ES',de:'de-DE',fr:'fr-FR'};
+  Object.keys(db.copy).forEach(k=>{const [so,lc]=k.split('|');if(map[lc]&&!db.copy[so+'|'+map[lc]]){db.copy[so+'|'+map[lc]]=db.copy[k];delete db.copy[k]}else if(map[lc])delete db.copy[k]});
+  if(!db.copySt)db.copySt={};
+  Object.keys(db.copy).forEach(k=>{if(!k.endsWith('|zh')&&!db.copySt[k])db.copySt[k]='上架'});
+  save()})();
 const copyOf=(so,lang)=>db.copy[so+'|'+lang]||null;
 const typesOf=(so,lang)=>{const c=copyOf(so,lang);return Array.isArray(c)?c:null};
 function filled(so){const t=typesOf(so,'zh');return !!(t&&t.length&&t.every(x=>x.lines.length&&x.lines.every(l=>l.text)))}
-const transN=so=>LANGS.filter(([id])=>typesOf(so,id)).length;
+const aiLangs=so=>Object.keys(db.copy).filter(k=>k.startsWith(so+'|')&&!k.endsWith('|zh')).map(k=>k.split('|')[1]).sort((a,b)=>LANG_ALL.findIndex(x=>x[0]===a)-LANG_ALL.findIndex(x=>x[0]===b));
+const copySt=(so,lc)=>db.copySt[so+'|'+lc]||'草稿';
 function typeStat(so){const t=typesOf(so,'zh')||[];const n=t.reduce((s,x)=>s+x.lines.length,0);return t.length?t.length+' 类 / '+n+' 条':'未配'}
 function voiceN(so,lang){const t=typesOf(so,lang||'zh')||[];let tot=0,ok=0;t.forEach(x=>x.lines.forEach(l=>{tot++;if(l.voice)ok++}));return [ok,tot]}
 function pageAI(){
-  if(ui.edit&&ui.edit.kind==='copy')return editCopyPage(ui.edit.so,ui.edit.lang);
+  if(ui.edit&&ui.edit.kind==='copy')return editCopyPage(ui.edit.so,ui.edit.lang,ui.edit.mode);
   const f=ui.aiF;
   const list=AI_LIST.filter(r=>(!f.id||String(r[0]).includes(f.id))&&(!f.name||r[1].includes(f.name)));
   const rows=slice('ai',list);
-  const ok=AI_LIST.filter(r=>filled(r[0])).length;
-  $('#content').innerHTML=`${LEGEND}
-  <div class="card"><div class="bd"><div class="fbar" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+  $('#content').innerHTML=`<div class="card"><div class="bd"><div class="fbar" style="grid-template-columns:repeat(3,minmax(0,1fr))">
    <div class="fi2"><span>ID</span><input type="text" id="qid" placeholder="请输入ID" value="${esc(ui.aiQ.id)}"></div>
    <div class="fi2"><span>动作名称</span><input type="text" id="qnm" placeholder="请输入动作名称" value="${esc(ui.aiQ.name)}"></div>
    <div class="acts" style="grid-column:auto"><button class="btn" id="qr">重置</button><button class="btn p" id="qq">查询</button></div></div></div></div>
@@ -891,28 +1116,37 @@ function pageAI(){
    <div class="tools"><button class="btn" id="bupd">更新</button><b>当前so库版本：${db.so}</b>
     <span class="sp"></span>
     <button class="btn" id="bimp">批量导入纠错文案</button>${MK('new')}<button class="btn" id="bexp">导出模板</button>${MK('new')}<button class="btn" id="brep">按文案查找替换</button>${MK('new')}</div>
-   <div class="hint" style="margin-bottom:12px">线上这一页只有「ID / 动作名称 / 备注」，没有任何操作。本期在右侧加「纠错文案」相关列和操作：${MK('new')} 标注的列与按钮都是新增。so 库给每个动作一组默认纠错项，特殊动作可加类型、每个类型可写多条；屏幕文案和录音分开维护。已配齐 ${ok} / ${AI_LIST.length}（Demo）。</div>
-   <div class="tw"><table><thead><tr><th>ID</th><th>动作名称</th><th>备注</th><th>纠错结构${MK('new')}</th><th>中文${MK('new')}</th><th>语音${MK('new')}</th><th>已翻译${MK('new')}</th><th>操作${MK('new')}</th></tr></thead><tbody>
-  ${rows.map(([so,nm])=>{const t=typesOf(so,'zh');const [vok,vtot]=voiceN(so,'zh');const open=ui.expand['ai'+so];
-    const struct=t?t.map(x=>esc(x.name)+(x.lines.length>1?' ×'+x.lines.length:'')+(x.fromSo?'':' ·自增')).join(' / '):'<span class="muted">so 默认 4 项，未配文案</span>';
-    return `<tr><td>${so}</td><td>${so}_${esc(nm)}</td><td>${so>=240?'<i class="tg">演示条目</i>':''}</td>
-     <td class="l small" style="white-space:normal;min-width:200px">${struct}${t&&t.some(x=>!x.fromSo||x.lines.length>1)?' <i class="tg y">特殊结构</i>':''}</td>
+   <div class="tw"><table><thead><tr><th>ID</th><th>动作名称</th><th>语言${MK('new')}</th><th>备注</th><th>纠错结构${MK('new')}</th><th>文案${MK('new')}</th><th>语音${MK('new')}</th><th>状态${MK('new')}</th><th>操作${MK('new')}</th></tr></thead><tbody>
+  ${rows.map(([so,nm])=>{const t=typesOf(so,'zh');const [vok,vtot]=voiceN(so,'zh');const open=ui.expand['ai'+so];const ls=aiLangs(so),n=ls.length;
+    const structOf=tt=>tt?tt.map(x=>esc(x.name)+(x.lines.length>1?' ×'+x.lines.length:'')+(x.fromSo?'':' ·自增')).join(' / '):'<span class="muted">so 默认 4 项，未配文案</span>';
+    return `<tr><td>${n?`<a class="lk" data-ex="${so}" style="margin:0 4px 0 0">${open?'⌄':'›'}</a>`:''}${so}${n?` (${n})`:''}</td><td>${so}_${esc(nm)}</td><td>简体中文</td><td>${so>=240?'<i class="tg">演示条目</i>':''}</td>
+     <td class="l small" style="white-space:normal;min-width:200px">${structOf(t)}${t&&t.some(x=>!x.fromSo||x.lines.length>1)?' <i class="tg y">特殊结构</i>':''}</td>
      <td>${filled(so)?'<span style="color:var(--green)">● 已配齐</span>':'<span style="color:var(--amber)">● 待配</span>'}</td>
-     <td>${vtot?vok+' / '+vtot:'—'}</td><td>${transN(so)} / ${LANGS.length}</td>
-     <td class="act"><a data-ed="${so}" data-lg="zh">编辑中文</a><a data-tr="${so}">翻译</a><a data-ex="${so}">${open?'收起语言':'展开语言'}</a></td></tr>`
-     +(open?LANGS.map(([id,name])=>{const tt=typesOf(so,id);const [o2,t2]=voiceN(so,id);return `<tr class="child"><td></td><td>${name}</td><td></td><td class="small">${tt?'已有文案':'<i class="tg y">待翻译</i>'}</td><td></td><td>${t2?o2+' / '+t2:'—'}</td><td></td><td class="act"><a data-ed="${so}" data-lg="${id}">进入修改 / 上传语音</a></td></tr>`}).join(''):'');
-  }).join('')||'<tr><td colspan="8" class="muted">暂无数据</td></tr>'}</tbody></table></div>
+     <td>${vtot?vok+' / '+vtot:'—'}</td><td class="muted">—</td>
+     <td class="act"><a data-ed="${so}" data-lg="zh" data-md="view">查看</a><a data-ed="${so}" data-lg="zh">编辑</a><a data-tr="${so}">翻译</a></td></tr>`
+     +(open?ls.map((lc,k)=>{const tt=typesOf(so,lc);const [o2,t2]=voiceN(so,lc);const st=copySt(so,lc);
+       return `<tr class="child"><td>${so}-${k+1}</td><td>${so}_${esc(nm)}</td><td>${esc(langName(lc))}</td><td></td><td class="l small" style="white-space:normal">${structOf(tt)}</td>
+        <td>${tt&&tt.every(x=>x.lines.every(l=>l.text))?'<span style="color:var(--green)">● 已配齐</span>':'<span style="color:var(--amber)">● 待配</span>'}</td><td>${t2?o2+' / '+t2:'—'}</td>
+        <td><span style="color:${stColor(st)}">${st}</span></td><td class="act">${langOpsHTML(st,`data-so="${so}" data-lc="${lc}"`)}</td></tr>`}).join(''):'');
+  }).join('')||'<tr><td colspan="9" class="muted">暂无数据</td></tr>'}</tbody></table></div>
   ${pager('ai',list.length)}
-  <div class="small muted" style="text-align:center">线上共 264 条（从 -1 起）；Demo 列出 ${AI_LIST.length} 条，其中 -1～8 为线上真实条目，240 起为演示补充。</div>
   </div></div>`;
   bindPager(pageAI);
   $('#qid').oninput=e=>ui.aiQ.id=e.target.value;$('#qnm').oninput=e=>ui.aiQ.name=e.target.value;
   $('#qq').onclick=()=>{ui.aiF={...ui.aiQ};ui.pg.ai=1;pageAI()};$('#qr').onclick=()=>{ui.aiQ={id:'',name:''};ui.aiF={id:'',name:''};ui.pg.ai=1;pageAI()};
   $('#bupd').onclick=()=>toast('演示：从 so 库同步最新动作列表（线上已有功能）');
   $$('[data-tr]').forEach(e=>e.onclick=()=>translateAI(+e.dataset.tr));
-  $$('[data-ed]').forEach(e=>e.onclick=()=>{ui.edit={kind:'copy',so:+e.dataset.ed,lang:e.dataset.lg};pageAI()});
+  $$('[data-ed]').forEach(e=>e.onclick=()=>{ui.edit={kind:'copy',so:+e.dataset.ed,lang:e.dataset.lg,mode:e.dataset.md||'edit'};pageAI()});
   $$('[data-ex]').forEach(e=>e.onclick=()=>{ui.expand['ai'+e.dataset.ex]=!ui.expand['ai'+e.dataset.ex];pageAI()});
+  $$('[data-lop]').forEach(e=>e.onclick=()=>aiLangOp(e.dataset.lop,+e.dataset.so,e.dataset.lc));
   $('#bexp').onclick=exportTpl;$('#bimp').onclick=importTpl;$('#brep').onclick=findReplace;
+}
+function aiLangOp(op,so,lc){
+  const k=so+'|'+lc,nm=(AI_LIST.find(r=>r[0]==so)||[0,''])[1],ln=langName(lc);
+  if(op==='view'||op==='edit'){ui.edit={kind:'copy',so,lang:lc,mode:op};return pageAI()}
+  if(op==='up'||op==='down'){const label=op==='up'?'上架':'下架';
+    return confirmDlg(label,'确定'+label+'「'+so+'_'+esc(nm)+'」（'+esc(ln)+'）？','确定',()=>{db.copySt[k]=label;save();pageAI();toast('已'+label)})}
+  if(op==='del')confirmDlg('删除','确定删除「'+so+'_'+esc(nm)+'」（'+esc(ln)+'）？不可恢复。','删除',()=>{delete db.copy[k];delete db.copySt[k];save();pageAI();toast('已删除')});
 }
 function ensureTypes(so,lang){
   let t=typesOf(so,lang);if(t)return JSON.parse(JSON.stringify(t));
@@ -921,17 +1155,20 @@ function ensureTypes(so,lang){
 }
 function translateAI(so){
   if(!typesOf(so,'zh'))return toast('请先配置中文文案，再翻译其他语言');
-  LANGS.forEach(([id])=>{if(id!=='zh'&&!typesOf(so,id))db.copy[so+'|'+id]=ensureTypes(so,id)});
-  ui.expand['ai'+so]=true;save();pageAI();toast('已按中文的类型结构生成其余演示语言。类型和条数与中文一致。');
-}
-function editCopyPage(so,lang){
-  const draft=ensureTypes(so,lang);const langName=LANGS.find(x=>x[0]===lang)[1];
   const nm=(AI_LIST.find(r=>r[0]==so)||[0,''])[1];
-  $('#crumb').innerHTML=`<a class="lk" data-back style="margin:0">AI动作列表</a> / <b>${so}_${esc(nm)} · ${langName}</b>`;
+  pickLangDlg(so+'_'+nm,sel=>{
+    sel.forEach(lc=>{delete db.copy[so+'|'+lc];db.copy[so+'|'+lc]=ensureTypes(so,lc);db.copySt[so+'|'+lc]='草稿'});
+    ui.expand['ai'+so]=true;save();pageAI();toast('已生成 '+sel.size+' 种语言译文（演示，不调用真实翻译）');
+  });
+}
+function editCopyPage(so,lang,mode){
+  const ro=mode==='view';
+  const draft=ensureTypes(so,lang);const lname=langName(lang);
+  const nm=(AI_LIST.find(r=>r[0]==so)||[0,''])[1];
+  $('#crumb').innerHTML=`<a class="lk" data-back style="margin:0">AI动作列表</a> / <b>${so}_${esc(nm)} · ${lname}</b>`;
   const draw=()=>{
     const first=draft[0]?.lines[0]?.text||FALLBACK;
-    $('#content').innerHTML=`${LEGEND}<div class="hint">${MK('new')} so 库默认项带「so 默认」标签，不能删类型，但可以在类型下加多条；本动作可再增加类型。每条文案都有独立的「上传语音」，录音不从文案自动生成。</div>
-    <div class="split"><div>
+    $('#content').innerHTML=`<div class="split"><div>
     ${draft.map((tp,ti)=>`<div class="typebox"><div class="th">
         ${tp.fromSo?`<b>${esc(tp.name)}</b> <code class="small">${esc(tp.key)}</code> <i class="tg">so 默认</i>`
           :`<input type="text" data-tn="${ti}" value="${esc(tp.name)}" style="width:140px"> <input type="text" data-tk="${ti}" value="${esc(tp.key)}" style="width:110px"> <i class="tg y">本动作新增</i> <a data-dt="${ti}" style="color:var(--red);cursor:pointer;margin-left:auto">删除该类型</a>`}
@@ -948,10 +1185,16 @@ function editCopyPage(so,lang){
       <button class="btn sm" data-al="${ti}" type="button">在「${esc(tp.name)}」下增加一条</button></div>`).join('')}
     <button class="btn" id="addType" type="button">为本动作增加一种纠错类型</button>
     <p class="small muted" style="margin-top:10px">兜底（该条为空时）：「${FALLBACK}」。无语音则只出字幕，不播报。</p>
-    <div class="pagefoot"><button class="btn g" id="dc">取消</button><button class="btn p" id="ds">保存</button></div>
+    <div class="pagefoot">${ro?`<button class="btn g" id="dc">返回</button>${lang!=='zh'&&copySt(so,lang)==='上架'?'':'<button class="btn" id="de">编辑</button>'}`:'<button class="btn g" id="dc">取消</button><button class="btn p" id="ds">保存</button>'}</div>
     </div><div><div class="small muted" style="text-align:center;margin-bottom:6px">设备端字幕预览</div><div class="pv" id="pv">${esc(first)}</div>
       <p class="small muted" style="margin-top:10px;text-align:center">语音与字幕分开。有录音才播报。</p></div></div>`;
     $('[data-back]').onclick=$('#dc').onclick=()=>{ui.edit=null;nav('ai')};
+    if(ro){
+      $$('#content .split>div:first-child input, #content .split>div:first-child label.btn, #content [data-al], #content #addType, #content [data-dt], #content [data-dv]').forEach(el=>{el.disabled=true;el.style.pointerEvents='none';el.style.opacity=el.tagName==='INPUT'&&el.type==='text'?'':'.45'});
+      const de=$('#de');if(de)de.onclick=()=>{ui.edit.mode='edit';pageAI()};
+      $$('[data-play]').forEach(el=>el.onclick=()=>{const [ti,li]=el.dataset.play.split('-').map(Number);const ln=draft[ti].lines[li];toast('试听：'+((ln.voice&&ln.voice.name)||'无文件')+' · '+ln.text)});
+      return;
+    }
     $$('[data-tn]').forEach(el=>el.oninput=()=>draft[+el.dataset.tn].name=el.value);
     $$('[data-tk]').forEach(el=>el.oninput=()=>draft[+el.dataset.tk].key=el.value);
     $$('[data-tx]').forEach(el=>el.oninput=()=>{const [ti,li]=el.dataset.tx.split('-').map(Number);draft[ti].lines[li].text=el.value;$('#pv').textContent=el.value||FALLBACK;
@@ -1007,14 +1250,14 @@ function pageChanges(){
    ['安装方案模板','训练准备卡片：图片 / 主标题 / 副标题','new','模板编辑页 → 训练准备卡片','设备端准备页的步骤清单，1～5 张，顺序即显示顺序。图片、主标题、副标题都可自定义，不限卡片类型（换配件、放 / 去箱体、只调卡扣、以后的新场景）。副标题由设备端按当前语言朗读（待确认）。','随模板发布；文字可翻译；图片发布时压缩，设备端同步时下载并缓存。','图片缺失 / 失败：显示序号占位，文字照常。缺译文：回退中文。'],
    ['安装方案模板','顶部标签（可选）','new','模板编辑页 → 训练准备卡片下方','设备端准备页动作名称下方的小标签，如「手柄」「平板凳」「与肩同高」。','随模板发布，可翻译。','不填则不显示。'],
    ['安装方案模板','启用 / 停用','new','模板列表 → 启用开关；编辑页','停用并发布后，该模板下的动作在设备端直接进入动作详情，成员关系保留，可随时重新启用。','属于模板内容，随发布生效。','—'],
-   ['安装方案模板','发布状态（未发布 / 已发布 / 有未发布修改 / 待删除）','new','模板列表 → 发布 / 发布全部修改','保存只是草稿；发布后设备端才生效，包括成员增减、停用、删除。发布前弹窗列出本次变更。','草稿存后台；发布时生成已发布快照；设备端只读快照。','未发布的修改，设备端看不到。'],
-   ['安装方案模板','翻译','new','模板列表 → 翻译','复用动作库的「选择翻译语言」。翻译卡片主 / 副标题和标签；视频不含文字，不翻译。修改中文后需要重新翻译。','翻译结果随模板发布；设备端按当前语言取译文。','缺某语言译文时回退中文。'],
-   ['安装方案模板','操作日志','new','模板列表 → 操作日志','记录模板的新建、修改、成员增减、启停、翻译、删除和发布，含操作人与时间；风格同动作库的「操作人」列。','只存后台，不下发。','—'],
-   ['AI动作列表','纠错结构 / 中文 / 语音 / 已翻译、编辑页（多类型、多条、独立语音）','new','AI动作列表 → 编辑中文 / 翻译','设备端 AI 训练中识别到动作问题时的字幕与语音播报：按「so 库 ID + 纠错类型 + 语言」取文案和录音，同一类型有多条时按各自触发条件播报。','后台保存 → 设备端按 so ID 和语言读取并缓存（生效时机建议与模板一致，发布后生效，待确认）。','文案为空：字幕兜底「请查看动作示范并调整姿势」；没有录音：只出字幕，不播报。'],
+   ['安装方案模板','发布状态（未发布 / 已发布 / 有未发布修改 / 待删除）','new','模板列表 → 该行「发布」','保存只是草稿。每个模板单独发布，核对变更后再确认，没有一键发布全部。发布后设备端才生效，包括成员增减、停用、删除。','草稿存后台；发布时生成已发布快照；设备端只读快照。','未发布的修改，设备端看不到。'],
+   ['安装方案模板','翻译与语言行','new','模板列表 → 翻译；序号「›」展开语言行 → 上架 / 下架 / 查看 / 编辑 / 删除','交互与动作库完全一致：选择翻译语言弹窗、序号列「(n)」、每种语言一行、操作随状态变化并二次确认。各语言可独立编辑模板名称、标签和卡片文案，并单独上架。视频和图片不翻译。','上架后写入已发布版本里的该语言；设备端按当前语言读取已上架译文。','草稿、下架或缺译文时回退中文。模板未发布时，语言上架先保存，等模板发布后才在设备端出现。'],
+   ['安装方案模板','批量导入','new','模板列表 → 批量导入','一次导入多条模板：名称、启用、匹配条件、标签、成员动作、卡片文案。成员按动作名称匹配；已在其他模板里的动作会移过来。导入结果是未发布草稿。','表格 → 校验 → 写入草稿 → 发布后才进入设备端。','表头不对、名称重复、选项不存在、动作找不到、卡片为空或超过 5 张：该行跳过并标红，其余行仍可导入。视频和图片不在表格里。'],
+   ['安装方案模板','操作日志','new','模板列表 → 操作日志','记录模板的新建、批量导入、修改、成员增减、启停、翻译、删除和发布，含操作人与时间；风格同动作库的「操作人」列。','只存后台，不下发。','—'],
+   ['AI动作列表','语言 / 纠错结构 / 文案 / 语音 / 状态、编辑页（多类型、多条、独立语音）','new','AI动作列表 → 编辑 / 翻译；ID「›」展开语言行 → 上架 / 下架 / 查看 / 编辑 / 删除','设备端 AI 训练中识别到动作问题时的字幕与语音播报：按「so 库 ID + 纠错类型 + 语言」取文案和录音，同一类型有多条时按各自触发条件播报。','后台保存 → 设备端按 so ID 和语言读取并缓存（生效时机建议与模板一致，发布后生效，待确认）。','文案为空：字幕兜底「请查看动作示范并调整姿势」；没有录音：只出字幕，不播报。'],
    ['设备端固定功能','床体引导（力量 ↔ 普拉提切换）','new','不在管理后台配置','设备端按「目标动作的适用场景 + 普拉提床当前状态」自动引导：要进普拉提但床没展开并锁定 → 引导展开；要进力量但床还展开着 → 引导收起。','设备端本地判断，床状态来自设备 / 固件传感器，与后台无关，不经过发布。','床未完全拉出等异常，沿用床体控制页的规则与全局横幅。']
   ];
-  $('#content').innerHTML=`${LEGEND}<div class="hint">本页汇总本期所有「新增 / 修改」，并写清每项<b>在哪里配置、配置后影响哪里、数据怎么流转、没配置会怎样</b>。以线上动作库（motionstation.visbodyfit.com/#/action）为底，未列出的功能和字段与线上一致。标「待确认」的口径需要研发确认。</div>
-  <div class="card"><div class="hd"><h2>功能 / 字段清单</h2></div><div class="bd tw"><table class="chg"><thead><tr><th class="l">页面</th><th class="l">功能 / 字段</th><th class="l">类型</th><th class="l">在哪里配置</th><th class="l">作用与影响（端 · 页面 · 时机）</th><th class="l">数据流</th><th class="l">未配置 / 异常时</th></tr></thead><tbody>
+  $('#content').innerHTML=`<div class="card"><div class="hd"><h2>功能 / 字段清单</h2></div><div class="bd tw"><table class="chg"><thead><tr><th class="l">页面</th><th class="l">功能 / 字段</th><th class="l">类型</th><th class="l">在哪里配置</th><th class="l">作用与影响（端 · 页面 · 时机）</th><th class="l">数据流</th><th class="l">未配置 / 异常时</th></tr></thead><tbody>
   ${R.map(r=>`<tr><td>${r[0]}</td><td><b>${r[1]}</b></td><td>${MK(r[2])}</td><td>${r[3]}</td><td>${r[4]}</td><td>${r[5]}</td><td>${r[6]}</td></tr>`).join('')}</tbody></table></div></div>
 
   <div class="card"><div class="hd"><h2>数据流示意：安装方案模板</h2></div><div class="bd">
@@ -1039,7 +1282,7 @@ function pageChanges(){
    <li>填匹配条件（适用场景 / 动作属性 / 训练部位 / 配件），系统实时筛出候选动作。</li>
    <li>在「选择动作」里点「全选候选」，再逐个取消不需要的，或逐个补勾；已在别的模板里的动作会提示。</li>
    <li>回到模板列表，检查「待确认」「未归属动作」，把遗漏的动作补进来。</li>
-   <li>点「预览」确认设备端训练准备页效果，需要多语言的先点「翻译」。</li>
+   <li>点「预览」确认设备端训练准备页效果。需要多语言的点「翻译」，在序号「›」展开的语言行里逐条编辑并上架。</li>
    <li>点「发布」，核对变更摘要后确认。设备端下次同步后生效。</li></ol></div></div>
 
   <div class="card"><div class="hd"><h2>图片与视频规格（建议口径，待研发确认）</h2></div><div class="bd tw"><table class="chg"><thead><tr><th class="l">项目</th><th class="l">规格</th></tr></thead><tbody>
@@ -1051,7 +1294,7 @@ function pageChanges(){
 
   <div class="card"><div class="hd"><h2>待确认</h2></div><div class="bd"><ol style="margin:0;padding-left:20px;line-height:2">
    <li>卡片副标题是否由设备端按当前语言语音朗读（系统语音合成，不上传录音）。</li>
-   <li>发布粒度：当前按「每个模板各自发布 + 一键发布全部修改」。</li>
+   <li>发布粒度：每个模板单独发布，导入后逐条核对再发布。不做「发布全部修改」。</li>
    <li>AI 动作纠错文案的生效时机是否与模板一致（发布后生效）。</li>
    <li>设备端同步时机与缓存失效策略。</li>
    <li>每个模板对应一个视频，模板多了制作量大；后期可演进为素材库复用片段，本期不做。</li></ol></div></div>`;
